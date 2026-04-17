@@ -64,7 +64,9 @@ int	ft_printf(char *str, ...) {
 		else if (str[i] == 'p')
 			put_pointer(va_arg(list, void*));
 		else if (str[i] == 'u')
-			putunit_max(va_arg(list, unsigned int), 10);	
+			putunit_max(va_arg(list, unsigned int), 10);
+		else if (str[i] == 'x')
+			putunit_max(va_arg(list, unsigned int), 16);	
 		str++;
 	}
 	return(count);
