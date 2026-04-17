@@ -56,6 +56,8 @@ int	ft_printf(char *str, ...) {
 		if (!str[i])
 			break ;
 		i++;
+		if (str[i] == 'c') 
+			count += ft_putchar(va_arg(list, int));
 		if (str[i] == 'd' || str[i] == 'i')
 			ft_putnbr(va_arg(list, int));
 		else if (str[i] == 's')
