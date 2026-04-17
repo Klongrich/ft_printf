@@ -1,0 +1,28 @@
+Makefile to compile to libftprintf.a
+
+%c - character
+%s - string
+%p - pointer to a memory address
+%d/%i - prints an integer
+
+%o - prints unsigned integer in base-8 format
+%u - prints unsigned integer
+%x - prints unsigned based-16 (hex) integer in lowercase.
+%X - prints unsigned based-16 (hex) integer in uppercase.
+
+hh - singed or unsigned char (8-bit)
+h - short int (usually 16-bit)
+l - long int (32 or 64 bit depending on system)
+ll long long in (64-bit)
+
+%f - floating pointer (decimal numbers)
+l -(no effect)
+L - long double (12 or 16 bytes)
+
+# - prints decimals even even without fraction.
+0 - pads the numbers with 0's instead of spaces.
+- - left alings the output.
++ - puts a + or - sign before the number.
+(space) - no sign is printed
+
+
