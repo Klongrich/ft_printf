@@ -100,7 +100,9 @@ int	ft_printf(char *str, ...) {
 		else if (str[i] == 'x')
 			count += put_number(va_arg(list, unsigned int), 16, 0);
 		else if (str[i] == 'X')
-			count += put_number(va_arg(list, unsigned int), 16, 1);	
+			count += put_number(va_arg(list, unsigned int), 16, 1);
+		else if (str[i] == 'o')
+			count += put_number(va_arg(list, unsigned int), 8, 0);	
 		str++;
 	}
 	return(count);
