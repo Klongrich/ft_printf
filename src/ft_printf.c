@@ -24,6 +24,36 @@ int	putunit_max(unsigned long num, int base) {
 	return (count);
 }
 
+int	put_number(long n, int base, int is_uppercase) {
+	int		count;
+	char	*symbols;
+
+	count = 0;
+	if (!is_uppercase)
+		symbols = "0123456789abcdef";
+	else
+		symbols = "0123456789ABCDEF";
+	if (n == 0)
+		return (ft_putchar('0'));
+	if (n == -2147483648)
+	{
+		write (1, "-2147483648", 11);
+		count = 11;
+		return (count);
+	}
+	else if (n < 0)
+	{
+		ft_putchar ('-');
+		n = -n;
+		count++;
+	}
+	if (n >= base)
+		count += put_number(n / base, base, is_uppercase);
+	count += ft_putchar(symbols[n % base]);
+	return (count);
+}
+
+
 
 int	put_pointer(void *pointer) {
 	unsigned long long	address;
@@ -37,6 +67,8 @@ int	put_pointer(void *pointer) {
 	count += putunit_max(address, 16);
 	return(count);
 }
+
+
 
 int	ft_printf(char *str, ...) {
 	va_list list;
@@ -58,15 +90,17 @@ int	ft_printf(char *str, ...) {
 		if (str[i] == 'c') 
 			count += ft_putchar(va_arg(list, int));
 		if (str[i] == 'd' || str[i] == 'i')
-			ft_putnbr(va_arg(list, int));
+			count += put_number(va_arg(list, int), 10, 0);
 		else if (str[i] == 's')
 			ft_putstr(va_arg(list, char*));
 		else if (str[i] == 'p')
-			put_pointer(va_arg(list, void*));
+			count += put_pointer(va_arg(list, void*));
 		else if (str[i] == 'u')
-			putunit_max(va_arg(list, unsigned int), 10);
+			count += putunit_max(va_arg(list, unsigned int), 10);
 		else if (str[i] == 'x')
-			putunit_max(va_arg(list, unsigned int), 16);	
+			count += put_number(va_arg(list, unsigned int), 16, 0);
+		else if (str[i] == 'X')
+			count += put_number(va_arg(list, unsigned int), 16, 1);	
 		str++;
 	}
 	return(count);
