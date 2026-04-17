@@ -38,7 +38,6 @@ int	put_pointer(void *pointer) {
 	return(count);
 }
 
-
 int	ft_printf(char *str, ...) {
 	va_list list;
 	int	i;
@@ -63,7 +62,9 @@ int	ft_printf(char *str, ...) {
 		else if (str[i] == 's')
 			ft_putstr(va_arg(list, char*));
 		else if (str[i] == 'p')
-			put_pointer(va_arg(list, void*));	
+			put_pointer(va_arg(list, void*));
+		else if (str[i] == 'u')
+			putunit_max(va_arg(list, unsigned int), 10);	
 		str++;
 	}
 	return(count);
