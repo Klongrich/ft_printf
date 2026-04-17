@@ -16,7 +16,7 @@ void	ft_printf(char *str, ...) {
 		if (!str[i])
 			break ;
 		i++;
-		if (str[i] == 'd')
+		if (str[i] == 'd' || str[i] == 'i')
 			ft_putnbr(va_arg(list, int));
 		else if (str[i] == 's')
 			ft_putstr(va_arg(list, char*));
