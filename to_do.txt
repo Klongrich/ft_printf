@@ -1,9 +1,9 @@
 Makefile to compile to libftprintf.a
 
 %c - character
-%s - string
+- %s - string
 %p - pointer to a memory address
-%d/%i - prints an integer
+- %d/%i - prints an integer
 
 %o - prints unsigned integer in base-8 format
 %u - prints unsigned integer
