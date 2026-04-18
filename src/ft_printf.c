@@ -226,6 +226,37 @@ void	put_8bit_hex(unsigned int num, int uppercase) {
 	ft_putchar(value[1]);
 }
 
+void	put_16bit_hex(unsigned int num, int uppercase) {
+	int bits[16];
+	int j;
+	int i;
+	char value[4];
+
+	i = 15;
+	j = 0;
+	while (i > -1) {
+		bits[j] = (num >> i) & 1;
+		i--;
+		j++;
+	}
+
+	if (!uppercase) {
+		value[0] = get_hex_char(convert_hex_bits(bits[0], bits[1], bits[2], bits[3]));
+		value[1] = get_hex_char(convert_hex_bits(bits[4], bits[5], bits[6], bits[7]));
+		value[2] = get_hex_char(convert_hex_bits(bits[8], bits[9], bits[10], bits[11]));
+		value[3] = get_hex_char(convert_hex_bits(bits[12], bits[13], bits[14], bits[15]));
+	} else {
+		value[0] = get_hex_char_uppercase(convert_hex_bits(bits[0], bits[1], bits[2], bits[3]));
+		value[1] = get_hex_char_uppercase(convert_hex_bits(bits[4], bits[5], bits[6], bits[7]));
+		value[2] = get_hex_char_uppercase(convert_hex_bits(bits[8], bits[9], bits[10], bits[11]));
+		value[3] = get_hex_char_uppercase(convert_hex_bits(bits[12], bits[13], bits[14], bits[15]));
+	}
+	ft_putchar(value[0]);
+	ft_putchar(value[1]);
+	ft_putchar(value[2]);
+	ft_putchar(value[3]);
+}
+
 
 void	put_8bit_octal(unsigned int num) {
 	int bits[8];
@@ -332,7 +363,101 @@ void	put_8bit(unsigned int num, int s) {
 		j++;
 	}	
 	ft_putnbr(value);
-}	
+}
+
+void	put_16bit(unsigned int num, int s) {
+	int bits[16];
+	int j;
+	int i;
+	int value;
+
+	i = 15;
+	j = 0;
+	value = 0;
+	while (i > -1) {
+		bits[j] = (num >> i) & 1;
+		i--;
+		j++;	
+	}
+	i = 15;
+	j = 0;
+	while (i > -1) {
+		switch(i) {
+			case 15:
+				if (bits[j] == 1) {
+					if (s) {
+						value -= 32728;
+					} else {
+						value += 32768;
+					}
+				}
+			case 14:
+				if (bits[j] == 1)
+					value +=  16384;
+				break;
+			case 13:
+				if (bits[j] == 1)
+					value += 8192;
+				break;
+			case 12:
+				if (bits[j] == 1)
+					value += 4096;
+				break;
+			case 11:
+				if (bits[j] == 1)
+					value += 2048;
+				break;
+			case 10:
+				if(bits[j] == 1)
+					value += 1024;
+				break;
+			case 9:
+				if(bits[j] == 1)
+					value += 512;
+				break;
+			case 8:
+				if (bits[j] == 1)
+					value += 256;
+				break;
+			case 7:
+				if (bits[j] == 1) 
+					value += 128;
+				break;
+			case 6:
+				if (bits[j] == 1)
+					value += 64;
+				break;
+			case 5:
+				if(bits[j] == 1)
+					value += 32;
+				break;
+			case 4:
+				if(bits[j] == 1)
+					value += 16;
+				break;
+			case 3:
+				if(bits[j] == 1)
+					value += 8;
+				break;
+			case 2:
+				if(bits[j] == 1)
+					value += 4;
+				break;
+			case 1:
+				if(bits[j] == 1)
+					value += 2;
+				break;
+			case 0:
+				if (bits[j] == 1)
+					value += 1;
+				break;
+
+		}
+		i--;
+		j++;
+	}	
+	ft_putnbr(value);
+}
 
 
 int put_float(double f) {
@@ -417,8 +542,18 @@ int	ft_printf(char *str, ...) {
 			i += 3;
 		}
 		else if (str[i] == 'h') {
-			if(str[i + 1] == 'o')
+			if(str[i + 1] == 'u')
+				put_16bit(va_arg(list, unsigned int), 0);
+			else if (str[i + 1] == 'd')
+				put_16bit(va_arg(list, int), 1);
+			else if (str[i + 1] == 'i')
+				put_16bit(va_arg(list, int), 1);
+			else if(str[i + 1] == 'o')
 				put_16bit_octal(va_arg(list, unsigned int));
+			else if(str[i + 1] == 'x')
+				put_16bit_hex(va_arg(list, unsigned int), 0);
+			else if (str[i + 1] == 'X')
+				put_16bit_hex(va_arg(list, unsigned int), 1);
 			i += 1;
 		}	
 		i++;
