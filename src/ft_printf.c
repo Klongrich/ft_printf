@@ -69,6 +69,85 @@ int	put_pointer(void *pointer) {
 }
 
 
+void	put_8bit(unsigned int num) {
+	int bits[8];
+	int j;
+	int i;
+	int value;
+
+	i = 7;
+	j = 0;
+	//ft_putnbr(num);
+	//ft_putchar('\n');
+	value = 0;
+	while (i > -1) {
+		bits[j] = (num >> i) & 1;
+		i--;
+		j++;	
+	}
+    	//ft_putchar('\n');
+
+	i = 7;
+	j = 0;
+	while (i > -1) {
+	//	ft_putnbr(bits[j]);
+	//	ft_putstr(" -> ");
+	//	ft_putnbr(i);
+	//	ft_putchar('\n');
+
+		switch(i) {
+			case 7:
+				if (bits[j] == 1)
+					value += 128;
+				break;
+			case 6:
+				if (bits[j] == 1)
+					value += 64;
+				break;
+			case 5:
+				if(bits[j] == 1)
+					value += 32;
+				break;
+			case 4:
+				if(bits[j] == 1)
+					value += 16;
+				break;
+			case 3:
+				if(bits[j] == 1)
+					value += 8;
+				break;
+			case 2:
+				if(bits[j] == 1)
+					value += 4;
+				break;
+			case 1:
+				if(bits[j] == 1)
+					value += 2;
+				break;
+			case 0:
+				if (bits[j] == 1)
+					value += 1;
+				break;
+
+		}
+		i--;
+		j++;
+	}
+	
+	//ft_putchar('\n');
+	ft_putnbr(value);
+
+
+	// 1 = 2^0 = 1
+	// 2 = 2^1 = 2
+	// 3 = 2^2 = 4
+	// 4 = 2^3 = 8
+	
+	// 5 = 2^4 = 16
+	// 6 = 2^5 = 32
+	// 7 = 2^6 = 64
+	// 8 = 2^7 = 128
+}	
 
 int	ft_printf(char *str, ...) {
 	va_list list;
@@ -102,8 +181,12 @@ int	ft_printf(char *str, ...) {
 		else if (str[i] == 'X')
 			count += put_number(va_arg(list, unsigned int), 16, 1);
 		else if (str[i] == 'o')
-			count += put_number(va_arg(list, unsigned int), 8, 0);	
-		str++;
+			count += put_number(va_arg(list, unsigned int), 8, 0);
+		else if (str[i] == 'h' && str[i + 1] == 'h' && str[i + 2] == 'u') {
+			put_8bit(va_arg(list, unsigned int));
+			i += 2;
+		}	
+		i++;
 	}
 	return(count);
 }
