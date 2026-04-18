@@ -25,7 +25,7 @@ int	putunit_max(unsigned long num, int base) {
 }
 
 int	put_number(long n, int base, int is_uppercase) {
-	int		count;
+	int	count;
 	char	*symbols;
 
 	count = 0;
@@ -35,14 +35,7 @@ int	put_number(long n, int base, int is_uppercase) {
 		symbols = "0123456789ABCDEF";
 	if (n == 0)
 		return (ft_putchar('0'));
-	if (n == -2147483648)
-	{
-		write (1, "-2147483648", 11);
-		count = 11;
-		return (count);
-	}
-	else if (n < 0)
-	{
+	else if (n < 0) {
 		ft_putchar ('-');
 		n = -n;
 		count++;
@@ -539,7 +532,7 @@ int	ft_printf(char *str, ...) {
 				put_8bit_hex(va_arg(list, unsigned int), 0);
 			else if (str[i + 2] == 'X')
 				put_8bit_hex(va_arg(list, unsigned int), 1);
-			i += 3;
+			i += 2;
 		}
 		else if (str[i] == 'h') {
 			if(str[i + 1] == 'u')
@@ -554,6 +547,23 @@ int	ft_printf(char *str, ...) {
 				put_16bit_hex(va_arg(list, unsigned int), 0);
 			else if (str[i + 1] == 'X')
 				put_16bit_hex(va_arg(list, unsigned int), 1);
+			i += 1;
+		}
+		else if (str[i] == 'l') {
+			if (str[i + 1] == 'u')
+				put_number(va_arg(list, unsigned long), 10, 0);
+			else if (str[i + 1] == 'd')
+				put_number(va_arg(list, long), 10, 0);
+			else if (str[i + 1] == 'i')
+				put_number(va_arg(list, long), 10, 0);
+			else if (str[i + 1] == 'o')
+				put_number(va_arg(list, long), 8, 0);
+			else if (str[i + 1] == 'x')
+				put_number(va_arg(list, long), 16, 0);
+			else if (str[i + 1] == 'X')
+				put_number(va_arg(list, long), 16, 1);
+			else if (str[i + 1] == 'f')
+				put_float(va_arg(list, double));
 			i += 1;
 		}	
 		i++;
