@@ -89,6 +89,103 @@ int	convert_octal_bits(int bit1, int bit2, int bit3) {
 	return (0);
 }
 
+
+int	convert_hex_bits(int bit1, int bit2, int bit3, int bit4) {
+	if (bit1 == 0 && bit2 == 0 && bit3 == 0 && bit4 == 0)
+		return (0);
+	if (bit1 == 0 && bit2 == 0 && bit3 == 0 && bit4 == 1)
+		return (1);
+	if (bit1 == 0 && bit2 == 0 && bit3 == 1 && bit4 == 0)
+		return (2);
+	if (bit1 == 0 && bit2 == 0 && bit3 == 1 && bit4 == 1)
+		return (3);
+	if (bit1 == 0 && bit2 == 1 && bit3 == 0 && bit4 == 0)
+		return(4);
+	if (bit1 == 0 && bit2 == 1 && bit3 == 0 && bit4 == 1)
+		return (5);
+	if (bit1 == 0 && bit2 == 1 && bit3 == 1 && bit4 == 0)
+		return (6);
+	if (bit1 == 0 && bit2 == 1 && bit3 == 1 && bit4 == 1)
+		return (7);
+	if (bit1 == 1 && bit2 == 0 && bit3 == 0 && bit4 == 0)
+		return (8);
+	if (bit1 == 1 && bit2 == 0 && bit3 == 0 && bit4 == 1)
+		return (9);
+	if (bit1 == 1 && bit2 == 0 && bit3 == 1 && bit4 == 0)
+		return (10);
+	if (bit1 == 1 && bit2 == 0 && bit3 == 1 && bit4 == 1)
+		return (11);
+	if (bit1 == 1 && bit2 == 1 && bit3 == 0 && bit4 == 0)
+		return (12);
+	if (bit1 == 1 && bit2 == 1 && bit3 == 0 && bit4 == 1)
+		return (13);
+	if (bit1 == 1 && bit2 == 1 && bit3 == 1 && bit4 == 0)
+		return (14);
+	if (bit1 == 1 && bit2 == 1 && bit3 == 1 && bit4 == 1)
+		return (15);
+	return (0);
+}
+
+
+char	get_hex_char(int num) {
+	if (num == 0)
+		return ('0');
+	if (num == 1)
+		return ('1');
+	if (num == 2)
+		return ('2');
+	if (num == 3)
+		return ('3');
+	if (num == 4)
+		return ('4');
+	if (num == 5)
+		return ('5');
+	if (num == 6)
+		return ('6');
+	if (num == 7)
+		return ('7');
+	if (num == 8)
+		return ('8');
+	if (num == 9)
+		return ('9');
+	if (num == 10)
+		return ('a');
+	if (num == 11)
+		return ('b');
+	if (num == 12)
+		return ('c');
+	if (num == 13)
+		return ('d');
+	if (num == 14)
+		return ('e');
+	if (num == 15)
+		return ('f');
+	return ('0');
+
+}
+
+void	put_8bit_hex(unsigned int num) {
+	int bits[8];
+	int j;
+	int i;
+	char value[2];
+
+	i = 7;
+	j = 0;
+	while (i > -1) {
+		bits[j] = (num >> i) & 1;
+		i--;
+		j++;
+	}
+
+	value[0] = get_hex_char(convert_hex_bits(bits[0], bits[1], bits[2], bits[3]));
+	value[1] = get_hex_char(convert_hex_bits(bits[4], bits[5], bits[6], bits[7]));
+
+	ft_putchar(value[0]);
+	ft_putchar(value[1]);
+}
+
+
 void	put_8bit_octal(unsigned int num) {
 	int bits[8];
 	int j;
@@ -178,11 +275,9 @@ void	put_8bit(unsigned int num, int s) {
 		}
 		i--;
 		j++;
-	}
-	
+	}	
 	//ft_putchar('\n');
 	ft_putnbr(value);
-
 
 	// 1 = 2^0 = 1
 	// 2 = 2^1 = 2
@@ -237,6 +332,8 @@ int	ft_printf(char *str, ...) {
 				put_8bit(va_arg(list, int), 1);
 			else if (str[i + 2] == 'o')
 				put_8bit_octal(va_arg(list, unsigned int));
+			else if (str[i + 2] == 'x')
+				put_8bit_hex(va_arg(list, unsigned int));
 			i += 2;
 		}	
 		i++;
