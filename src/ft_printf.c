@@ -164,7 +164,44 @@ char	get_hex_char(int num) {
 
 }
 
-void	put_8bit_hex(unsigned int num) {
+char	get_hex_char_uppercase(int num) {
+	if (num == 0)
+		return ('0');
+	if (num == 1)
+		return ('1');
+	if (num == 2)
+		return ('2');
+	if (num == 3)
+		return ('3');
+	if (num == 4)
+		return ('4');
+	if (num == 5)
+		return ('5');
+	if (num == 6)
+		return ('6');
+	if (num == 7)
+		return ('7');
+	if (num == 8)
+		return ('8');
+	if (num == 9)
+		return ('9');
+	if (num == 10)
+		return ('A');
+	if (num == 11)
+		return ('B');
+	if (num == 12)
+		return ('C');
+	if (num == 13)
+		return ('D');
+	if (num == 14)
+		return ('E');
+	if (num == 15)
+		return ('F');
+	return ('0');
+
+}
+
+void	put_8bit_hex(unsigned int num, int uppercase) {
 	int bits[8];
 	int j;
 	int i;
@@ -178,9 +215,13 @@ void	put_8bit_hex(unsigned int num) {
 		j++;
 	}
 
-	value[0] = get_hex_char(convert_hex_bits(bits[0], bits[1], bits[2], bits[3]));
-	value[1] = get_hex_char(convert_hex_bits(bits[4], bits[5], bits[6], bits[7]));
-
+	if (!uppercase) {
+		value[0] = get_hex_char(convert_hex_bits(bits[0], bits[1], bits[2], bits[3]));
+		value[1] = get_hex_char(convert_hex_bits(bits[4], bits[5], bits[6], bits[7]));
+	} else {
+		value[0] = get_hex_char_uppercase(convert_hex_bits(bits[0], bits[1], bits[2], bits[3]));
+		value[1] = get_hex_char_uppercase(convert_hex_bits(bits[4], bits[5], bits[6], bits[7]));
+	}
 	ft_putchar(value[0]);
 	ft_putchar(value[1]);
 }
@@ -195,10 +236,8 @@ void	put_8bit_octal(unsigned int num) {
 	i = 7;
 	j = 0;
 	value = 0;
-	//printf("\nnum: %d\n", num);
 	while (i > -1) {
 		bits[j] = (num >> i) & 1;
-		//printf("%d", bits[j]);
 		i--;
 		j++;
 	}
@@ -216,24 +255,15 @@ void	put_8bit(unsigned int num, int s) {
 
 	i = 7;
 	j = 0;
-//	ft_putnbr(num);
-//	ft_putchar('\n');
 	value = 0;
 	while (i > -1) {
 		bits[j] = (num >> i) & 1;
 		i--;
 		j++;	
 	}
- //   	ft_putchar('\n');
-
 	i = 7;
 	j = 0;
 	while (i > -1) {
-//		ft_putnbr(bits[j]);
-//		ft_putstr(" -> ");
-//		ft_putnbr(i);
-//		ft_putchar('\n');
-
 		switch(i) {
 			case 7:
 				if (bits[j] == 1) {
@@ -276,18 +306,7 @@ void	put_8bit(unsigned int num, int s) {
 		i--;
 		j++;
 	}	
-	//ft_putchar('\n');
 	ft_putnbr(value);
-
-	// 1 = 2^0 = 1
-	// 2 = 2^1 = 2
-	// 3 = 2^2 = 4
-	// 4 = 2^3 = 8
-	
-	// 5 = 2^4 = 16
-	// 6 = 2^5 = 32
-	// 7 = 2^6 = 64
-	// 8 = 2^7 = 128
 }	
 
 int	ft_printf(char *str, ...) {
@@ -333,7 +352,9 @@ int	ft_printf(char *str, ...) {
 			else if (str[i + 2] == 'o')
 				put_8bit_octal(va_arg(list, unsigned int));
 			else if (str[i + 2] == 'x')
-				put_8bit_hex(va_arg(list, unsigned int));
+				put_8bit_hex(va_arg(list, unsigned int), 0);
+			else if (str[i + 2] == 'X')
+				put_8bit_hex(va_arg(list, unsigned int), 1);
 			i += 2;
 		}	
 		i++;
