@@ -334,6 +334,35 @@ void	put_8bit(unsigned int num, int s) {
 	ft_putnbr(value);
 }	
 
+
+void put_float(double f) {
+	//32-bit 6 to 9 digits
+	//64-bit 15 to 17 digits
+	int precision;
+	long int_part;
+	double fraction;
+	int digit;
+	char c;
+
+	int_part = (long)f;
+	precision = 6;
+	if (f < 0) {
+		write(1, "-", 1);
+		f = -f;
+	}
+    	ft_putnbr(int_part);
+    	write(1, ".", 1);
+    	fraction = f - (double)int_part;
+    	while (precision--) {
+        	fraction *= 10;
+        	digit = (int)fraction;
+        	c = digit + '0';
+        	write(1, &c, 1);
+       		fraction -= digit;
+    	}
+}
+
+
 int	ft_printf(char *str, ...) {
 	va_list list;
 	int	i;
@@ -367,6 +396,8 @@ int	ft_printf(char *str, ...) {
 			count += put_number(va_arg(list, unsigned int), 16, 1);
 		else if (str[i] == 'o')
 			count += put_number(va_arg(list, unsigned int), 8, 0);
+		else if (str[i] == 'f')
+			put_float(va_arg(list, double));			
 		else if (str[i] == 'h' && str[i + 1] == 'h') {
 			if (str[i + 2] == 'u')
 				put_8bit(va_arg(list, unsigned int), 0);
