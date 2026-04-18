@@ -191,6 +191,8 @@ int	ft_printf(char *str, ...) {
 				put_8bit(va_arg(list, unsigned int), 0);
 			else if (str[i + 2] == 'd')
 				put_8bit(va_arg(list, int), 1);
+			else if (str[i + 2] == 'i')
+				put_8bit(va_arg(list, int), 1);
 			i += 2;
 		}	
 		i++;
