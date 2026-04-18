@@ -69,6 +69,48 @@ int	put_pointer(void *pointer) {
 }
 
 
+int	convert_octal_bits(int bit1, int bit2, int bit3) {
+	if (bit1 == 0 && bit2 == 0 && bit3 == 0)
+		return(0);
+	if (bit1 == 0 && bit2 == 0 && bit3 == 1)
+		return(1);
+	if (bit1 == 0 && bit2 == 1 && bit3 == 0)
+		return(2);
+	if (bit1 == 0 && bit2 == 1 && bit3 == 1)
+		return(3);
+	if (bit1 == 1 && bit2 == 0 && bit3 == 0)
+		return(4);
+	if (bit1 == 1 && bit2 == 0 && bit3 == 1)
+		return(5);
+	if (bit1 == 1 && bit2 == 1 && bit3 == 0)
+		return(6);
+	if (bit1 == 1 && bit2 == 1 && bit3 == 1)
+		return(7);
+	return (0);
+}
+
+void	put_8bit_octal(unsigned int num) {
+	int bits[8];
+	int j;
+	int i;
+	int value;
+
+	i = 7;
+	j = 0;
+	value = 0;
+	//printf("\nnum: %d\n", num);
+	while (i > -1) {
+		bits[j] = (num >> i) & 1;
+		//printf("%d", bits[j]);
+		i--;
+		j++;
+	}
+	value += convert_octal_bits(0, bits[0], bits[1]) * 100;
+	value += convert_octal_bits(bits[2], bits[3], bits[4]) * 10;
+	value += convert_octal_bits(bits[5], bits[6], bits[7]);
+	ft_putnbr(value);
+}
+
 void	put_8bit(unsigned int num, int s) {
 	int bits[8];
 	int j;
@@ -77,23 +119,23 @@ void	put_8bit(unsigned int num, int s) {
 
 	i = 7;
 	j = 0;
-	//ft_putnbr(num);
-	//ft_putchar('\n');
+//	ft_putnbr(num);
+//	ft_putchar('\n');
 	value = 0;
 	while (i > -1) {
 		bits[j] = (num >> i) & 1;
 		i--;
 		j++;	
 	}
-    	//ft_putchar('\n');
+ //   	ft_putchar('\n');
 
 	i = 7;
 	j = 0;
 	while (i > -1) {
-	//	ft_putnbr(bits[j]);
-	//	ft_putstr(" -> ");
-	//	ft_putnbr(i);
-	//	ft_putchar('\n');
+//		ft_putnbr(bits[j]);
+//		ft_putstr(" -> ");
+//		ft_putnbr(i);
+//		ft_putchar('\n');
 
 		switch(i) {
 			case 7:
@@ -193,6 +235,8 @@ int	ft_printf(char *str, ...) {
 				put_8bit(va_arg(list, int), 1);
 			else if (str[i + 2] == 'i')
 				put_8bit(va_arg(list, int), 1);
+			else if (str[i + 2] == 'o')
+				put_8bit_octal(va_arg(list, unsigned int));
 			i += 2;
 		}	
 		i++;
