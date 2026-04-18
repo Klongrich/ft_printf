@@ -247,6 +247,31 @@ void	put_8bit_octal(unsigned int num) {
 	ft_putnbr(value);
 }
 
+
+void	put_16bit_octal(unsigned int num) {
+	int bits[16];
+	int j;
+	int i;
+	int value;
+
+	i = 15;
+	j = 0;
+	value = 0;
+	while (i > -1) {
+		bits[j] = (num >> i) & 1;
+		i--;
+		j++;
+	}
+	value += convert_octal_bits(0, 0, bits[0]) * 100000;
+	value += convert_octal_bits(bits[1], bits[2], bits[3]) * 10000;
+	value += convert_octal_bits(bits[4], bits[5], bits[6]) * 1000;
+	value += convert_octal_bits(bits[7], bits[8], bits[9]) * 100;
+	value += convert_octal_bits(bits[10], bits[11], bits[12]) * 10;
+	value += convert_octal_bits(bits[13], bits[14], bits[15]);
+	ft_putnbr(value);
+}
+
+
 void	put_8bit(unsigned int num, int s) {
 	int bits[8];
 	int j;
@@ -355,7 +380,12 @@ int	ft_printf(char *str, ...) {
 				put_8bit_hex(va_arg(list, unsigned int), 0);
 			else if (str[i + 2] == 'X')
 				put_8bit_hex(va_arg(list, unsigned int), 1);
-			i += 2;
+			i += 3;
+		}
+		else if (str[i] == 'h') {
+			if(str[i + 1] == 'o')
+				put_16bit_octal(va_arg(list, unsigned int));
+			i += 1;
 		}	
 		i++;
 	}
