@@ -69,7 +69,7 @@ int	put_pointer(void *pointer) {
 }
 
 
-void	put_8bit(unsigned int num) {
+void	put_8bit(unsigned int num, int s) {
 	int bits[8];
 	int j;
 	int i;
@@ -97,8 +97,12 @@ void	put_8bit(unsigned int num) {
 
 		switch(i) {
 			case 7:
-				if (bits[j] == 1)
-					value += 128;
+				if (bits[j] == 1) {
+					if (s)
+						value -= 128;
+					else
+						value += 128;
+				}
 				break;
 			case 6:
 				if (bits[j] == 1)
@@ -182,8 +186,11 @@ int	ft_printf(char *str, ...) {
 			count += put_number(va_arg(list, unsigned int), 16, 1);
 		else if (str[i] == 'o')
 			count += put_number(va_arg(list, unsigned int), 8, 0);
-		else if (str[i] == 'h' && str[i + 1] == 'h' && str[i + 2] == 'u') {
-			put_8bit(va_arg(list, unsigned int));
+		else if (str[i] == 'h' && str[i + 1] == 'h') {
+			if (str[i + 2] == 'u')
+				put_8bit(va_arg(list, unsigned int), 0);
+			else if (str[i + 2] == 'd')
+				put_8bit(va_arg(list, int), 1);
 			i += 2;
 		}	
 		i++;
