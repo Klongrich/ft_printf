@@ -53,5 +53,18 @@ int	main() {
 	ft_printf("%hhu\n", 300);
 	ft_printf("%hhu\n", 750);
 
+	checking("hhd");
+	printf("%hhd\n", 750);
+	ft_printf("%hhd\n", 750);
+
+	checking("hho");
+	printf("%hho\n", 12389);
+	printf("%hho\n", 750750);
+	ft_printf("%hho\n", 12389);	
+	ft_printf("%hho\n", 750750);
+
+
+
+
 	return(0);
 }
