@@ -63,6 +63,61 @@ int	main() {
 	ft_printf("%hho\n", 12389);	
 	ft_printf("%hho\n", 750750);
 
+	checking("hhx");
+	printf("%hhx\n", 7544);
+	printf("%hhx\n", 78327);
+	ft_printf("%hhx\n", 7544);
+	ft_printf("%hhx\n", 78327);
+
+	checking("hhX");
+	printf("%hhX\n", 78327);
+	ft_printf("%hhX\n", 78327);
+
+	checking("ho");
+	printf("%ho\n", 1234458);
+	ft_printf("%ho\n", 1234458);	
+
+	checking("f");
+	printf("%f\n", 78.1234);
+	printf("%f\n", 64.7485763829);
+	ft_printf("%f\n", 78.1234);
+	ft_printf("%f\n", 64.7485763829);
+
+	checking("hu");
+	printf("%hu\n", 70000);
+	ft_printf("%hu\n", 70000);
+
+	checking ("hd");
+	printf ("%hd\n", 686868);
+	ft_printf("%hd\n", 686868);
+
+	checking("hx");
+	printf("%hx\n", 123456);
+	ft_printf("%hx\n", 123456);
+
+	checking("hX");
+	printf("%hX\n", 654321);
+	ft_printf("%hX\n", 654321);
+
+	checking("ld");
+	printf("%ld\n", 9223372036854775807);
+	ft_printf("%ld\n", 9223372036854775807);
+
+	checking("lu");
+	printf("%lu\n", 983752380928043);
+	ft_printf("%lu\n", 983752380928043);
+
+	checking ("llu");
+	printf("%llu\n", 9837523809280433355ULL);
+	ft_printf("%llu\n", 9837523809280433355ULL);
+
+        checking ("lld");
+        printf("%lld\n", 9837523809280433355ULL);
+        ft_printf("%lld\n", 9837523809280433355ULL);
+
+	checking("u");
+	printf("%u\n", 4294967295U);
+	ft_printf("%u\n", 4294967295U);
 
 
 

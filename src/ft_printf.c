@@ -46,6 +46,27 @@ int	put_number(long n, int base, int is_uppercase) {
 	return (count);
 }
 
+int	put_number_ll(long long n, int base, int is_uppercase) {
+	int	count;
+	char	*symbols;
+
+	count = 0;
+	if (!is_uppercase)
+		symbols = "0123456789abcdef";
+	else
+		symbols = "0123456789ABCDEF";
+	if (n == 0)
+		return (ft_putchar('0'));
+	else if (n < 0) {
+		ft_putchar ('-');
+		n = -n;
+		count++;
+	}
+	if (n >= base)
+		count += put_number(n / base, base, is_uppercase);
+	count += ft_putchar(symbols[n % base]);
+	return (count);
+}
 
 
 int	put_pointer(void *pointer) {
@@ -452,6 +473,160 @@ void	put_16bit(unsigned int num, int s) {
 	ft_putnbr(value);
 }
 
+void	put_64bit(long long num) {
+	int bits[16];
+	int j;
+	int i;
+	long long value;
+
+	i = 15;
+	j = 0;
+	value = 0;
+	while (i > -1) {
+		bits[j] = (num >> i) & 1;
+		i--;
+		j++;	
+	}
+	i = 15;
+	j = 0;
+	while (i > -1) {
+		switch(i) {
+			case 31:
+				if (bits[j] == 1)
+					value += 32768;
+				break;
+			case 30:
+				if (bits[j] == 1)
+					value +=  16384;
+				break;
+			case 29:
+				if (bits[j] == 1)
+					value += 8192;
+				break;
+			case 28:
+				if (bits[j] == 1)
+					value += 4096;
+				break;
+			case 27:
+				if (bits[j] == 1)
+					value += 2048;
+				break;
+			case 26:
+				if(bits[j] == 1)
+					value += 1024;
+				break;
+			case 25:
+				if(bits[j] == 1)
+					value += 512;
+				break;
+			case 24:
+				if (bits[j] == 1)
+					value += 256;
+				break;
+			case 23:
+				if (bits[j] == 1) 
+					value += 128;
+				break;
+			case 22:
+				if (bits[j] == 1)
+					value += 64;
+				break;
+			case 21:
+				if(bits[j] == 1)
+					value += 32;
+				break;
+			case 20:
+				if(bits[j] == 1)
+					value += 16;
+				break;
+			case 19:
+				if(bits[j] == 1)
+					value += 8;
+				break;
+			case 18:
+				if(bits[j] == 1)
+					value += 4;
+				break;
+			case 17:
+				if(bits[j] == 1)
+					value += 2;
+				break;
+			case 16:
+				if (bits[j] == 1)
+					value += 1;
+				break;
+			case 15:
+				if (bits[j] == 1)
+					value += 32768;
+				break; 
+			case 14:
+				if (bits[j] == 1)
+					value +=  16384;
+				break;
+			case 13:
+				if (bits[j] == 1)
+					value += 8192;
+				break;
+			case 12:
+				if (bits[j] == 1)
+					value += 4096;
+				break;
+			case 11:
+				if (bits[j] == 1)
+					value += 2048;
+				break;
+			case 10:
+				if(bits[j] == 1)
+					value += 1024;
+				break;
+			case 9:
+				if(bits[j] == 1)
+					value += 512;
+				break;
+			case 8:
+				if (bits[j] == 1)
+					value += 256;
+				break;
+			case 7:
+				if (bits[j] == 1) 
+					value += 128;
+				break;
+			case 6:
+				if (bits[j] == 1)
+					value += 64;
+				break;
+			case 5:
+				if(bits[j] == 1)
+					value += 32;
+				break;
+			case 4:
+				if(bits[j] == 1)
+					value += 16;
+				break;
+			case 3:
+				if(bits[j] == 1)
+					value += 8;
+				break;
+			case 2:
+				if(bits[j] == 1)
+					value += 4;
+				break;
+			case 1:
+				if(bits[j] == 1)
+					value += 2;
+				break;
+			case 0:
+				if (bits[j] == 1)
+					value += 1;
+				break;
+
+		}
+		i--;
+		j++;
+	}	
+	ft_putnbr(value);
+}
+
 
 int put_float(double f) {
 	//32-bit 6 to 9 digits
@@ -548,6 +723,21 @@ int	ft_printf(char *str, ...) {
 			else if (str[i + 1] == 'X')
 				put_16bit_hex(va_arg(list, unsigned int), 1);
 			i += 1;
+		}
+		else if (str[i] == 'l' && str[i + 1] == 'l') {
+			if (str[i + 2] == 'u')
+				put_64bit_ull(va_arg(list, unsigned long long));
+			else if (str[i + 2] == 'd')
+				put_64bit(va_arg(list, long long));
+			else if (str[i + 2] == 'i')
+				put_number_ll(va_arg(list, long long), 10, 0);
+			else if (str[i + 2] == 'o')
+				put_number_ll(va_arg(list, long long), 8, 0);
+			else if (str[i + 2] == 'x')
+				put_number_ll(va_arg(list, long long), 16, 0);
+			else if (str[i + 2] == 'X')
+				put_number_ll(va_arg(list, long long), 16, 1);
+			i += 2;
 		}
 		else if (str[i] == 'l') {
 			if (str[i + 1] == 'u')
