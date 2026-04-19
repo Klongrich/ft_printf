@@ -1,5 +1,5 @@
 NAME = ft_printf
-OBJ = main.o ft_printf.o
+OBJ = main.o ft_printf.o put_64bit_ull.o
 INC = -I inc
 CFLAGS = -Wall -Wextra -Werror
 LIBFT = libft/libft.a
