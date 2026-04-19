@@ -215,7 +215,7 @@ char	get_hex_char_uppercase(int num) {
 
 }
 
-void	put_8bit_hex(unsigned int num, int uppercase) {
+void	put_8bit_hex(unsigned int num, int uppercase, int pound_passed) {
 	int bits[8];
 	int j;
 	int i;
@@ -236,6 +236,9 @@ void	put_8bit_hex(unsigned int num, int uppercase) {
 		value[0] = get_hex_char_uppercase(convert_hex_bits(bits[0], bits[1], bits[2], bits[3]));
 		value[1] = get_hex_char_uppercase(convert_hex_bits(bits[4], bits[5], bits[6], bits[7]));
 	}
+	if (pound_passed)
+		if (num != 0)
+			ft_putstr("0x");
 	ft_putchar(value[0]);
 	ft_putchar(value[1]);
 }
@@ -704,9 +707,9 @@ int	ft_printf(char *str, ...) {
 			else if (str[i + 2] == 'o')
 				put_8bit_octal(va_arg(list, unsigned int));
 			else if (str[i + 2] == 'x')
-				put_8bit_hex(va_arg(list, unsigned int), 0);
+				put_8bit_hex(va_arg(list, unsigned int), 0, 0);
 			else if (str[i + 2] == 'X')
-				put_8bit_hex(va_arg(list, unsigned int), 1);
+				put_8bit_hex(va_arg(list, unsigned int), 1, 0);
 			i += 2;
 		}
 		else if (str[i] == 'h') {
@@ -755,6 +758,13 @@ int	ft_printf(char *str, ...) {
 			else if (str[i + 1] == 'f')
 				put_float(va_arg(list, double));
 			i += 1;
+		}
+		else if (str[i] == '#') {
+			if (str[i + 1] == 'h' && str[i + 2] == 'h') {
+				if (str[i + 3] == 'x')
+					put_8bit_hex(va_arg(list, unsigned int), 0, 1);
+				i += 3;
+			}
 		}	
 		i++;
 	}
