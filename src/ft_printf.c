@@ -57,14 +57,16 @@ void	parse_flags(char *buffer, t_flags *flags) {
 			flags->space = 1;
 		i++;
 	}
-
 	while (buffer[i]) {
 		buff[j] = buffer[i];	
 		i++;
 		j++;
 	}
-	if (buff[j]) {
-		flags->padding = ft_atoi(buff);
+	buff[j] = '\0';
+	if (j > 0) {
+		if (buff[j - 1]) {
+			flags->padding = ft_atoi(buff);
+		}
 	}
 }
 
@@ -838,6 +840,7 @@ int	check_c(char c) {
 }
 
 
+
 int	ft_printf(char *str, ...) {
 	va_list list;
 	int	i;
@@ -853,6 +856,9 @@ int	ft_printf(char *str, ...) {
 	buffer[0] = '\0';
 	va_start(list, str);
 	while (str[i]) {
+		flags = init();
+		j = 0;
+		ft_bzero(buffer, ft_strlen(buffer));
 		while (str[i] != '%' && str[i]) {
 			count += ft_putchar(str[i]);
 			i++;
