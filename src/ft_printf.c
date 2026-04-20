@@ -97,12 +97,20 @@ int     put_numbers_args(long n, int base, int is_uppercase, t_flags flags) {
 	i = 0;
 	num_len = ft_numlen(n);
 	if (flags.zero) {
-		if (n > 0 && flags.plus) {
-			ft_putchar('+');
-			num_len++;
+		if (base == 16) {
+			if (flags.pound) {
+				ft_putchar('0');
+				ft_putchar('x');
+				num_len += 2;
+			}
+		} else {
+			if (n > 0 && flags.plus) {
+				ft_putchar('+');
+				num_len++;
+			}
+			else if (n < 0)
+				ft_putchar('-');
 		}
-		else if (n < 0)
-			ft_putchar('-');
 	}
 	if (flags.padding != 0 && !flags.left) {
 		if (flags.zero) {
@@ -111,19 +119,32 @@ int     put_numbers_args(long n, int base, int is_uppercase, t_flags flags) {
 				i++;
 			}
 		} else {
-			if (flags.plus) {
-				if (n > 0)
-					num_len++;
+			if (base == 16) {
+				if (flags.pound)
+					num_len += 2;
+			} else {
+				if (flags.plus) {
+					if (n > 0)
+						num_len++;
+				}
 			}
 			while (i < flags.padding - num_len) {
 				ft_putchar(' ');
 				i++;
 			}
-			if (flags.plus) {
-				if (n > 0) {
-					ft_putchar('+');
-				} else if (n < 0)
-					ft_putchar('-');
+
+			if (base == 16) {
+				if (flags.pound)  {
+					ft_putchar('0');
+					ft_putchar('x');
+				}
+			} else {
+				if (flags.plus) {
+					if (n > 0) {
+						ft_putchar('+');
+					} else if (n < 0)
+						ft_putchar('-');
+				}
 			}
 		}	
 	}
@@ -857,7 +878,7 @@ int	ft_printf(char *str, ...) {
 		else if (str[i] == 'u')
 			count += putunit_max(va_arg(list, unsigned int), 10);
 		else if (str[i] == 'x')
-			count += put_number(va_arg(list, unsigned int), 16, 0, buffer);
+			count += put_numbers_args(va_arg(list, unsigned int), 16, 0, flags);
 		else if (str[i] == 'X')
 			count += put_number(va_arg(list, unsigned int), 16, 1, buffer);
 		else if (str[i] == 'o')
