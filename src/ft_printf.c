@@ -243,7 +243,7 @@ void	put_8bit_hex(unsigned int num, int uppercase, int pound_passed) {
 	ft_putchar(value[1]);
 }
 
-void	put_16bit_hex(unsigned int num, int uppercase) {
+void	put_16bit_hex(unsigned int num, int uppercase, int pound_passed) {
 	int bits[16];
 	int j;
 	int i;
@@ -662,14 +662,43 @@ int put_float(double f) {
 }
 
 
+void	print_flags(t_args flags) {
+	printf("pound: %d\n", flags.pound);
+	printf("zero: %d\n", flags.zero);
+	printf("plus: %d\n", flags.plus);
+	printf("left: %d\n", flags.left);
+	printf("space: %d\n", flags.space);
+	printf("ll: %d\n", flags.ll);
+	printf("l: %d\n", flags.l);
+	printf("h: %d\n", flags.h);
+	printf("hh: %d\n", flags.hh);
+}
+
+t_args	init() {
+	t_args v;
+
+	v.pound = 0;
+	v.zero = 0;
+	v.plus = 0;
+	v.left = 0;
+	v.space = 0;
+	v.ll = 0;
+	v.l = 0;
+	v.h = 0;
+	v.hh = 0;
+
+	return (v);
+}
+
 int	ft_printf(char *str, ...) {
 	va_list list;
 	int	i;
 	int 	count;
-	
+	//t_args	formatters;
 
 	i = 0;
 	count = 0;
+	//formatters = init();
 	va_start(list, str);
 	while (str[i]) {
 		while (str[i] != '%' && str[i]) {
@@ -679,6 +708,36 @@ int	ft_printf(char *str, ...) {
 		if (!str[i])
 			break ;
 		i++;
+
+		/*	
+		if (str[i] == '#' || str[i] == '0' || str[i] == '+' || str[i] == ' ' || str[i] == 'l' || str[i] == 'h') {
+			if (str[i] == '#')
+				formatters.pound = 1;
+			else if (str[i] == '0')
+				formatters.zero = 1;
+			else if (str[i] == '+')
+				formatters.plus = 1;
+			else if (str[i] == '-')
+				formatters.left = 1;
+			else if (str[i] == ' ')
+				formatters.space = 1;
+			else if (str[i] == 'l') {
+				if (str[i + 1] == '1') {
+					formatters.ll = 1;
+					i++;
+				} else
+					formatters.l = 1;
+			} else if (str[i] == 'h') {
+				if (str[i + 1] == 'h') {
+					formatters.hh = 1;
+					i++;
+				} else
+					formatters.h = 1;
+			}
+			i++;
+		}
+		print_flags(formatters);
+		*/
 		if (str[i] == 'c') 
 			count += ft_putchar(va_arg(list, int));
 		if (str[i] == 'd' || str[i] == 'i')
@@ -763,8 +822,24 @@ int	ft_printf(char *str, ...) {
 			if (str[i + 1] == 'h' && str[i + 2] == 'h') {
 				if (str[i + 3] == 'x')
 					put_8bit_hex(va_arg(list, unsigned int), 0, 1);
+				else if (str[i + 3] == 'X')
+					put_8bit_hex(va_arg(list, unsigned int), 1, 1);
 				i += 3;
+			} else if (str[i + 1] == 'h') {
+				/*
+				if (str[i + 2] == 'x') 
+					put_16bit_hex(va_arg(list, unsigned int), 0, 1);
+				else if (str[i + 2] == 'X')
+					put_16bit_hex(va_arg(list, unsigned int), 1, 1);
+				i += 2;
+				*/
 			}
+		}
+		else if (str[i] == '0') {
+			//create parser to pull numbers after 0 to get length of padding
+		}
+		else if (str[i] == '+') {
+			//Has to check for i or d that is it. 
 		}	
 		i++;
 	}
