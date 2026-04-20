@@ -24,10 +24,54 @@ int	putunit_max(unsigned long num, int base) {
 	return (count);
 }
 
+t_flags init() {
+	t_flags flags;
+
+	flags.zero = 0;
+	flags.left = 0;
+	flags.padding = 0;
+	flags.pound = 0;
+	flags.space = 0;
+	flags.plus = 0;
+	return (flags);
+}
+
+void	parse_flags(char *buffer, t_flags *flags) {
+	int i;
+	int j;
+	char buff[1024];
+	
+	i = 0;
+	j = 0;
+	buff[0] = '\0';
+	while (buffer[i] == '#' || buffer[i] == '0' || buffer[i] == '-' || buffer[i] == '+' || buffer[i] == ' ') {
+		if (buffer[i] == '#')
+			flags->pound = 1;
+		else if (buffer[i] == '0')
+			flags->zero = 1;
+		else if (buffer[i] == '-')
+			flags->left = 1;
+		else if (buffer[i] == '+')
+			flags->plus = 1;
+		else if (buffer[i] == ' ')
+			flags->space = 1;
+		i++;
+	}
+
+	while (buffer[i]) {
+		buff[j] = buffer[i];	
+		i++;
+		j++;
+	}
+	if (buff[j]) {
+		flags->padding = ft_atoi(buff);
+	}
+}
+
 int	put_number(long n, int base, int is_uppercase, char *buffer) {
 	int	count;
 	char	*symbols;
-
+	
 	count = 0;
 	if (!is_uppercase)
 		symbols = "0123456789abcdef";
@@ -36,15 +80,65 @@ int	put_number(long n, int base, int is_uppercase, char *buffer) {
 	if (n == 0)
 		return (ft_putchar('0'));
 	else if (n < 0) {
-		ft_putchar ('-');
+		//ft_putchar ('-');
 		n = -n;
-		count++;
+		//count++;
 	}
 	if (n >= base)
 		count += put_number(n / base, base, is_uppercase, buffer);
 	count += ft_putchar(symbols[n % base]);
 	return (count);
 }
+
+int     put_numbers_args(long n, int base, int is_uppercase, t_flags flags) { 
+	int i;
+	int num_len;
+
+	i = 0;
+	num_len = ft_numlen(n);
+	if (flags.zero) {
+		if (n > 0 && flags.plus) {
+			ft_putchar('+');
+			num_len++;
+		}
+		else if (n < 0)
+			ft_putchar('-');
+	}
+	if (flags.padding != 0 && !flags.left) {
+		if (flags.zero) {
+			while (i < flags.padding - num_len ) {
+				ft_putchar('0');
+				i++;
+			}
+		} else {
+			if (flags.plus) {
+				if (n > 0)
+					num_len++;
+			}
+			while (i < flags.padding - num_len) {
+				ft_putchar(' ');
+				i++;
+			}
+			if (flags.plus) {
+				if (n > 0) {
+					ft_putchar('+');
+				} else if (n < 0)
+					ft_putchar('-');
+			}
+		}	
+	}
+	if (n < 0 && !flags.zero)
+		ft_putchar('-');
+	put_number(n, base, is_uppercase, "holder");
+	if (flags.padding != 0 && flags.left) {
+		while (i < flags.padding - num_len) {
+			ft_putchar(' ');
+			i++;
+		}	
+	}
+	return (0);
+}
+
 
 int	put_number_ll(long long n, int base, int is_uppercase) {
 	int	count;
@@ -662,6 +756,8 @@ int put_float(double f) {
 }
 
 
+/*
+
 void	print_flags(t_args flags) {
 	printf("pound: %d\n", flags.pound);
 	printf("zero: %d\n", flags.zero);
@@ -690,7 +786,7 @@ t_args	init() {
 	return (v);
 }
 
-
+*/
 
 int	check_c(char c) {
 	if (c == 'c')
@@ -727,10 +823,12 @@ int	ft_printf(char *str, ...) {
 	int	j;
 	int 	count;
 	char	buffer[1024];
+	t_flags flags;
 
 	i = 0;
 	j = 0;
 	count = 0;
+	flags = init();
 	buffer[0] = '\0';
 	va_start(list, str);
 	while (str[i]) {
@@ -747,10 +845,11 @@ int	ft_printf(char *str, ...) {
 			j++;
 		}
 		buffer[j] = '\0';
+		parse_flags(buffer, &flags);
 		if (str[i] == 'c') 
 			count += ft_putchar(va_arg(list, int));
 		if (str[i] == 'd' || str[i] == 'i')
-			count += put_number(va_arg(list, int), 10, 0, buffer);
+			count += put_numbers_args(va_arg(list, int), 10, 0, flags);
 		else if (str[i] == 's')
 			ft_putstr(va_arg(list, char*));
 		else if (str[i] == 'p')
