@@ -24,7 +24,7 @@ int	putunit_max(unsigned long num, int base) {
 	return (count);
 }
 
-int	put_number(long n, int base, int is_uppercase) {
+int	put_number(long n, int base, int is_uppercase, char *buffer) {
 	int	count;
 	char	*symbols;
 
@@ -41,7 +41,7 @@ int	put_number(long n, int base, int is_uppercase) {
 		count++;
 	}
 	if (n >= base)
-		count += put_number(n / base, base, is_uppercase);
+		count += put_number(n / base, base, is_uppercase, buffer);
 	count += ft_putchar(symbols[n % base]);
 	return (count);
 }
@@ -63,7 +63,7 @@ int	put_number_ll(long long n, int base, int is_uppercase) {
 		count++;
 	}
 	if (n >= base)
-		count += put_number(n / base, base, is_uppercase);
+		count += put_number_ll(n / base, base, is_uppercase);
 	count += ft_putchar(symbols[n % base]);
 	return (count);
 }
@@ -243,7 +243,7 @@ void	put_8bit_hex(unsigned int num, int uppercase, int pound_passed) {
 	ft_putchar(value[1]);
 }
 
-void	put_16bit_hex(unsigned int num, int uppercase, int pound_passed) {
+void	put_16bit_hex(unsigned int num, int uppercase) {
 	int bits[16];
 	int j;
 	int i;
@@ -690,15 +690,48 @@ t_args	init() {
 	return (v);
 }
 
+
+
+int	check_c(char c) {
+	if (c == 'c')
+		return (1);
+	if (c == 'd')
+		return (1);
+	if (c == 'i')
+		return (1);
+	if (c == 's')
+		return (1);
+	if (c == 'p')
+		return (1);
+	if (c == 'u')
+		return (1);
+	if (c == 'x')
+		return (1);
+	if (c == 'X')
+		return (1);
+	if (c == 'o')
+		return (1);
+	if (c == 'f')
+		return (1);
+	if (c == 'h')
+		return (1);
+	if (c == 'l')
+		return (1);
+	return (0);
+}
+
+
 int	ft_printf(char *str, ...) {
 	va_list list;
 	int	i;
+	int	j;
 	int 	count;
-	//t_args	formatters;
+	char	buffer[1024];
 
 	i = 0;
+	j = 0;
 	count = 0;
-	//formatters = init();
+	buffer[0] = '\0';
 	va_start(list, str);
 	while (str[i]) {
 		while (str[i] != '%' && str[i]) {
@@ -708,40 +741,16 @@ int	ft_printf(char *str, ...) {
 		if (!str[i])
 			break ;
 		i++;
-
-		/*	
-		if (str[i] == '#' || str[i] == '0' || str[i] == '+' || str[i] == ' ' || str[i] == 'l' || str[i] == 'h') {
-			if (str[i] == '#')
-				formatters.pound = 1;
-			else if (str[i] == '0')
-				formatters.zero = 1;
-			else if (str[i] == '+')
-				formatters.plus = 1;
-			else if (str[i] == '-')
-				formatters.left = 1;
-			else if (str[i] == ' ')
-				formatters.space = 1;
-			else if (str[i] == 'l') {
-				if (str[i + 1] == '1') {
-					formatters.ll = 1;
-					i++;
-				} else
-					formatters.l = 1;
-			} else if (str[i] == 'h') {
-				if (str[i + 1] == 'h') {
-					formatters.hh = 1;
-					i++;
-				} else
-					formatters.h = 1;
-			}
+		while (!check_c(str[i])) {
+			buffer[j] = str[i];
 			i++;
+			j++;
 		}
-		print_flags(formatters);
-		*/
+		buffer[j] = '\0';
 		if (str[i] == 'c') 
 			count += ft_putchar(va_arg(list, int));
 		if (str[i] == 'd' || str[i] == 'i')
-			count += put_number(va_arg(list, int), 10, 0);
+			count += put_number(va_arg(list, int), 10, 0, buffer);
 		else if (str[i] == 's')
 			ft_putstr(va_arg(list, char*));
 		else if (str[i] == 'p')
@@ -749,11 +758,11 @@ int	ft_printf(char *str, ...) {
 		else if (str[i] == 'u')
 			count += putunit_max(va_arg(list, unsigned int), 10);
 		else if (str[i] == 'x')
-			count += put_number(va_arg(list, unsigned int), 16, 0);
+			count += put_number(va_arg(list, unsigned int), 16, 0, buffer);
 		else if (str[i] == 'X')
-			count += put_number(va_arg(list, unsigned int), 16, 1);
+			count += put_number(va_arg(list, unsigned int), 16, 1, buffer);
 		else if (str[i] == 'o')
-			count += put_number(va_arg(list, unsigned int), 8, 0);
+			count += put_number(va_arg(list, unsigned int), 8, 0, buffer);
 		else if (str[i] == 'f')
 			count += put_float(va_arg(list, double));			
 		else if (str[i] == 'h' && str[i + 1] == 'h') {
@@ -803,44 +812,21 @@ int	ft_printf(char *str, ...) {
 		}
 		else if (str[i] == 'l') {
 			if (str[i + 1] == 'u')
-				put_number(va_arg(list, unsigned long), 10, 0);
+				put_number(va_arg(list, unsigned long), 10, 0, buffer);
 			else if (str[i + 1] == 'd')
-				put_number(va_arg(list, long), 10, 0);
+				put_number(va_arg(list, long), 10, 0, buffer);
 			else if (str[i + 1] == 'i')
-				put_number(va_arg(list, long), 10, 0);
+				put_number(va_arg(list, long), 10, 0, buffer);
 			else if (str[i + 1] == 'o')
-				put_number(va_arg(list, long), 8, 0);
+				put_number(va_arg(list, long), 8, 0, buffer);
 			else if (str[i + 1] == 'x')
-				put_number(va_arg(list, long), 16, 0);
+				put_number(va_arg(list, long), 16, 0, buffer);
 			else if (str[i + 1] == 'X')
-				put_number(va_arg(list, long), 16, 1);
+				put_number(va_arg(list, long), 16, 1, buffer);
 			else if (str[i + 1] == 'f')
 				put_float(va_arg(list, double));
 			i += 1;
 		}
-		else if (str[i] == '#') {
-			if (str[i + 1] == 'h' && str[i + 2] == 'h') {
-				if (str[i + 3] == 'x')
-					put_8bit_hex(va_arg(list, unsigned int), 0, 1);
-				else if (str[i + 3] == 'X')
-					put_8bit_hex(va_arg(list, unsigned int), 1, 1);
-				i += 3;
-			} else if (str[i + 1] == 'h') {
-				/*
-				if (str[i + 2] == 'x') 
-					put_16bit_hex(va_arg(list, unsigned int), 0, 1);
-				else if (str[i + 2] == 'X')
-					put_16bit_hex(va_arg(list, unsigned int), 1, 1);
-				i += 2;
-				*/
-			}
-		}
-		else if (str[i] == '0') {
-			//create parser to pull numbers after 0 to get length of padding
-		}
-		else if (str[i] == '+') {
-			//Has to check for i or d that is it. 
-		}	
 		i++;
 	}
 	return(count);
