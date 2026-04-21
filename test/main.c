@@ -143,6 +143,9 @@ int	main() {
 	printf("%5c testing %-12c another: \n", 'K', 'L');
 	ft_printf("%5c testing %-12c another: \n", 'K', 'L');
 
+	checking("#010X");
+        printf("%#010X\n", 700);
+        ft_printf("%#010X\n", 700);
 
 	return(0);
 }

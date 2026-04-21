@@ -942,7 +942,7 @@ int	ft_printf(char *str, ...) {
 		else if (str[i] == 'x')
 			count += put_numbers_args(va_arg(list, unsigned int), 16, 0, flags);
 		else if (str[i] == 'X')
-			count += put_number(va_arg(list, unsigned int), 16, 1, buffer);
+			count += put_numbers_args(va_arg(list, unsigned int), 16, 1, flags);
 		else if (str[i] == 'o')
 			count += put_number(va_arg(list, unsigned int), 8, 0, buffer);
 		else if (str[i] == 'f')
