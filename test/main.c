@@ -119,6 +119,29 @@ int	main() {
 	printf("%u\n", 4294967295U);
 	ft_printf("%u\n", 4294967295U);
 
+	checking ("#hhx");
+	printf("%#hhx\n", 748839);
+	ft_printf("%#hhx\n", 748839);
+
+	checking ("#010x");
+	printf("%#010x\n", 700);
+	ft_printf("%#010x\n", 700);
+
+	checking("+010d");
+	printf("%#10x test %+05d\n", 23, 55);
+	ft_printf("%#10x test %+05d\n", 23, 55);
+
+	checking(" ");
+	printf("i: %d j: %d k:%d\n", 10, 20, 30);
+	ft_printf("i: %d j: %d k:%d\n", 10, 20, 30);
+	
+	checking("%10s");
+	printf("%10s testing %-5s :\n", "Kyle", "kyle");
+	ft_printf("%10s testing %-5s :\n", "Kyle", "kyle");
+
+	checking("%5c");
+	printf("%5c testing %-12c another: \n", 'K', 'L');
+	ft_printf("%5c testing %-12c another: \n", 'K', 'L');
 
 
 	return(0);

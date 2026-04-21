@@ -174,6 +174,28 @@ int     put_numbers_args(long n, int base, int is_uppercase, t_flags flags) {
 	return (0);
 }
 
+int     put_character_args(char c, t_flags flags) { 
+	int i;
+	int count;
+	int str_len;
+
+	i = 0;
+	if (flags.padding != 0 && !flags.left) {
+		while (i < flags.padding - 1) {
+			count += ft_putchar(' ');
+			i++;
+		}
+	}
+	count += ft_putchar(c);
+	if (flags.padding != 0 && flags.left) {
+		while (i < flags.padding - 1) {
+			count += ft_putchar(' ');
+			i++;
+		}	
+	}
+	return (count);
+}
+
 int     put_string_args(char *str, t_flags flags) { 
 	int i;
 	int count;
@@ -908,7 +930,7 @@ int	ft_printf(char *str, ...) {
 		buffer[j] = '\0';
 		parse_flags(buffer, &flags);
 		if (str[i] == 'c') 
-			count += ft_putchar(va_arg(list, int));
+			count +=  put_character_args(va_arg(list, int), flags);
 		if (str[i] == 'd' || str[i] == 'i')
 			count += put_numbers_args(va_arg(list, int), 10, 0, flags);
 		else if (str[i] == 's')
