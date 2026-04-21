@@ -6,6 +6,14 @@ void	checking(char *str) {
 	ft_printf("\nchecking %s:\n", str);
 }
 
+void	runcheck(char *str, ...) {
+	va_list list;
+
+	va_start(list, str);
+
+	
+}
+
 
 int	main() {
 	char c;
@@ -150,6 +158,9 @@ int	main() {
 	checking("#010o");
 	printf("%#010o more numbers %-5o\n", 345, 500);
 	ft_printf("%#010o more numbers %-5o\n", 345, 500);
+	printf("\n");
 
+	CHECK("%s %d\n", "test", 42);
+	CHECK("%10s more testing %+010d\n", "another", 700);
 	return(0);
 }
