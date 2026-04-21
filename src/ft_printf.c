@@ -126,8 +126,10 @@ int	put_formatting_from_flags(long n, int base, t_flags flags) {
 					num_len += 2;
 			} else {
 				if (flags.plus) {
-					if (n > 0)
+					if (n > 0) {
+						ft_putchar('+');
 						num_len++;
+					}
 				}
 			}
 			while (i < flags.padding - num_len) {
@@ -164,6 +166,10 @@ int     put_numbers_args(long n, int base, int is_uppercase, t_flags flags) {
 	i = 0;
 	num_len = ft_numlen(n);
 	put_formatting_from_flags(n, base, flags);
+	if (flags.left && flags.plus) {
+		ft_putchar('+');
+		num_len++;
+	}	
 	put_number(n, base, is_uppercase, "holder");
 	if (flags.padding != 0 && flags.left) {
 		while (i < flags.padding - num_len) {
@@ -493,11 +499,12 @@ void	put_16bit_octal(unsigned int num) {
 }
 
 
-void	put_8bit(unsigned int num, int s) {
+void	put_8bit(unsigned int num, int s, t_flags flags) {
 	int bits[8];
 	int j;
 	int i;
 	int value;
+	int num_len;
 
 	i = 7;
 	j = 0;
@@ -551,8 +558,18 @@ void	put_8bit(unsigned int num, int s) {
 		}
 		i--;
 		j++;
-	}	
-	ft_putnbr(value);
+	}
+	num_len = ft_numlen(value);
+	put_formatting_from_flags(value, 10, flags);	
+	ft_putnbr_f(value);
+	if (value < 0)
+		num_len++;
+	if (flags.padding != 0 && flags.left) {
+		while (i < flags.padding - num_len) {
+			ft_putchar(' ');
+			i++;
+		}	
+	}
 }
 
 void	put_16bit(unsigned int num, int s) {
@@ -949,11 +966,11 @@ int	ft_printf(char *str, ...) {
 			count += put_float(va_arg(list, double));			
 		else if (str[i] == 'h' && str[i + 1] == 'h') {
 			if (str[i + 2] == 'u')
-				put_8bit(va_arg(list, unsigned int), 0);
+				put_8bit(va_arg(list, unsigned int), 0, flags);
 			else if (str[i + 2] == 'd')
-				put_8bit(va_arg(list, int), 1);
+				put_8bit(va_arg(list, int), 1, flags);
 			else if (str[i + 2] == 'i')
-				put_8bit(va_arg(list, int), 1);
+				put_8bit(va_arg(list, int), 1, flags);
 			else if (str[i + 2] == 'o')
 				put_8bit_octal(va_arg(list, unsigned int));
 			else if (str[i + 2] == 'x')

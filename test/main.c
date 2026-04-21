@@ -162,5 +162,8 @@ int	main() {
 
 	CHECK("%s %d\n", "test", 42);
 	CHECK("%10s more testing %+010d\n", "another", 700);
+	CHECK("%010hhu - %+-5hhd - %10hhi\n", 2345, 484, 8948);
+ 	CHECK("%010d - %+-5d - %10d\n", 2345, 484, 8948);
+
 	return(0);
 }
