@@ -147,5 +147,9 @@ int	main() {
         printf("%#010X\n", 700);
         ft_printf("%#010X\n", 700);
 
+	checking("#010o");
+	printf("%#010o more numbers %-5o\n", 345, 500);
+	ft_printf("%#010o more numbers %-5o\n", 345, 500);
+
 	return(0);
 }

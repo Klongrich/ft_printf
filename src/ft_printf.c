@@ -944,7 +944,7 @@ int	ft_printf(char *str, ...) {
 		else if (str[i] == 'X')
 			count += put_numbers_args(va_arg(list, unsigned int), 16, 1, flags);
 		else if (str[i] == 'o')
-			count += put_number(va_arg(list, unsigned int), 8, 0, buffer);
+			count += put_numbers_args(va_arg(list, unsigned int), 8, 0, flags);
 		else if (str[i] == 'f')
 			count += put_float(va_arg(list, double));			
 		else if (str[i] == 'h' && str[i + 1] == 'h') {
