@@ -92,7 +92,7 @@ int	put_number(long n, int base, int is_uppercase, char *buffer) {
 	return (count);
 }
 
-int     put_numbers_args(long n, int base, int is_uppercase, t_flags flags) { 
+int	put_formatting_from_flags(long n, int base, t_flags flags) {
 	int i;
 	int num_len;
 
@@ -152,6 +152,18 @@ int     put_numbers_args(long n, int base, int is_uppercase, t_flags flags) {
 	}
 	if (n < 0 && !flags.zero)
 		ft_putchar('-');
+
+	return (0);
+}
+
+
+int     put_numbers_args(long n, int base, int is_uppercase, t_flags flags) { 
+	int i;
+	int num_len;
+
+	i = 0;
+	num_len = ft_numlen(n);
+	put_formatting_from_flags(n, base, flags);
 	put_number(n, base, is_uppercase, "holder");
 	if (flags.padding != 0 && flags.left) {
 		while (i < flags.padding - num_len) {
@@ -162,6 +174,28 @@ int     put_numbers_args(long n, int base, int is_uppercase, t_flags flags) {
 	return (0);
 }
 
+int     put_string_args(char *str, t_flags flags) { 
+	int i;
+	int count;
+	int str_len;
+
+	i = 0;
+	str_len = ft_strlen(str);
+	if (flags.padding != 0 && !flags.left) {
+		while (i < flags.padding - str_len) {
+			count += ft_putchar(' ');
+			i++;
+		}
+	}
+	ft_putstr(str);
+	if (flags.padding != 0 && flags.left) {
+		while (i < flags.padding - str_len) {
+			count += ft_putchar(' ');
+			i++;
+		}	
+	}
+	return (count);
+}
 
 int	put_number_ll(long long n, int base, int is_uppercase) {
 	int	count;
@@ -878,7 +912,7 @@ int	ft_printf(char *str, ...) {
 		if (str[i] == 'd' || str[i] == 'i')
 			count += put_numbers_args(va_arg(list, int), 10, 0, flags);
 		else if (str[i] == 's')
-			ft_putstr(va_arg(list, char*));
+			count += put_string_args(va_arg(list, char*), flags);
 		else if (str[i] == 'p')
 			count += put_pointer(va_arg(list, void*));
 		else if (str[i] == 'u')
