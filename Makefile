@@ -1,7 +1,7 @@
 NAME = ft_printf
 OBJ = main.o ft_printf.o put_64bit_ull.o
 INC = -I inc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = 
 LIBFT = libft/libft.a
 LIBH = libft/libft.h
 
