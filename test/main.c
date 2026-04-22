@@ -165,7 +165,8 @@ int	main() {
 	CHECK("%010hhu - %+-5hhd - %10hhi\n", 2345, 484, 8948);
  	CHECK("%010d - %+-5d - %10d\n", 2345, 484, 8948);
 	CHECK("%#010hhx - %-#7hhx - %#+5hhx - %0-#5hhx\n", 1290, 388, 475, 838);
-	CHECK("%#-10hhx - %-#7hhx %#10hhx\n", 8490, 892, 0);
+	CHECK("%#-10hhx - %-#7hhx %#10hhx - %10hhx \n", 8490, 892, 0, 0);
+	CHECK("%-#8hhx - %--+##hhx\n", 0, 0);
 
 	return(0);
 }
