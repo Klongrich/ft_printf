@@ -108,7 +108,7 @@ int	put_formatting_from_flags(long n, int base, t_flags flags) {
 				}
 			}
 		} else {
-			if (n > 0 && flags.plus) {
+			if (n > 0 && flags.plus && base != 8) {
 				ft_putchar('+');
 				num_len++;
 			}
@@ -130,7 +130,7 @@ int	put_formatting_from_flags(long n, int base, t_flags flags) {
 				}
 			} else {
 				if (flags.plus) {
-					if (n > 0) {
+					if (n > 0 && base != 8) {
 						ft_putchar('+');
 						num_len++;
 					}
@@ -150,7 +150,7 @@ int	put_formatting_from_flags(long n, int base, t_flags flags) {
 				}
 			} else {
 				if (flags.plus) {
-					if (n > 0) {
+					if (n > 0 && base != 8) {
 						ft_putchar('+');
 					} else if (n < 0)
 						ft_putchar('-');
@@ -172,7 +172,7 @@ int     put_numbers_args(long n, int base, int is_uppercase, t_flags flags) {
 	i = 0;
 	num_len = ft_numlen(n);
 	put_formatting_from_flags(n, base, flags);
-	if (flags.left && flags.plus) {
+	if (flags.left && flags.plus && base != 8) {
 		ft_putchar('+');
 		num_len++;
 	}	
