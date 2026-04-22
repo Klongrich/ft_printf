@@ -101,9 +101,11 @@ int	put_formatting_from_flags(long n, int base, t_flags flags) {
 	if (flags.zero) {
 		if (base == 16) {
 			if (flags.pound) {
-				ft_putchar('0');
-				ft_putchar('x');
-				num_len += 2;
+				if(n != 0) {
+					ft_putchar('0');
+					ft_putchar('x');
+					num_len += 2;
+				}
 			}
 		} else {
 			if (n > 0 && flags.plus) {
@@ -123,7 +125,8 @@ int	put_formatting_from_flags(long n, int base, t_flags flags) {
 		} else {
 			if (base == 16) {
 				if (flags.pound) {
-					num_len += 2;
+					if (n != 0)
+						num_len += 2;
 				}
 			} else {
 				if (flags.plus) {
@@ -140,8 +143,10 @@ int	put_formatting_from_flags(long n, int base, t_flags flags) {
 
 			if (base == 16) {
 				if (flags.pound)  {
-					ft_putchar('0');
-					ft_putchar('x');
+					if (n != 0) {
+						ft_putchar('0');
+						ft_putchar('x');
+					}
 				}
 			} else {
 				if (flags.plus) {
@@ -409,7 +414,6 @@ void	put_8bit_hex(unsigned int num, int uppercase, t_flags flags) {
 		i--;
 		j++;
 	}
-
 	if (!uppercase) {
 		value[0] = get_hex_char(convert_hex_bits(bits[0], bits[1], bits[2], bits[3]));
 		value[1] = get_hex_char(convert_hex_bits(bits[4], bits[5], bits[6], bits[7]));
@@ -417,20 +421,27 @@ void	put_8bit_hex(unsigned int num, int uppercase, t_flags flags) {
 		value[0] = get_hex_char_uppercase(convert_hex_bits(bits[0], bits[1], bits[2], bits[3]));
 		value[1] = get_hex_char_uppercase(convert_hex_bits(bits[4], bits[5], bits[6], bits[7]));
 	}
-
 	num_len = 2;
-	put_formatting_from_flags(11, 16, flags);
-	if (flags.pound && flags.left && !flags.zero) {
+	if (num != 0)
+		put_formatting_from_flags(11, 16, flags);
+	else
+		put_formatting_from_flags(0, 16, flags);
+	if (flags.pound && flags.left && !flags.zero && num != 0) {
 		ft_putstr("0x");
 		num_len++;
 		num_len++;
 		num_len++;
 	}
 	if (!flags.left && !flags.padding && !flags.zero && flags.pound) {
-		ft_putstr("0x");
-	}	
-	ft_putchar(value[0]);
-	ft_putchar(value[1]);
+		if (num != 0)
+			ft_putstr("0x");
+	}
+	if (num != 0) {	
+		ft_putchar(value[0]);
+		ft_putchar(value[1]);
+	} else {
+		ft_putchar('0');
+	}
 	if (flags.padding != 0 && flags.left) {
 		while (i < flags.padding - num_len) {
 			ft_putchar(' ');
