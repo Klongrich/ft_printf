@@ -122,8 +122,9 @@ int	put_formatting_from_flags(long n, int base, t_flags flags) {
 			}
 		} else {
 			if (base == 16) {
-				if (flags.pound)
+				if (flags.pound) {
 					num_len += 2;
+				}
 			} else {
 				if (flags.plus) {
 					if (n > 0) {
@@ -394,11 +395,12 @@ char	get_hex_char_uppercase(int num) {
 
 }
 
-void	put_8bit_hex(unsigned int num, int uppercase, int pound_passed) {
+void	put_8bit_hex(unsigned int num, int uppercase, t_flags flags) {
 	int bits[8];
 	int j;
 	int i;
 	char value[2];
+	int num_len;
 
 	i = 7;
 	j = 0;
@@ -415,11 +417,26 @@ void	put_8bit_hex(unsigned int num, int uppercase, int pound_passed) {
 		value[0] = get_hex_char_uppercase(convert_hex_bits(bits[0], bits[1], bits[2], bits[3]));
 		value[1] = get_hex_char_uppercase(convert_hex_bits(bits[4], bits[5], bits[6], bits[7]));
 	}
-	if (pound_passed)
-		if (num != 0)
-			ft_putstr("0x");
+
+	num_len = 2;
+	put_formatting_from_flags(11, 16, flags);
+	if (flags.pound && flags.left && !flags.zero) {
+		ft_putstr("0x");
+		num_len++;
+		num_len++;
+		num_len++;
+	}
+	if (!flags.left && !flags.padding && !flags.zero && flags.pound) {
+		ft_putstr("0x");
+	}	
 	ft_putchar(value[0]);
 	ft_putchar(value[1]);
+	if (flags.padding != 0 && flags.left) {
+		while (i < flags.padding - num_len) {
+			ft_putchar(' ');
+			i++;
+		}	
+	}
 }
 
 void	put_16bit_hex(unsigned int num, int uppercase) {
@@ -974,9 +991,9 @@ int	ft_printf(char *str, ...) {
 			else if (str[i + 2] == 'o')
 				put_8bit_octal(va_arg(list, unsigned int));
 			else if (str[i + 2] == 'x')
-				put_8bit_hex(va_arg(list, unsigned int), 0, 0);
+				put_8bit_hex(va_arg(list, unsigned int), 0, flags);
 			else if (str[i + 2] == 'X')
-				put_8bit_hex(va_arg(list, unsigned int), 1, 0);
+				put_8bit_hex(va_arg(list, unsigned int), 1, flags);
 			i += 2;
 		}
 		else if (str[i] == 'h') {
