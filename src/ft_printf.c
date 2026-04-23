@@ -879,39 +879,6 @@ int put_float(double f) {
 	return (count);
 }
 
-
-/*
-
-void	print_flags(t_args flags) {
-	printf("pound: %d\n", flags.pound);
-	printf("zero: %d\n", flags.zero);
-	printf("plus: %d\n", flags.plus);
-	printf("left: %d\n", flags.left);
-	printf("space: %d\n", flags.space);
-	printf("ll: %d\n", flags.ll);
-	printf("l: %d\n", flags.l);
-	printf("h: %d\n", flags.h);
-	printf("hh: %d\n", flags.hh);
-}
-
-t_args	init() {
-	t_args v;
-
-	v.pound = 0;
-	v.zero = 0;
-	v.plus = 0;
-	v.left = 0;
-	v.space = 0;
-	v.ll = 0;
-	v.l = 0;
-	v.h = 0;
-	v.hh = 0;
-
-	return (v);
-}
-
-*/
-
 int	check_c(char c) {
 	if (c == 'c')
 		return (1);
