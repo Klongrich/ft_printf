@@ -20,3 +20,6 @@ typedef struct args {
 	int 	plus;
 
 }		t_flags;
+
+void    put_8bit(unsigned int num, int s, t_flags flags);
+int     put_formatting_from_flags(long n, int base, t_flags flags);
