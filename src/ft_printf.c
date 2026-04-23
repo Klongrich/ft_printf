@@ -82,9 +82,7 @@ int	put_number(long n, int base, int is_uppercase, char *buffer) {
 	if (n == 0)
 		return (ft_putchar('0'));
 	else if (n < 0) {
-		//ft_putchar ('-');
 		n = -n;
-		//count++;
 	}
 	if (n >= base)
 		count += put_number(n / base, base, is_uppercase, buffer);
@@ -164,6 +162,77 @@ int	put_formatting_from_flags(long n, int base, t_flags flags) {
 	return (0);
 }
 
+int	put_formatting_from_flags_ull(unsigned long long n, int base, t_flags flags) {
+	int i;
+	int num_len;
+
+	i = 0;
+	num_len = ft_numlen(n);
+	if (flags.zero) {
+		if (base == 16) {
+			if (flags.pound) {
+				if(n != 0) {
+					ft_putchar('0');
+					ft_putchar('x');
+					num_len += 2;
+				}
+			}
+		} else {
+			if (n > 0 && flags.plus && base != 8) {
+				ft_putchar('+');
+				num_len++;
+			}
+			else if (n < 0)
+				ft_putchar('-');
+		}
+	}
+	if (flags.padding != 0 && !flags.left) {
+		if (flags.zero) {
+			while (i < flags.padding - num_len ) {
+				ft_putchar('0');
+				i++;
+			}
+		} else {
+			if (base == 16) {
+				if (flags.pound) {
+					if (n != 0)
+						num_len += 2;
+				}
+			} else {
+				if (flags.plus) {
+					if (n > 0 && base != 8) {
+						ft_putchar('+');
+						num_len++;
+					}
+				}
+			}
+			while (i < flags.padding - num_len) {
+				ft_putchar(' ');
+				i++;
+			}
+
+			if (base == 16) {
+				if (flags.pound)  {
+					if (n != 0) {
+						ft_putchar('0');
+						ft_putchar('x');
+					}
+				}
+			} else {
+				if (flags.plus) {
+					if (n > 0 && base != 8) {
+						ft_putchar('+');
+					} else if (n < 0)
+						ft_putchar('-');
+				}
+			}
+		}	
+	}
+	if (n < 0 && !flags.zero)
+		ft_putchar('-');
+
+	return (0);
+}
 
 int     put_numbers_args(long n, int base, int is_uppercase, t_flags flags) { 
 	int i;
@@ -243,7 +312,7 @@ int	put_number_ll(long long n, int base, int is_uppercase) {
 	if (n == 0)
 		return (ft_putchar('0'));
 	else if (n < 0) {
-		ft_putchar ('-');
+		//ft_putchar ('-');
 		n = -n;
 		count++;
 	}
@@ -251,6 +320,70 @@ int	put_number_ll(long long n, int base, int is_uppercase) {
 		count += put_number_ll(n / base, base, is_uppercase);
 	count += ft_putchar(symbols[n % base]);
 	return (count);
+}
+
+int	put_number_ull(unsigned long long n, int base, int is_uppercase) {
+	int	count;
+	char	*symbols;
+
+	count = 0;
+	if (!is_uppercase)
+		symbols = "0123456789abcdef";
+	else
+		symbols = "0123456789ABCDEF";
+	if (n == 0)
+		return (ft_putchar('0'));
+	else if (n < 0) {
+		//ft_putchar ('-');
+		n = -n;
+		count++;
+	}
+	if (n >= base)
+		count += put_number_ll(n / base, base, is_uppercase);
+	count += ft_putchar(symbols[n % base]);
+	return (count);
+}
+
+int     put_numbers_args_ll(long long n, int base, int is_uppercase, t_flags flags) { 
+	int i;
+	int num_len;
+
+	i = 0;
+	num_len = ft_numlen_ll(n);
+	put_formatting_from_flags(n, base, flags);
+	if (flags.left && flags.plus && base != 8) {
+		ft_putchar('+');
+		num_len++;
+	}	
+	put_number_ll(n, base, is_uppercase);
+	if (flags.padding != 0 && flags.left) {
+		while (i < flags.padding - num_len) {
+			ft_putchar(' ');
+			i++;
+		}	
+	}
+	return (0);
+}
+
+int     put_numbers_args_ull(unsigned long long n, int base, int is_uppercase, t_flags flags) { 
+	int i;
+	int num_len;
+
+	i = 0;
+	num_len = ft_numlen_ll(n);
+	put_formatting_from_flags_ull(n, base, flags);
+	if (flags.left && flags.plus && base != 8) {
+		ft_putchar('+');
+		num_len++;
+	}	
+	put_number_ull(n, base, is_uppercase);
+	if (flags.padding != 0 && flags.left) {
+		while (i < flags.padding - num_len) {
+			ft_putchar(' ');
+			i++;
+		}	
+	}
+	return (0);
 }
 
 
@@ -450,11 +583,12 @@ void	put_8bit_hex(unsigned int num, int uppercase, t_flags flags) {
 	}
 }
 
-void	put_16bit_hex(unsigned int num, int uppercase) {
+void	put_16bit_hex(unsigned int num, int uppercase, t_flags flags) {
 	int bits[16];
 	int j;
 	int i;
 	char value[4];
+	int num_len;
 
 	i = 15;
 	j = 0;
@@ -475,10 +609,36 @@ void	put_16bit_hex(unsigned int num, int uppercase) {
 		value[2] = get_hex_char_uppercase(convert_hex_bits(bits[8], bits[9], bits[10], bits[11]));
 		value[3] = get_hex_char_uppercase(convert_hex_bits(bits[12], bits[13], bits[14], bits[15]));
 	}
-	ft_putchar(value[0]);
-	ft_putchar(value[1]);
-	ft_putchar(value[2]);
-	ft_putchar(value[3]);
+
+	num_len = 4;
+	if (num != 0)
+		put_formatting_from_flags(1111, 16, flags);
+	else
+		put_formatting_from_flags(0, 16, flags);
+	if (flags.pound && flags.left && !flags.zero && num != 0) {
+		ft_putstr("0x");
+		num_len++;
+		num_len++;
+		num_len++;
+	}
+	if (!flags.left && !flags.padding && !flags.zero && flags.pound) {
+		if (num != 0)
+			ft_putstr("0x");
+	}
+	if (num != 0) {	
+		ft_putchar(value[0]);
+		ft_putchar(value[1]);
+		ft_putchar(value[2]);
+		ft_putchar(value[3]);
+	} else {
+		ft_putchar('0');
+	}
+	if (flags.padding != 0 && flags.left) {
+		while (i < flags.padding - num_len) {
+			ft_putchar(' ');
+			i++;
+		}	
+	}
 }
 
 
@@ -515,11 +675,12 @@ void	put_8bit_octal(unsigned int num, t_flags flags) {
 }
 
 
-void	put_16bit_octal(unsigned int num) {
+void	put_16bit_octal(unsigned int num, t_flags flags) {
 	int bits[16];
 	int j;
 	int i;
 	int value;
+	int num_len;
 
 	i = 15;
 	j = 0;
@@ -535,14 +696,25 @@ void	put_16bit_octal(unsigned int num) {
 	value += convert_octal_bits(bits[7], bits[8], bits[9]) * 100;
 	value += convert_octal_bits(bits[10], bits[11], bits[12]) * 10;
 	value += convert_octal_bits(bits[13], bits[14], bits[15]);
-	ft_putnbr(value);
+
+	num_len = ft_numlen(value);
+	put_formatting_from_flags(value, 8, flags);	
+	ft_putnbr_f(value);
+	if (flags.padding != 0 && flags.left) {
+		//check -1
+		while (i < flags.padding - num_len - 1) {
+			ft_putchar(' ');
+			i++;
+		}	
+	}
 }
 
-void	put_16bit(unsigned int num, int s) {
+void	put_16bit(unsigned int num, int s, t_flags flags) {
 	int bits[16];
 	int j;
 	int i;
 	int value;
+	int num_len;
 
 	i = 15;
 	j = 0;
@@ -628,8 +800,18 @@ void	put_16bit(unsigned int num, int s) {
 		}
 		i--;
 		j++;
+	}
+	num_len = ft_numlen(value);
+	put_formatting_from_flags(value, 10, flags);	
+	ft_putnbr_f(value);
+	if (value < 0)
+		num_len++;
+	if (flags.padding != 0 && flags.left) {
+		while (i < flags.padding - num_len) {
+			ft_putchar(' ');
+			i++;
+		}	
 	}	
-	ft_putnbr(value);
 }
 
 void	put_64bit(long long num) {
@@ -914,32 +1096,32 @@ int	ft_printf(char *str, ...) {
 		}
 		else if (str[i] == 'h') {
 			if(str[i + 1] == 'u')
-				put_16bit(va_arg(list, unsigned int), 0);
+				put_16bit(va_arg(list, unsigned int), 0, flags);
 			else if (str[i + 1] == 'd')
-				put_16bit(va_arg(list, int), 1);
+				put_16bit(va_arg(list, int), 1, flags);
 			else if (str[i + 1] == 'i')
-				put_16bit(va_arg(list, int), 1);
+				put_16bit(va_arg(list, int), 1, flags);
 			else if(str[i + 1] == 'o')
-				put_16bit_octal(va_arg(list, unsigned int));
+				put_16bit_octal(va_arg(list, unsigned int), flags);
 			else if(str[i + 1] == 'x')
-				put_16bit_hex(va_arg(list, unsigned int), 0);
+				put_16bit_hex(va_arg(list, unsigned int), 0, flags);
 			else if (str[i + 1] == 'X')
-				put_16bit_hex(va_arg(list, unsigned int), 1);
+				put_16bit_hex(va_arg(list, unsigned int), 1, flags);
 			i += 1;
 		}
 		else if (str[i] == 'l' && str[i + 1] == 'l') {
 			if (str[i + 2] == 'u')
 				put_64bit_ull(va_arg(list, unsigned long long));
 			else if (str[i + 2] == 'd')
-				put_64bit(va_arg(list, long long));
+				put_numbers_args_ll(va_arg(list, long long), 10, 0, flags);
 			else if (str[i + 2] == 'i')
-				put_number_ll(va_arg(list, long long), 10, 0);
+				put_numbers_args_ll(va_arg(list, long long), 10, 0, flags);
 			else if (str[i + 2] == 'o')
-				put_number_ll(va_arg(list, long long), 8, 0);
+				put_numbers_args_ull(va_arg(list, unsigned long long), 8, 0, flags);
 			else if (str[i + 2] == 'x')
-				put_number_ll(va_arg(list, long long), 16, 0);
+				put_numbers_args_ull(va_arg(list, unsigned long long), 16, 0, flags);
 			else if (str[i + 2] == 'X')
-				put_number_ll(va_arg(list, long long), 16, 1);
+				put_numbers_args_ull(va_arg(list, unsigned long long), 16, 1, flags);
 			i += 2;
 		}
 		else if (str[i] == 'l') {
