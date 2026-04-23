@@ -255,6 +255,27 @@ int     put_numbers_args(long n, int base, int is_uppercase, t_flags flags) {
 	return (0);
 }
 
+int     put_numbers_args_u(long n, int base, int is_uppercase, t_flags flags) { 
+	int i;
+	int num_len;
+
+	i = 0;
+	num_len = ft_numlen(n);
+	put_formatting_from_flags(n, base, flags);
+	if (flags.left && flags.plus && base != 8) {
+		ft_putchar('+');
+		num_len++;
+	}
+	putunit_max(n, base);
+	if (flags.padding != 0 && flags.left) {
+		while (i < flags.padding - num_len) {
+			ft_putchar(' ');
+			i++;
+		}	
+	}
+	return (0);
+}
+
 int     put_character_args(char c, t_flags flags) { 
 	int i;
 	int count;
@@ -1087,7 +1108,7 @@ int	ft_printf(char *str, ...) {
 		else if (str[i] == 'p')
 			count += put_pointer(va_arg(list, void*), flags);
 		else if (str[i] == 'u')
-			count += putunit_max(va_arg(list, unsigned int), 10);
+			count += put_numbers_args_u(va_arg(list, unsigned int), 10, 0, flags);
 		else if (str[i] == 'x')
 			count += put_numbers_args(va_arg(list, unsigned int), 16, 0, flags);
 		else if (str[i] == 'X')
