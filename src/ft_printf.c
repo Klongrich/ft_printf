@@ -1008,8 +1008,6 @@ void	put_64bit(long long num) {
 
 
 int put_float(double f) {
-	//32-bit 6 to 9 digits
-	//64-bit 15 to 17 digits
 	int precision;
 	int count;
 	long int_part;
@@ -1027,6 +1025,35 @@ int put_float(double f) {
     	ft_putnbr(int_part);
     	write(1, ".", 1);
     	fraction = f - (double)int_part;
+    	while (precision--) {
+        	fraction *= 10;
+        	digit = (int)fraction;
+        	c = digit + '0';
+        	count += ft_putchar(c);
+       		fraction -= digit;
+    	}
+	return (count);
+}
+
+int put_float_L(long double f) {
+	int precision;
+	int count;
+	long long int_part;
+	long double fraction;
+	int digit;
+	char c;
+
+	count = 0;
+	int_part = (long long)f;
+
+	precision = 6;
+	if (f < 0) {
+		count += ft_putchar('-');
+		f = -f;
+	}
+    	ft_putnbr_ll(int_part);
+    	write(1, ".", 1);
+    	fraction = f - (long double)int_part;
     	while (precision--) {
         	fraction *= 10;
         	digit = (int)fraction;
@@ -1061,6 +1088,8 @@ int	check_c(char c) {
 	if (c == 'h')
 		return (1);
 	if (c == 'l')
+		return (1);
+	if (c == 'L')
 		return (1);
 	return (0);
 }
@@ -1177,6 +1206,11 @@ int	ft_printf(char *str, ...) {
 				put_numbers_args_ull(va_arg(list, unsigned long), 16, 1, flags);
 			else if (str[i + 1] == 'f')
 				put_float(va_arg(list, double));
+			i += 1;
+		} else if (str[i] == 'L') {
+			if (str[i + 1] == 'f') {
+				put_float_L(va_arg(list, long double));
+			}
 			i += 1;
 		}
 		i++;
