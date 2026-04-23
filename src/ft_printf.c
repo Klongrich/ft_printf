@@ -1111,7 +1111,7 @@ int	ft_printf(char *str, ...) {
 		}
 		else if (str[i] == 'l' && str[i + 1] == 'l') {
 			if (str[i + 2] == 'u')
-				put_64bit_ull(va_arg(list, unsigned long long));
+				put_numbers_args_ull(va_arg(list, unsigned long long), 10, 0, flags);
 			else if (str[i + 2] == 'd')
 				put_numbers_args_ll(va_arg(list, long long), 10, 0, flags);
 			else if (str[i + 2] == 'i')
@@ -1126,17 +1126,17 @@ int	ft_printf(char *str, ...) {
 		}
 		else if (str[i] == 'l') {
 			if (str[i + 1] == 'u')
-				put_number(va_arg(list, unsigned long), 10, 0, buffer);
+				put_numbers_args_ull(va_arg(list, unsigned long), 10, 0, flags);
 			else if (str[i + 1] == 'd')
-				put_number(va_arg(list, long), 10, 0, buffer);
+				put_numbers_args_ll(va_arg(list, long), 10, 0, flags);
 			else if (str[i + 1] == 'i')
-				put_number(va_arg(list, long), 10, 0, buffer);
+				put_numbers_args_ll(va_arg(list, long), 10, 0, flags);
 			else if (str[i + 1] == 'o')
-				put_number(va_arg(list, long), 8, 0, buffer);
+				put_numbers_args_ull(va_arg(list, unsigned long), 8, 0, flags);
 			else if (str[i + 1] == 'x')
-				put_number(va_arg(list, long), 16, 0, buffer);
+				put_numbers_args_ull(va_arg(list, unsigned long), 16, 0, flags);
 			else if (str[i + 1] == 'X')
-				put_number(va_arg(list, long), 16, 1, buffer);
+				put_numbers_args_ull(va_arg(list, unsigned long), 16, 1, flags);
 			else if (str[i + 1] == 'f')
 				put_float(va_arg(list, double));
 			i += 1;
