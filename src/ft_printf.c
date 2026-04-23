@@ -482,11 +482,12 @@ void	put_16bit_hex(unsigned int num, int uppercase) {
 }
 
 
-void	put_8bit_octal(unsigned int num) {
+void	put_8bit_octal(unsigned int num, t_flags flags) {
 	int bits[8];
 	int j;
 	int i;
 	int value;
+	int num_len;
 
 	i = 7;
 	j = 0;
@@ -499,7 +500,18 @@ void	put_8bit_octal(unsigned int num) {
 	value += convert_octal_bits(0, bits[0], bits[1]) * 100;
 	value += convert_octal_bits(bits[2], bits[3], bits[4]) * 10;
 	value += convert_octal_bits(bits[5], bits[6], bits[7]);
-	ft_putnbr(value);
+	
+
+	num_len = ft_numlen(value);
+	put_formatting_from_flags(value, 8, flags);	
+	ft_putnbr_f(value);
+	if (flags.padding != 0 && flags.left) {
+		//check -1
+		while (i < flags.padding - num_len - 1) {
+			ft_putchar(' ');
+			i++;
+		}	
+	}
 }
 
 
@@ -893,7 +905,7 @@ int	ft_printf(char *str, ...) {
 			else if (str[i + 2] == 'i')
 				put_8bit(va_arg(list, int), 1, flags);
 			else if (str[i + 2] == 'o')
-				put_8bit_octal(va_arg(list, unsigned int));
+				put_8bit_octal(va_arg(list, unsigned int), flags);
 			else if (str[i + 2] == 'x')
 				put_8bit_hex(va_arg(list, unsigned int), 0, flags);
 			else if (str[i + 2] == 'X')
