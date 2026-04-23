@@ -16,6 +16,7 @@
 # include <unistd.h>
 # include <stdarg.h>
 
+void    				ft_putnbr_ll(long long n);
 int					ft_numlen_ll(long long n);
 int					ft_isalnum(int c);
 int					ft_isalpha(int c);
