@@ -387,16 +387,33 @@ int     put_numbers_args_ull(unsigned long long n, int base, int is_uppercase, t
 }
 
 
-int	put_pointer(void *pointer) {
+int	put_pointer(void *pointer, t_flags flags) {
 	unsigned long long	address;
 	int			count;
+	int			num_len;
+	int			i;
 
+	i = 0;
 	count = 0;
 	address = (unsigned long long) pointer;
+	num_len = ft_numlen_ll(address);
+	num_len--;
+	if (flags.padding != 0 && !flags.left) {
+		while (i < flags.padding - num_len) {
+			count += ft_putchar(' ');
+			i++;
+		}
+	}
 	if (pointer == NULL)
 		ft_putstr("(nil)");
 	ft_putstr("0x");
 	count += putunit_max(address, 16);
+	if (flags.padding != 0 && flags.left) {
+		while (i < flags.padding - num_len) {
+			count += ft_putchar(' ');
+			i++;
+		}
+	}
 	return(count);
 }
 
@@ -1068,7 +1085,7 @@ int	ft_printf(char *str, ...) {
 		else if (str[i] == 's')
 			count += put_string_args(va_arg(list, char*), flags);
 		else if (str[i] == 'p')
-			count += put_pointer(va_arg(list, void*));
+			count += put_pointer(va_arg(list, void*), flags);
 		else if (str[i] == 'u')
 			count += putunit_max(va_arg(list, unsigned int), 10);
 		else if (str[i] == 'x')
