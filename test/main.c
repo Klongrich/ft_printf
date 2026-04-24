@@ -167,6 +167,56 @@ int	main() {
 	//No warnings given
 	//8-bit singed character value values 127 to -128
 	//checking single left align, right align, +, and 0
+	printf("\n----------- CHECKING d --------------\n");
+
+	printf("checking normal value\n");
+	CHECK("%d\n", 12);
+	printf("checking passing value of 123456\n");
+	CHECK("%d\n", 123456);
+
+	/*
+	Values give warning to us %ld, despite undefined behvaior of such, all test do pass
+	printf("Checking min and max value (-2147483648, 2147483647)");
+	CHECK("min: %d - max: %d\n", -2147483648, 2147483647); 
+
+	printf("Checking one under min, one over max hhd (-2147483649, 2147483648)\n");
+	CHECK("%hhd - %d\n", -2147483649, 2147483648);
+	
+	printf("Checking values well under and well over max (-21147483648, 2222147483648)\n");
+	CHECK("%d -  %d\n", -21147483648, 2222147483648);
+	*/
+
+	printf("checking 0\n");
+	CHECK("%d\n", 0);
+
+	printf("Checking + with (0)\n");
+	CHECK("%+d\n", 0);
+	
+	printf("checking right padding d\n");
+	CHECK("%10d - % 10d - %7d - %5d\n", 654, 389237, 49848, 0);
+	printf("checking left padding d\n");
+	CHECK("%-d, %-7d, %-5d - %-3d -\n", 674, 784, 900, 900);
+	printf("checking 0 d\n");
+	CHECK("%08d - %00d - %01d - %023d\n", 784, 837, 9485, 48);
+	printf("checking + d\n");
+	CHECK("%+hhd - %+hhd - %+hhd\n", 784, 837, 674);
+	
+	//0 with right align, left align, and +;
+	printf("checking right padding w/ 0 d\n");
+	CHECK("%02d - %010d - %05d %04d\n", 758, 859, 950, 758);
+	printf("checking + with / 0 hhd\n");
+	CHECK("%+07hhd - %+04hhd - %+01hhd %+010hhd\n", 37834, 2343, 48749, 7849);
+
+	//+ with right align;
+	printf("checking + with right padding\n");
+	CHECK("%+8d - %+2d - %+10d - %+5d\n", 728, 928, 839, 0);
+
+	//+ with left align;
+	printf("checking + with left padding\n");
+	CHECK("%+-8d - %+-2d - %+-10d - %+-8d - %+-4d -\n", 128, 3992, 94849, 23904, 0);
+
+	printf("\n--------- END CHECKING hhd ------------\n");
+
 	printf("\n----------- CHECKING hhd --------------\n");
 
 	printf("checking normal value\n");
@@ -261,6 +311,48 @@ int	main() {
 
 	printf("\n--------- END CHECKING hhi ------------\n");
 
+	//with hext check 0c 40
+	printf("\n----------- CHECKING hhx --------------\n");
+
+	printf("checking normal value\n");
+	CHECK("%hhx\n", 12);
+	printf("checking passing value of 123456\n");
+	CHECK("%hhx\n", 123456);
+
+	printf("Checking min and max value (-128, 127)");
+	CHECK("min: %hhx - max: %hhx\n", -128, 127); 
+
+	printf("Checking one under min, one over max hhd (-129, 128)\n");
+	CHECK("%hhx - %hhx\n", -129, 128);
+	
+	printf("Checking values well under and well over max (-12500, 34560)\n");
+	CHECK("%hhx - %hhx\n", -12500, 34560);
+
+	printf("checking 0\n");
+	CHECK("%hhx\n", 0);
+
+	printf("Checking # with (0)\n");
+	CHECK("%#hhx\n", 0);
+
+	printf("Checking hex value with hhx\n");
+	CHECK("%hhx\n", 0xa0);
+	
+	printf("checking right padding hhx\n");
+	CHECK("%10hhx - %10hhx - %7hhx - %5hhx\n", 654, 389237, 49848, 0);
+	printf("checking left padding hhx\n");
+	CHECK("%-hhx, %-7hhx, %-5hhx - %-3hhx -\n", 674, 784, 900, 900);
+	printf("checking 0 hhx\n");
+	CHECK("%08hhx - %00hhx - %01hhx - %023hhx\n", 784, 837, 9485, 48);
+	
+	printf("checking right padding w/ 0 hhx\n");
+	CHECK("%02hhx - %010hhx - %05hhx - %04hhx\n", 758, 859, 950, 758);
+
+	printf("checking right padding w/ # hhx\n");
+	CHECK("%#10hhx - %#7hhx - %#6hhx - %#5hhx -\n", 474, 238, 0, 9485);
+
+	printf("checking left padding w/ # hhx\n");
+	CHECK("%-#5hhx - %-#hhx - %-#12hhx - %-#5hhx\n", 4848, 754, 9485, 948);
+	printf("\n--------- END CHECKING hhx ------------\n");
 	//0
 	//0+
 
