@@ -606,7 +606,10 @@ void	put_8bit_hex(unsigned int num, int uppercase, t_flags flags) {
 	}
 
 	num_len = 2;
-	if (num != 0)
+	
+	if (value[0] == '0' && value[1] != '0')
+		put_formatting_from_flags(1, 16, flags);
+	else if (num != 0)
 		put_formatting_from_flags(11, 16, flags);
 	else
 		put_formatting_from_flags(0, 16, flags);
@@ -631,6 +634,7 @@ void	put_8bit_hex(unsigned int num, int uppercase, t_flags flags) {
 		}
 	} else {
 		ft_putchar('0');
+		num_len--;
 	}
 	if (flags.padding != 0 && flags.left) {
 		while (i < flags.padding - num_len - 1) {
