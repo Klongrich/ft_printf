@@ -162,18 +162,15 @@ int	main() {
 	printf("\n");
 
 	*/
-	
-	//hh testing with formating
-	//Compiled with warning, not sure if it is a valid test if a waring is given at compile time.
-	//CHECK("%hhs\n", "testing");
-	//CHECK("%hhc\n", 'k');
-
-
 	//Checking hh formating
 
 	//No warnings given
-	// 8-bit singed character value values 127 to -128
+	//8-bit singed character value values 127 to -128
 	//checking single left align, right align, +, and 0
+	printf("\n----------- CHECKING hhd --------------\n");
+
+	printf("checking normal value\n");
+	CHECK("%hhd\n", 12);
 	printf("checking passing value of 123456\n");
 	CHECK("%hhd\n", 123456);
 
@@ -186,10 +183,12 @@ int	main() {
 	printf("Checking values well under and well over max (-12500, 34560)\n");
 	CHECK("%hhd - %hhd\n", -12500, 34560);
 
+	printf("checking 0\n");
+	CHECK("%hhd\n", 0);
+
 	printf("Checking + with (0)\n");
 	CHECK("%+hhd\n", 0);
 	
-
 	printf("checking right padding hhd\n");
 	CHECK("%10hhd - % 10hhd - %7hhd - %5hhd\n", 654, 389237, 49848, 0);
 	printf("checking left padding hhd\n");
@@ -202,9 +201,6 @@ int	main() {
 	//0 with right align, left align, and +;
 	printf("checking right padding w/ 0 hhd\n");
 	CHECK("%02hhd - %010hhd - %05hhd %04hhd\n", 758, 859, 950, 758);
-	//Waring given.
-	//printf("checking left padding w/ 0 hhd\n");
-	//CHECK("%-010hhd - %0-12hhd\n", 47659, 85943);
 	printf("checking + with / 0 hhd\n");
 	CHECK("%+07hhd - %+04hhd - %+01hhd %+010hhd\n", 37834, 2343, 48749, 7849);
 
@@ -216,9 +212,69 @@ int	main() {
 	printf("checking + with left padding\n");
 	CHECK("%+-8hhd - %+-2hhd - %+-10hhd - %+-8hhd - %+-4hhd -\n", 128, 3992, 94849, 23904, 0);
 
+	printf("\n--------- END CHECKING hhd ------------\n");
+
+	printf("\n----------- CHECKING hhi --------------\n");
+
+	printf("checking normal value\n");
+	CHECK("%hhi\n", 12);
+	printf("checking passing value of 123456\n");
+	CHECK("%hhi\n", 123456);
+
+	printf("Checking min and max value (-128, 127)");
+	CHECK("min: %hhi - max: %hhi\n", -128, 127); 
+
+	printf("Checking one under min, one over max hhd (-129, 128)\n");
+	CHECK("%hhi - %hhi\n", -129, 128);
+	
+	printf("Checking values well under and well over max (-12500, 34560)\n");
+	CHECK("%hhi - %hhi\n", -12500, 34560);
+
+	printf("checking 0\n");
+	CHECK("%hhi\n", 0);
+
+	printf("Checking + with (0)\n");
+	CHECK("%+hhi\n", 0);
+	
+	printf("checking right padding hhi\n");
+	CHECK("%10hhi - % 10hhi - %7hhi - %5hhi\n", 654, 389237, 49848, 0);
+	printf("checking left padding hhi\n");
+	CHECK("%-hhi, %-7hhi, %-5hhi - %-3hhi -\n", 674, 784, 900, 900);
+	printf("checking 0 hhi\n");
+	CHECK("%08hhi - %00hhi - %01hhi - %023hhi\n", 784, 837, 9485, 48);
+	printf("checking + hhi\n");
+	CHECK("%+hhi - %+hhi - %+hhi\n", 784, 837, 674);
+	
+	//0 with right align, left align, and +;
+	printf("checking right padding w/ 0 hhi\n");
+	CHECK("%02hhi - %010hhi - %05hhi %04hhi\n", 758, 859, 950, 758);
+	printf("checking + with / 0 hhi\n");
+	CHECK("%+07hhi - %+04hhi - %+01hhd %+010hhi\n", 37834, 2343, 48749, 7849);
+
+	//+ with right align;
+	printf("checking + with right padding\n");
+	CHECK("%+8hhi - %+2hhi - %+10hhi - %+5hhi\n", 728, 928, 839, 0);
+
+	//+ with left align;
+	printf("checking + with left padding\n");
+	CHECK("%+-8hhi - %+-2hhi - %+-10hhi - %+-8hhi - %+-4hhi -\n", 128, 3992, 94849, 23904, 0);
+
+	printf("\n--------- END CHECKING hhi ------------\n");
+
+	//0
+	//0+
+
+	//left
+	//left +
+	
+	//right
+	//right +
+
+	//0, +, left, right, (# doesn't affect d)
 
 	//Layout of all test
 	//Base testing
+	//Check min value / max value/ 0 / normal values / values well under min / values well over min.
 	//0, #, -, +,  , 
 	//c, s, p, o, x, X, d, i, u, f
 	//hho, hhx, hhX, hhd, hhi, hhu
@@ -247,6 +303,10 @@ int	main() {
 	//Any testing paramters that cause a compiler warning are not accounted for.
 	//Instead it is going to default to undefined behavoir. 
 
+	//Figure out how to breakn down testing into subsections with automated tester. 
+	//Use shell scripting with pipng outputs for automatic checks. 
+
+	
 
 	/*
 	CHECK("%s %d\n", "test", 42);
