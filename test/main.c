@@ -161,9 +161,64 @@ int	main() {
 	ft_printf("%#010o more numbers %-5o\n", 345, 500);
 	printf("\n");
 
-	*/	
+	*/
+	
 	//hh testing with formating
-	CHECK("%hhs\n", "testing");
+	//Compiled with warning, not sure if it is a valid test if a waring is given at compile time.
+	//CHECK("%hhs\n", "testing");
+	//CHECK("%hhc\n", 'k');
+
+	//No warnings given
+	//checking single left align, right align, +, and 0
+	CHECK("%hhd\n", 123456);
+	printf("checking right padding hhd\n");
+	CHECK("%10hhd - % 10hhd - %7hhd\n", 654, 389237, 49848);
+	printf("checking left padding hhd\n");
+	CHECK("%-hhd, %-7hhd, %-5hhd - %-3hhd -\n", 674, 784, 900, 900);
+	printf("checking 0 hhd\n");
+	CHECK("%08hhd - %00hhd - %01hhd - %023hhd\n", 784, 837, 9485, 48);
+	printf("checking + hhd\n");
+	CHECK("%+hhd - %+hhd - %+hhd\n", 784, 837, 674);
+	
+	//0 with right align, left align, and +;
+	printf("checking right padding w/ 0 hhd\n");
+	CHECK("%02hhd - %010hhd - %05hhd %04hhd\n", 758, 859, 950, 758);
+	//Waring given.
+	//printf("checking left padding w/ 0 hhd\n");
+	//CHECK("%-010hhd - %0-12hhd\n", 47659, 85943);
+	printf("checking + with / 0 hhd\n");
+	CHECK("%+07hhd - %+04hhd - %+01hhd\n", 37834, 2343, 48749);
+
+
+	//Layout of all test
+	//Base testing
+	//0, #, -, +,  , 
+	//c, s, p, o, x, X, d, i, u, f
+	//hho, hhx, hhX, hhd, hhi, hhu
+	//ho, hx, hX, hd, hi, hu
+	//lo, lx, lX, ld, li, lu, lf
+	//llo, llx, llX, lld, lli, llu,
+	//Lf
+
+	//combined paramter testing (0, -, +, , #);
+	//0o, 0x, 0x, 0X, 0d, 0i, 0u, 0f
+	//#0x, #0X, #0f
+	//0 o, 0 x, 0 X, 0 d, 0 i, 0 u, 0 f
+	//#0 x, #0 X, #0 f
+	//+0o, +0x, +0X, +0d, +0i, +0u, +0f
+	//+#0x, +#0X, +#0f
+	//+0 o, +0 x, +0 X, +0 d, +0 i, +0 u, +0 f;
+	//+#0 x, +#0 X, +0# f
+
+	//Add # acccount for adding strings	
+	//0hho, 0hhx, 0hhx, 0hhX, 0hhd, 0hhi, 0hh
+        //0 hho, 0 hhx, 0 hhX, 0 hhd, 0 hhi, 0 hhu
+        //+0hho, +0hhx, +0hhX, +0hhd, +0hhi, +0hhu
+        //+0 hho, +0 hhx, +0 hhX, +0 hhd, +0 hhi, +0 hhu
+
+
+	//Any testing paramters that cause a compiler warning are not accounted for.
+	//Instead it is going to default to undefined behavoir. 
 
 
 	/*
