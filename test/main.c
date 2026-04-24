@@ -24,6 +24,7 @@ int	main() {
 	str = "testing";
 	num = 42;
 
+	/*
 	printf("no paramters passed\n");
 	ft_printf("Testing STR\n");
 
@@ -160,6 +161,12 @@ int	main() {
 	ft_printf("%#010o more numbers %-5o\n", 345, 500);
 	printf("\n");
 
+	*/	
+	//hh testing with formating
+	CHECK("%hhs\n", "testing");
+
+
+	/*
 	CHECK("%s %d\n", "test", 42);
 	CHECK("%10s more testing %+010d\n", "another", 700);
 	CHECK("%010hhu - %+-5hhd - %10hhi\n", 2345, 484, 8948);
@@ -167,15 +174,27 @@ int	main() {
 	CHECK("%#010hhx - %-#7hhx - %#+5hhx - %0-#5hhx\n", 1290, 388, 475, 838);
 	CHECK("%#-10hhx - %-#7hhx %#+10hhx - %10hhx \n", 8490, 892, 0, 0);
 	CHECK("%-#8hhx - %--+##hhx\n", 0, 0);
+	
 	CHECK("%010o - %o - %-+7o - %+12o\n", 155, 2376, 293, 2839);
+	
 	CHECK("%010hho - %hho - %7hho - %+-12hho -\n", 155, 2376, 293, 2839);
 	CHECK("%010hho - %-09hho - %-7hho - %+-12hho -\n", 15345, 234376, 29343, 2839);
 	CHECK("%010hho - %09hho - %7hho - %+12hho -\n", 15345, 234376, 29343, 2839);
+	
 	CHECK("%010hd - %+07hd - %#-2hd - %10hd\n", 7484, 8493, 92833, 95809);
+	
 	CHECK("%010hx - %+07hx - %#-2hx - %10hx\n", 7484, 8493, 92833, 95809);
 	CHECK("%010hX - %+07hX - %#-2hX - %10hX\n", 7484, 8493, 92833, 95809);
+	
 	CHECK("%07lld - %+04lld - %-5lld\n", 9837523809280433355ULL, 748474, 92893);
+	
 	CHECK("%07llo - %+04llo - %-5llo\n", 9837523809280433355ULL, 748474, 92893); 
 	
+
+	CHECK("%20p - %-25p -\n", &num, &c);
+	CHECK("%Lf\n", 40858.49494949494L);
+	CHECK("%f\n", 434.23);
+	CHECK("%Lf\n", 76855568958559.868595L);
+	*/
 	return(0);
 }
