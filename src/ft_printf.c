@@ -114,6 +114,12 @@ int	put_formatting_from_flags(long n, int base, t_flags flags) {
 				ft_putchar('-');
 		}
 	}
+	if (flags.padding == 0 && base != 16) {
+			if (flags.plus && n > 0) {
+				ft_putchar('+');
+				num_len++;
+			}
+	}
 	if (flags.padding != 0 && !flags.left) {
 		if (flags.zero) {
 			while (i < flags.padding - num_len ) {
@@ -1161,6 +1167,8 @@ int	ft_printf(char *str, ...) {
 				put_8bit_hex(va_arg(list, unsigned int), 1, flags);
 			else if (str[i + 2] == 's')
 				count += put_string_args(va_arg(list, char*), flags);
+			else if (str[i + 2] == 'c')
+				 count +=  put_character_args(va_arg(list, int), flags);
 			i += 2;
 		}
 		else if (str[i] == 'h') {
