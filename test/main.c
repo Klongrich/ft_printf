@@ -353,6 +353,13 @@ int	main() {
 	printf("checking left padding w/ # hhx\n");
 	CHECK("%-#5hhx - %-#hhx - %-#12hhx - %-#5hhx\n", 4848, 754, 0, 948);
 	printf("\n--------- END CHECKING hhx ------------\n");
+
+	printf("checking hx\n");
+	CHECK("%hx - %hx - %hx - %hx\n", 0xffaa, 0x0faa, 0x00aa, 0x000a);
+	
+	printf ("checking x\n");
+	CHECK("%x - %x - %x - %x - %x - %x\n", 0xfabcf, 0x0fbca, 0x00bbf, 0x000fa, 0x0000b);
+
 	//0
 	//0+
 
