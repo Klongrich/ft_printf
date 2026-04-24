@@ -60,11 +60,9 @@ void	put_8bit(unsigned int num, int s, t_flags flags) {
 		i--;
 		j++;
 	}
-	num_len = ft_numlen(value);
+	num_len = ft_numlen(value) + 1;
 	put_formatting_from_flags(value, 10, flags);	
 	ft_putnbr_f(value);
-	if (value < 0)
-		num_len++;
 	if (flags.padding != 0 && flags.left) {
 		while (i < flags.padding - num_len) {
 			ft_putchar(' ');
