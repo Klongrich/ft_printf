@@ -604,6 +604,7 @@ void	put_8bit_hex(unsigned int num, int uppercase, t_flags flags) {
 		value[0] = get_hex_char_uppercase(convert_hex_bits(bits[0], bits[1], bits[2], bits[3]));
 		value[1] = get_hex_char_uppercase(convert_hex_bits(bits[4], bits[5], bits[6], bits[7]));
 	}
+
 	num_len = 2;
 	if (num != 0)
 		put_formatting_from_flags(11, 16, flags);
@@ -613,20 +614,26 @@ void	put_8bit_hex(unsigned int num, int uppercase, t_flags flags) {
 		ft_putstr("0x");
 		num_len++;
 		num_len++;
-		num_len++;
 	}
 	if (!flags.left && !flags.padding && !flags.zero && flags.pound) {
-		if (num != 0)
+		if (num != 0) 
 			ft_putstr("0x");
 	}
 	if (num != 0) {	
-		ft_putchar(value[0]);
-		ft_putchar(value[1]);
+		if (value[0] == '0' && value[1] == '0')
+			ft_putchar('0');
+		else {
+			if (value[0] != '0')
+				ft_putchar(value[0]);
+			else
+				num_len--;
+			ft_putchar(value[1]);
+		}
 	} else {
 		ft_putchar('0');
 	}
 	if (flags.padding != 0 && flags.left) {
-		while (i < flags.padding - num_len) {
+		while (i < flags.padding - num_len - 1) {
 			ft_putchar(' ');
 			i++;
 		}	
