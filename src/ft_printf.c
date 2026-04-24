@@ -686,10 +686,19 @@ void	put_16bit_hex(unsigned int num, int uppercase, t_flags flags) {
 		if (num != 0)
 			ft_putstr("0x");
 	}
-	if (num != 0) {	
-		ft_putchar(value[0]);
-		ft_putchar(value[1]);
-		ft_putchar(value[2]);
+	if (num != 0) {
+		if (value[0] != '0') 
+			ft_putchar(value[0]);
+		else 
+			num_len--;
+		if (value[1] != '0')
+			ft_putchar(value[1]);
+		else
+			num_len--;
+		if (value[2] != '0')
+			ft_putchar(value[2]);
+		else
+			num_len--;
 		ft_putchar(value[3]);
 	} else {
 		ft_putchar('0');
