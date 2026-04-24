@@ -115,7 +115,7 @@ int	put_formatting_from_flags(long n, int base, t_flags flags) {
 		}
 	}
 	if (flags.padding == 0 && base != 16) {
-			if (flags.plus && n > 0) {
+			if (flags.plus && n >= 0) {
 				ft_putchar('+');
 				num_len++;
 			}
@@ -134,12 +134,14 @@ int	put_formatting_from_flags(long n, int base, t_flags flags) {
 				}
 			} else {
 				if (flags.plus) {
-					if (n > 0 && base != 8) {
-						ft_putchar('+');
+					if (n >= 0 && base != 8) {
+						if (!flags.padding)
+							ft_putchar('+');
 						num_len++;
 					}
 				}
 			}
+
 			while (i < flags.padding - num_len) {
 				ft_putchar(' ');
 				i++;
@@ -153,8 +155,11 @@ int	put_formatting_from_flags(long n, int base, t_flags flags) {
 					}
 				}
 			} else {
+				if (n < 0 && !flags.plus) {
+					ft_putchar('-');
+				}
 				if (flags.plus) {
-					if (n > 0 && base != 8) {
+					if (n >= 0 && base != 8) {
 						ft_putchar('+');
 					} else if (n < 0)
 						ft_putchar('-');
@@ -162,8 +167,9 @@ int	put_formatting_from_flags(long n, int base, t_flags flags) {
 			}
 		}	
 	}
-	if (n < 0 && !flags.zero)
+	if (n < 0 && !flags.zero && !flags.padding) {
 		ft_putchar('-');
+	}
 
 	return (0);
 }
