@@ -650,9 +650,11 @@ void	put_16bit_hex(unsigned int num, int uppercase, t_flags flags) {
 	int i;
 	char value[4];
 	int num_len;
+	int padding_value;
 
 	i = 15;
 	j = 0;
+	padding_value = 1111;
 	while (i > -1) {
 		bits[j] = (num >> i) & 1;
 		i--;
@@ -672,8 +674,17 @@ void	put_16bit_hex(unsigned int num, int uppercase, t_flags flags) {
 	}
 
 	num_len = 4;
+	if (value[0] == '0' && value[1] != '0') {
+		padding_value /= 10;
+	}
+	else if (value[0] == '0' && value[1] == '0' && value[2] != '0') {
+		padding_value /= 100;
+	}
+	else if (value[0] == '0' && value[1] == '0' && value[2] == '0' && value[3] != '0') {
+		padding_value /= 1000;
+	}
 	if (num != 0)
-		put_formatting_from_flags(1111, 16, flags);
+		put_formatting_from_flags(padding_value, 16, flags);
 	else
 		put_formatting_from_flags(0, 16, flags);
 	if (flags.pound && flags.left && !flags.zero && num != 0) {
@@ -687,24 +698,32 @@ void	put_16bit_hex(unsigned int num, int uppercase, t_flags flags) {
 			ft_putstr("0x");
 	}
 	if (num != 0) {
-		if (value[0] != '0') 
-			ft_putchar(value[0]);
-		else 
-			num_len--;
-		if (value[1] != '0')
+		if (value[0] == '0' && value[1] != '0') {
 			ft_putchar(value[1]);
-		else
-			num_len--;
-		if (value[2] != '0')
 			ft_putchar(value[2]);
-		else
+			ft_putchar(value[3]);
 			num_len--;
-		ft_putchar(value[3]);
+		}
+		else if (value[0] == '0' && value[1] == '0' && value[2] != '0') {
+			ft_putchar(value[2]);
+			ft_putchar(value[3]);
+			num_len -= 2;
+		}
+		else if (value[0] == '0' && value[1] == '0' && value[2] == '0' && value[3] != '0') {
+			ft_putchar(value[3]);
+			num_len -= 3;
+		} else {
+			ft_putchar(value[0]);
+			ft_putchar(value[1]);
+			ft_putchar(value[2]);
+			ft_putchar(value[3]);
+		}
 	} else {
 		ft_putchar('0');
+		num_len -= 3;
 	}
 	if (flags.padding != 0 && flags.left) {
-		while (i < flags.padding - num_len) {
+		while (i < flags.padding - num_len - 1) {
 			ft_putchar(' ');
 			i++;
 		}	
