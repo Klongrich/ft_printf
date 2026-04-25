@@ -114,8 +114,10 @@ int	put_formatting_from_flags(long n, int base, t_flags flags) {
 	int num_len;
 
 	i = 0;
-	if (base == 17)
+	if (base == 17) {
  		num_len = ft_numlen_hex(n);
+		base = 16;
+	}
 	else
 		num_len = ft_numlen(n);
 	if (flags.zero) {
