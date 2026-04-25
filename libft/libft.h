@@ -16,6 +16,10 @@
 # include <unistd.h>
 # include <stdarg.h>
 
+int     				ft_putnumber_ull(unsigned long long n, unsigned int base);
+int     				ft_putnumber(long long n, int base);
+void    				ft_putnbr_u(unsigned int n);
+void    				ft_putnbr_sc(signed char n);
 void    				ft_putnbr_ll(long long n);
 int					ft_numlen_ll(long long n);
 int					ft_isalnum(int c);
@@ -60,7 +64,7 @@ int				ft_putchar(char c);
 void				ft_putstr(char const *s);
 void				ft_putendl(char const *s);
 void				ft_putendl_fd(char const *s, int fd);
-void				ft_putnbr(int n);
+void				ft_putnbr(long long n);
 void                            ft_putnbr_f(int n);
 void				ft_putchar_fd(char c, int fd);
 void				ft_putstr_fd(char const *s, int fd);

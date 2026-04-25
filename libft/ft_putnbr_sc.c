@@ -12,11 +12,11 @@
 
 #include "libft.h"
 
-void	ft_putnbr(long long  n)
+void	ft_putnbr_sc(signed char n)
 {
-	long long  num;
+	signed char num;
 
-	num = (long long)n;
+	num = n;
 	if (num < 0)
 	{
 		ft_putchar('-');
