@@ -442,6 +442,9 @@ int	main() {
 
 	printf("checking left padding w/ # x\n");
 	CHECK("%-#5x - %-#x - %-#12x - %-#5x\n", 4848, 754, 0, 948);
+
+	printf("checking right padding w/ # w/ 0 x\n");
+	CHECK("%#010x - %#012x - %#03x - %#07x\n", 847, 9484, 0, 848);
 	printf("\n--------- END CHECKING x ------------\n");
 	
 	long long check;
@@ -510,7 +513,8 @@ int	main() {
 
 	ft_putchar('\n');
 	ft_putchar('\n');
-	CHECK("\n %hhd - %hhx - %hho - %hu - %d -  %u - %ld\n", check, check, check, check, check, check, check, check);
+	CHECK("\n %hhd - %hhi - %hho - %hu - %d -  %u - %ld\n", -55, 110, check, check, check, check, check, check);
+	
 	
 	//0
 	//0+
