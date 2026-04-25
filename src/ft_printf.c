@@ -144,6 +144,10 @@ int	put_formatting_from_flags(long n, int base, t_flags flags) {
 				num_len++;
 			}
 	}
+	if (flags.padding == 0 && flags.space) {
+		if (n > 0)
+			ft_putchar(' ');
+	}
 	if (flags.padding != 0 && !flags.left) {
 		if (flags.zero) {
 			while (i < flags.padding - num_len ) {
@@ -165,7 +169,6 @@ int	put_formatting_from_flags(long n, int base, t_flags flags) {
 					}
 				}
 			}
-
 			while (i < flags.padding - num_len) {
 				ft_putchar(' ');
 				i++;
