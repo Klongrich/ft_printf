@@ -167,24 +167,42 @@ int	main() {
 	//No warnings given
 	//8-bit singed character value values 127 to -128
 	//checking single left align, right align, +, and 0
+	printf("\n----------- CHECKING c --------------\n");
+
+	printf("checking normal value\n");
+	CHECK("%c\n", 'c');
+
+	printf("checking 0\n");
+	CHECK("%c\n", 0);
+
+	printf("checking right padding\n");
+	CHECK("%10c - %7c - %3c - %7c\n", 'k', 0, 'l', 'z');
+
+	printf("checking left padding\n");
+	CHECK("%-8c - %-4c - %-4c -  %-3c\n", 'y', 'u', 0, 'p');
+	printf("\n--------- END CHECKING c ------------\n");	
+
+	printf("\n----------- CHECKING s --------------\n");
+
+	printf("checking normal value\n");
+	CHECK("%s\n", "checking");
+
+	printf("checking NULL\n");
+	CHECK("%s\n", NULL);
+
+	printf("checking right padding\n");
+	CHECK("%10s - %7s - %3s - %7s\n", "testing", NULL, "words", "Kalsdkj");
+
+	printf("checking left padding\n");
+	CHECK("%-8s - %-4s - %-4s -  %-3s\n", "asldfj", "words", NULL, "more words");
+	printf("\n--------- END CHECKING s ------------\n");
+
 	printf("\n----------- CHECKING d --------------\n");
 
 	printf("checking normal value\n");
 	CHECK("%d\n", 12);
 	printf("checking passing value of 123456\n");
 	CHECK("%d\n", 123456);
-
-	/*
-	Values give warning to us %ld, despite undefined behvaior of such, all test do pass
-	printf("Checking min and max value (-2147483648, 2147483647)");
-	CHECK("min: %d - max: %d\n", -2147483648, 2147483647); 
-
-	printf("Checking one under min, one over max hhd (-2147483649, 2147483648)\n");
-	CHECK("%hhd - %d\n", -2147483649, 2147483648);
-	
-	printf("Checking values well under and well over max (-21147483648, 2222147483648)\n");
-	CHECK("%d -  %d\n", -21147483648, 2222147483648);
-	*/
 
 	printf("checking 0\n");
 	CHECK("%d\n", 0);
@@ -217,6 +235,7 @@ int	main() {
 
 	printf("\n--------- END CHECKING hhd ------------\n");
 
+	
 	printf("\n----------- CHECKING hhd --------------\n");
 
 	printf("checking normal value\n");
