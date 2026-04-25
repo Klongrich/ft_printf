@@ -394,6 +394,9 @@ int	main() {
 
 	printf("checking left padding w/ # hx\n");
 	CHECK("%-#5hx - %-#hx - %-#12hx - %-#5hx\n", 4848, 754, 0, 948);
+
+        printf("checking right padding w/ # w/ 0 x\n");
+        CHECK("%#010x - %#012x - %#03x - %#07x\n", 847, 9484, 0, 848);
 	printf("\n--------- END CHECKING hhx ------------\n");
 
 	printf("checking hx\n");
