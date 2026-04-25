@@ -443,6 +443,75 @@ int	main() {
 	printf("checking left padding w/ # x\n");
 	CHECK("%-#5x - %-#x - %-#12x - %-#5x\n", 4848, 754, 0, 948);
 	printf("\n--------- END CHECKING x ------------\n");
+	
+	long long check;
+
+	check = 18446744073709551615;
+
+
+	ft_putchar('\n');
+	ft_putnbr((signed char)check);
+	ft_putchar('\n');
+	ft_putnbr((unsigned char)check);
+	ft_putchar('\n');	
+	ft_putnbr((signed short)check);
+	ft_putchar('\n');
+	ft_putnbr((unsigned short)check);
+	ft_putchar('\n');
+	ft_putnbr((signed int)check);
+	ft_putchar('\n');
+	ft_putnbr((unsigned int)check);
+	ft_putchar('\n');	
+	ft_putnbr((signed long)check);
+
+	ft_putchar('\n');
+	ft_putchar('\n');
+	
+	ft_putnumber((signed char)check, 10);
+	ft_putchar('\n');
+	ft_putnumber((unsigned char)check, 10);
+	ft_putchar('\n');
+	ft_putnumber((unsigned char)check, 8);
+	ft_putchar('\n');
+	ft_putnumber((unsigned char)check, 16);	
+
+	ft_putchar('\n');
+	ft_putchar('\n');
+	
+	ft_putnumber((signed short)check, 10);
+	ft_putchar('\n');
+	ft_putnumber((unsigned short)check, 10);
+	ft_putchar('\n');
+	ft_putnumber((unsigned short)check, 8);
+	ft_putchar('\n');
+	ft_putnumber((unsigned short)check, 16);	
+	
+	ft_putchar('\n');
+	ft_putchar('\n');
+	
+	ft_putnumber((signed int)check, 10);
+	ft_putchar('\n');
+	ft_putnumber((unsigned int)check, 10);
+	ft_putchar('\n');
+	ft_putnumber((unsigned int)check, 8);
+	ft_putchar('\n');
+	ft_putnumber((unsigned int)check, 16);	
+
+	ft_putchar('\n');
+	ft_putchar('\n');
+	
+	ft_putnumber((signed long long)check, 10);
+	ft_putchar('\n');
+	ft_putnumber_ull((unsigned long long)check, 10);
+	ft_putchar('\n');
+	ft_putnumber_ull((unsigned long long)check, 8);
+	ft_putchar('\n');
+	ft_putnumber_ull((unsigned long long)check, 16);	
+
+	ft_putchar('\n');
+	ft_putchar('\n');
+	CHECK("\n %hhd - %hhx - %hho - %hu - %d -  %u - %ld\n", check, check, check, check, check, check, check, check);
+	
 	//0
 	//0+
 
