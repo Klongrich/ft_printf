@@ -348,14 +348,21 @@ int     put_string_args(char *str, t_flags flags) {
 	int str_len;
 
 	i = 0;
-	str_len = ft_strlen(str);
+	count = 0;
+	if (str == NULL)
+		str_len = 6;
+ 	else
+		str_len = ft_strlen(str);
 	if (flags.padding != 0 && !flags.left) {
 		while (i < flags.padding - str_len) {
 			count += ft_putchar(' ');
 			i++;
 		}
 	}
-	ft_putstr(str);
+	if (str == NULL)
+		ft_putstr("(null)");
+	else
+		ft_putstr(str);
 	if (flags.padding != 0 && flags.left) {
 		while (i < flags.padding - str_len) {
 			count += ft_putchar(' ');
