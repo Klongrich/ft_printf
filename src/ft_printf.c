@@ -862,11 +862,12 @@ void	put_16bit(unsigned int num, int s, t_flags flags) {
 			case 15:
 				if (bits[j] == 1) {
 					if (s) {
-						value -= 32728;
+						value -= 32768;
 					} else {
 						value += 32768;
 					}
 				}
+				break;
 			case 14:
 				if (bits[j] == 1)
 					value +=  16384;
