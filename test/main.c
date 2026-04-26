@@ -233,7 +233,20 @@ int	main() {
 	printf("checking + with left padding\n");
 	CHECK("%+-8d - %+-2d - %+-10d - %+-8d - %+-4d -\n", 128, 3992, 94849, 23904, 0);
 
-	printf("\n--------- END CHECKING hhd ------------\n");
+	printf("checking negative values with flags\n");
+	CHECK("%05d\n", -42);
+	CHECK("%+d\n", -42);
+	CHECK("% d\n", 42);
+	CHECK("% d\n", -42);
+
+	printf("checking flag conflicts\n");
+	CHECK("%-05d\n", 42);  // '-' wins over '0'
+	CHECK("%+ d\n", 42);   // '+' wins over ' '
+
+	printf("checking limits\n");
+	CHECK("%d\n", -2147483648);
+	CHECK("%015d\n", -2147483648);
+	printf("\n--------- END CHECKING d ------------\n");
 
 	
 	printf("\n----------- CHECKING hhd --------------\n");
@@ -468,7 +481,7 @@ int	main() {
 	printf("checking right padding w/ # w/ 0 x\n");
 	CHECK("%#010x - %#012x - %#03x - %#07x\n", 847, 9484, 0, 848);
 	printf("\n--------- END CHECKING x ------------\n");
-	
+	CHECK("% d\n", 0);	
 	long long check;
 
 	check = 18446744073709551615;
@@ -535,9 +548,9 @@ int	main() {
 
 	ft_putchar('\n');
 	ft_putchar('\n');
-	CHECK("\n %hhd - %hhi - %hho - %hu - %d -  %u - %ld\n", -55, 110, check, check, check, check, check, check);
-	
-	
+	//CHECK("\n %hhd - %hhi - %ho - %hu - %d -  %u - %ld\n", -55, 110, check, check, check, check, check, check);
+	CHECK("%hd - %hi - %hu - %hx - %hX - %ho\n", check, check, check, check, check, check);
+	CHECK("%hhd - %hhi - %hhu - %hhx - %hhX - %hho\n", check, check, check, check, check, check);
 	//0
 	//0+
 
