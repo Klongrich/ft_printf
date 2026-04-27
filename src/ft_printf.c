@@ -109,11 +109,15 @@ int             ft_numlen_hex(int n) {
          return (i);
 }
 
-int	put_formatting_from_flags(long n, int base, t_flags flags) {
+int	put_formatting_from_flags(long n, int base, t_flags flags, int is_signed) {
 	int i;
 	int num_len;
 
+	
 	i = 0;
+	if (is_signed) {
+		flags.plus = 0;
+	}
 	if (base == 17) {
  		num_len = ft_numlen_hex(n);
 		base = 16;
@@ -279,7 +283,11 @@ int     put_numbers_args(long n, int base, int is_uppercase, t_flags flags) {
 
 	i = 0;
 	num_len = ft_numlen(n);
-	put_formatting_from_flags(n, base, flags);
+
+	if (base == 8 || base == 16)
+		put_formatting_from_flags(n, base, flags, 1);
+	else
+		put_formatting_from_flags(n, base, flags, 0);
 	if (base == 17)
 		base = 16;
 	if (flags.left && flags.plus && base != 8) {
@@ -308,11 +316,7 @@ int     put_numbers_args_u(long n, int base, int is_uppercase, t_flags flags) {
 
 	i = 0;
 	num_len = ft_numlen(n);
-	put_formatting_from_flags(n, base, flags);
-	if (flags.left && flags.plus && base != 8) {
-		ft_putchar('+');
-		num_len++;
-	}
+	put_formatting_from_flags(n, base, flags, 1);
 	putunit_max(n, base);
 	if (flags.padding != 0 && flags.left) {
 		while (i < flags.padding - num_len) {
@@ -425,7 +429,10 @@ int     put_numbers_args_ll(long long n, int base, int is_uppercase, t_flags fla
 
 	i = 0;
 	num_len = ft_numlen_ll(n);
-	put_formatting_from_flags(n, base, flags);
+	if (base == 8 || base == 16)
+		put_formatting_from_flags(n, base, flags, 1);
+	else
+		put_formatting_from_flags(n, base, flags, 0);
 	if (flags.left && flags.plus && base != 8) {
 		ft_putchar('+');
 		num_len++;
@@ -650,11 +657,11 @@ void	put_8bit_hex(unsigned int num, int uppercase, t_flags flags) {
 	num_len = 2;
 	
 	if (value[0] == '0' && value[1] != '0')
-		put_formatting_from_flags(1, 16, flags);
+		put_formatting_from_flags(1, 16, flags, 1);
 	else if (num != 0)
-		put_formatting_from_flags(11, 16, flags);
+		put_formatting_from_flags(11, 16, flags, 1);
 	else
-		put_formatting_from_flags(0, 16, flags);
+		put_formatting_from_flags(0, 16, flags, 1);
 	if (flags.pound && flags.left && !flags.zero && num != 0) {
 		ft_putstr("0x");
 		num_len++;
@@ -726,9 +733,9 @@ void	put_16bit_hex(unsigned int num, int uppercase, t_flags flags) {
 		padding_value /= 1000;
 	}
 	if (num != 0)
-		put_formatting_from_flags(padding_value, 16, flags);
+		put_formatting_from_flags(padding_value, 16, flags, 1);
 	else
-		put_formatting_from_flags(0, 16, flags);
+		put_formatting_from_flags(0, 16, flags, 1);
 	if (flags.pound && flags.left && !flags.zero && num != 0) {
 		ft_putstr("0x");
 		num_len++;
@@ -794,7 +801,7 @@ void	put_8bit_octal(unsigned int num, t_flags flags) {
 	
 
 	num_len = ft_numlen(value);
-	put_formatting_from_flags(value, 8, flags);	
+	put_formatting_from_flags(value, 8, flags, 1);	
 	ft_putnbr_f(value);
 	if (flags.padding != 0 && flags.left) {
 		//check -1
@@ -829,7 +836,7 @@ void	put_16bit_octal(unsigned int num, t_flags flags) {
 	value += convert_octal_bits(bits[13], bits[14], bits[15]);
 
 	num_len = ft_numlen(value);
-	put_formatting_from_flags(value, 8, flags);	
+	put_formatting_from_flags(value, 8, flags, 1);	
 	ft_putnbr_f(value);
 	if (flags.padding != 0 && flags.left) {
 		//check -1
@@ -934,7 +941,10 @@ void	put_16bit(unsigned int num, int s, t_flags flags) {
 		j++;
 	}
 	num_len = ft_numlen(value);
-	put_formatting_from_flags(value, 10, flags);	
+	if (s)
+		put_formatting_from_flags(value, 10, flags, 1);
+	else
+		put_formatting_from_flags(value, 10, flags, 0);	
 	ft_putnbr_f(value);
 	if (value < 0)
 		num_len++;
