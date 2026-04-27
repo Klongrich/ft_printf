@@ -195,6 +195,13 @@ int	main() {
 
 	printf("checking left padding\n");
 	CHECK("%-8s - %-4s - %-4s -  %-3s\n", "asldfj", "words", NULL, "more words");
+	CHECK("empty: %s\n", "");
+	CHECK("%0s\n", "hello");
+	CHECK("%2s\n", "hello");
+	CHECK("%10s\n", NULL);
+	CHECK("%-10s\n", NULL);
+
+
 	printf("\n--------- END CHECKING s ------------\n");
 
 	printf("\n----------- CHECKING d --------------\n");
@@ -217,13 +224,13 @@ int	main() {
 	printf("checking 0 d\n");
 	CHECK("%08d - %00d - %01d - %023d\n", 784, 837, 9485, 48);
 	printf("checking + d\n");
-	CHECK("%+hhd - %+hhd - %+hhd\n", 784, 837, 674);
+	CHECK("%+d - %+d - %+d\n", 784, 837, 674);
 	
 	//0 with right align, left align, and +;
 	printf("checking right padding w/ 0 d\n");
 	CHECK("%02d - %010d - %05d %04d\n", 758, 859, 950, 758);
-	printf("checking + with / 0 hhd\n");
-	CHECK("%+07hhd - %+04hhd - %+01hhd %+010hhd\n", 37834, 2343, 48749, 7849);
+	printf("checking + with / 0 d\n");
+	CHECK("%+07d - %+04d - %+01d %+010d\n", 37834, 2343, 48749, 7849);
 
 	//+ with right align;
 	printf("checking + with right padding\n");
@@ -248,6 +255,56 @@ int	main() {
 	CHECK("%015d\n", -2147483648);
 	printf("\n--------- END CHECKING d ------------\n");
 
+	printf("\n----------- CHECKING i --------------\n");
+
+	printf("checking normal value\n");
+	CHECK("%i\n", 12);
+	printf("checking passing value of 123456\n");
+	CHECK("%i\n", 123456);
+
+	printf("checking 0\n");
+	CHECK("%i\n", 0);
+
+	printf("Checking + with (0)\n");
+	CHECK("%+i\n", 0);
+	
+	printf("checking right padding i\n");
+	CHECK("%10i - % 10i - %7i - %5i\n", 654, 389237, 49848, 0);
+	printf("checking left padding i\n");
+	CHECK("%-i, %-7i, %-5i - %-3i -\n", 674, 784, 900, 900);
+	printf("checking 0 i\n");
+	CHECK("%08i - %00i - %01i - %023i\n", 784, 837, 9485, 48);
+	printf("checking + i\n");
+	CHECK("%+i - %+i - %+i\n", 784, 837, 674);
+	
+	//0 with right align, left align, and +;
+	printf("checking right padding w/ 0 i\n");
+	CHECK("%02i - %010i - %05i %04i\n", 758, 859, 950, 758);
+	printf("checking + with / 0 i\n");
+	CHECK("%+07i - %+04i - %+01i %+010i\n", 37834, 2343, 48749, 7849);
+
+	//+ with right align;
+	printf("checking + with right padding\n");
+	CHECK("%+8i - %+2i - %+10i - %+5i\n", 728, 928, 839, 0);
+
+	//+ with left align;
+	printf("checking + with left padding\n");
+	CHECK("%+-8i - %+-2i - %+-10i - %+-8i - %+-4i -\n", 128, 3992, 94849, 23904, 0);
+
+	printf("checking negative values with flags\n");
+	CHECK("%05i\n", -42);
+	CHECK("%+i\n", -42);
+	CHECK("% i\n", 42);
+	CHECK("% i\n", -42);
+
+	printf("checking flag conflicts\n");
+	CHECK("%-0id\n", 42);  // '-' wins over '0'
+	CHECK("%+ i\n", 42);   // '+' wins over ' '
+
+	printf("checking limits\n");
+	CHECK("%i\n", -2147483648);
+	CHECK("%015i\n", -2147483648);
+	printf("\n--------- END CHECKING i ------------\n");
 	
 	printf("\n----------- CHECKING hhd --------------\n");
 
