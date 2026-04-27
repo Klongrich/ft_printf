@@ -145,7 +145,7 @@ int	put_formatting_from_flags(long n, int base, t_flags flags) {
 			}
 	}
 	if (flags.padding == 0 && flags.space) {
-		if (n >= 0)
+		if (n >= 0 && !flags.plus)
 			ft_putchar(' ');
 	}
 	if (flags.padding != 0 && !flags.left) {
