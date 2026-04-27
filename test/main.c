@@ -196,7 +196,8 @@ int	main() {
 	printf("checking left padding\n");
 	CHECK("%-8s - %-4s - %-4s -  %-3s\n", "asldfj", "words", NULL, "more words");
 	CHECK("empty: %s\n", "");
-	CHECK("%0s\n", "hello");
+	//undefined behavoir
+	//CHECK("%0s\n", "hello");
 	CHECK("%2s\n", "hello");
 	CHECK("%10s\n", NULL);
 	CHECK("%-10s\n", NULL);
@@ -305,6 +306,23 @@ int	main() {
 	CHECK("%i\n", -2147483648);
 	CHECK("%015i\n", -2147483648);
 	printf("\n--------- END CHECKING i ------------\n");
+
+	printf("\n----------- CHECKING p --------------\n");
+	
+	printf("checking normal pointer passed\n");
+	CHECK("%p\n", &num);
+
+	printf("checking character pointer\n");
+	CHECK("%p\n", &c);
+
+	printf("checking right padding on p\n");
+	CHECK("%20p - %25p -\n", &num, &c);
+
+	printf("checking left padding on p\n");
+	CHECK("%-20p - %-25p -\n", &c, &num);
+
+	printf("\n--------- END CHECKING p ------------\n");
+
 	
 	printf("\n----------- CHECKING hhd --------------\n");
 
@@ -606,8 +624,8 @@ int	main() {
 	ft_putchar('\n');
 	ft_putchar('\n');
 	//CHECK("\n %hhd - %hhi - %ho - %hu - %d -  %u - %ld\n", -55, 110, check, check, check, check, check, check);
-	CHECK("%hd - %hi - %hu - %hx - %hX - %ho\n", check, check, check, check, check, check);
-	CHECK("%hhd - %hhi - %hhu - %hhx - %hhX - %hho\n", check, check, check, check, check, check);
+	//CHECK("%hd - %hi - %hu - %hx - %hX - %ho\n", check, check, check, check, check, check);
+	//CHECK("%hhd - %hhi - %hhu - %hhx - %hhX - %hho\n", check, check, check, check, check, check);
 	//0
 	//0+
 
