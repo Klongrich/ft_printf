@@ -62,7 +62,10 @@ void	put_8bit(unsigned int num, int s, t_flags flags) {
 	}
 
 	num_len = ft_numlen(value) + 1;
-	put_formatting_from_flags(value, 10, flags);
+	if (s)
+		put_formatting_from_flags(value, 10, flags, 1);
+	else
+		put_formatting_from_flags(value, 10, flags, 0);
 	if (flags.left && flags.padding != 0) {
 		if (value < 0) {
 			ft_putchar('-');
