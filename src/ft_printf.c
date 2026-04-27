@@ -39,7 +39,7 @@ t_flags init() {
 void	parse_flags(char *buffer, t_flags *flags) {
 	int i;
 	int j;
-	char buff[1024];
+	char buff[4095];
 	
 	i = 0;
 	j = 0;
@@ -1193,7 +1193,7 @@ int	ft_printf(char *str, ...) {
 	int	i;
 	int	j;
 	int 	count;
-	char	buffer[1024];
+	char	buffer[4095];
 	t_flags flags;
 
 	i = 0;
