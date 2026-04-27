@@ -117,6 +117,7 @@ int	put_formatting_from_flags(long n, int base, t_flags flags, int is_signed) {
 	i = 0;
 	if (is_signed) {
 		flags.plus = 0;
+		flags.space = 0;
 	}
 	if (base == 17) {
  		num_len = ft_numlen_hex(n);
@@ -149,7 +150,7 @@ int	put_formatting_from_flags(long n, int base, t_flags flags, int is_signed) {
 			}
 	}
 	if (flags.padding == 0 && flags.space) {
-		if (n >= 0 && !flags.plus)
+		if (n >= 0 && !flags.plus && !is_signed)
 			ft_putchar(' ');
 	}
 	if (flags.padding != 0 && !flags.left) {
