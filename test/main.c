@@ -683,18 +683,18 @@ int	main() {
 	//add is_signed, is_unsigned, is_hex, etc ..
 	//reuse parser -> pass flags
 	
-        //put_formatting_signed
-        //put_formatting_unsigned
-        //put_formatting_hex
-        //put_formatting_oct
-        //put_formatting_float
-        //put_formatting_string
-        //put_formatting_character
-        //put_formatting_pointer 
+	//put_formatting_signed
+	//put_formatting_unsigned
+	//put_formatting_hex
+	//put_formatting_oct
+	//put_formatting_float
+	//put_formatting_string
+	//put_formatting_character
+	//put_formatting_pointer 
 
 	//Add if (is_hex)
-        //              put_formatting_hex(va_lis(list, (long long)n), flags);
-        //etc ...
+	//              put_formatting_hex(va_lis(list, (long long)n), flags);
+	//etc ...
 	
 	
 	//padding number needs to know num lenght + if there are any additonal formatters being added (-, +, 0x);
