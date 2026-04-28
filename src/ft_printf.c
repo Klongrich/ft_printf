@@ -283,7 +283,10 @@ int     put_numbers_args(long n, int base, int is_uppercase, t_flags flags) {
 	int num_len;
 
 	i = 0;
-	num_len = ft_numlen(n);
+	if (base == 17 || base == 16)
+		num_len = ft_numlen_hex(n);
+	else
+		num_len = ft_numlen_ll(n);
 
 	if (base == 8 || base == 16 || base == 17)
 		put_formatting_from_flags(n, base, flags, 1);
@@ -300,8 +303,18 @@ int     put_numbers_args(long n, int base, int is_uppercase, t_flags flags) {
 			ft_putstr("0x");
 			num_len++;
 		}
-	}	
+	}
+
+	if (!flags.left && !flags.padding && flags.pound && base == 16) {
+		if (n != 0)
+			ft_putstr("0x");	
+	}
 	put_number(n, base, is_uppercase, "holder");
+	if (base == 16) {
+		if (flags.pound && n != 0)
+			num_len += 1;
+	}
+	
 	if (flags.padding != 0 && flags.left) {
 		while (i < flags.padding - num_len) {
 			ft_putchar(' ');
