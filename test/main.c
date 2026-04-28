@@ -441,6 +441,73 @@ int	main() {
 
 	printf("\n--------- END CHECKING x ------------\n");
 
+	printf("\n----------- CHECKING X --------------\n");
+
+	printf("checking normal value\n");
+	CHECK("%X\n", 12);
+	printf("checking passing value of 123456\n");
+	CHECK("%X\n", 123456);
+
+	printf("checking 0\n");
+	CHECK("%X\n", 0);
+
+	printf("Checking + with (0)\n");
+	CHECK("%+X\n", 0);
+	
+	printf("checking right padding X\n");
+	CHECK("%10X - % 10X - %7X - %5X\n", 654, 389237, 49848, 0);
+	printf("checking left padding X\n");
+	CHECK("%-X, %-7X, %-5X - %-3X -\n", 674, 784, 900, 900);
+	printf("checking 0 X\n");
+	CHECK("%08X - %00X - %01X - %023X\n", 784, 837, 9485, 48);
+	printf("checking + X\n");
+	CHECK("%+X - %+X - %+X\n", 784, 837, 674);
+	
+	//0 with right align, left align, and +;
+	printf("checking right padding w/ 0 X\n");
+	CHECK("%02X - %010X - %05X %04X\n", 758, 859, 950, 758);
+	printf("checking + with / 0 X\n");
+	CHECK("%+07X - %+04X - %+01X %+010X\n", 37834, 2343, 48749, 7849);
+
+	//+ with right align;
+	printf("checking + with right padding\n");
+	CHECK("%+8X - %+2X - %+10X - %+5X - %+7X\n", 728, 928, 94849, 0, 8743);
+
+	//+ with left align;
+	printf("checking + with left padding\n");
+	CHECK("%+-8X - %+-2X - %+-10X - %+-8X - %+-4X -\n", 728, 928, 94849, 0, 0);
+
+	printf("checking negative values with flags\n");
+	CHECK("%05X\n", -42);
+	CHECK("%+X\n", -42);
+	CHECK("% X\n", 42);
+	CHECK("% X\n", -42);
+
+	printf("checking flag conflicts\n");
+	CHECK("%-05X\n", 42);  // '-' wins over '0'
+	CHECK("%+ X\n", 42);   // '+' wins over ' '
+
+	printf("checking limits\n");
+	CHECK("%X\n", 4294967295);
+	CHECK("%015X\n",  4294967295);
+
+	printf("checking # with X\n");
+	CHECK("%#X - %#X - %#X\n", 84, 485, 23840);
+	
+	printf("checking # with 0 value for X\n");
+	CHECK("%#X\n", 0);
+	
+	printf("checking # with left padding X\n");
+	CHECK("%-#10X - %-#7X - %-#6X - %-#8X -\n", 948, 74758, 23849, 0);
+
+	printf("checking # with right padding X\n");
+	CHECK("%#8X - %#12X - %#7X - %#12X\n", 3849, 345, 985, 84830);
+
+	printf("chcking # w/ 0 and X\n");
+	CHECK("%#015X - %#07X - %#05X - %#010X -\n", 4294967295, 947, 75, 0);
+
+	printf("\n--------- END CHECKING X ------------\n");
+
 	
 	printf("\n----------- CHECKING hhd --------------\n");
 
