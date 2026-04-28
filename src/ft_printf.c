@@ -109,6 +109,25 @@ int             ft_numlen_hex(long n) {
          return (i);
 }
 
+int             ft_numlen_oct(long n) {
+         int i;
+ 
+         i = 0;
+         if (n < 0)
+         {
+                 i++;
+                 n *= -1;
+         }
+         if (n == 0)
+                 i++;
+         while (n)
+         {
+                 n /= 8;
+                 i++;
+         }
+         return (i);
+}
+
 int	put_formatting_from_flags(long n, int base, t_flags flags, int is_signed) {
 	int i;
 	int num_len;
@@ -122,8 +141,9 @@ int	put_formatting_from_flags(long n, int base, t_flags flags, int is_signed) {
 	if (base == 17) {
  		num_len = ft_numlen_hex(n);
 		base = 16;
-	}
-	else
+	} else if (base == 8) {
+		num_len = ft_numlen_oct(n);
+	} else
 		num_len = ft_numlen_ll(n);
 	if (flags.zero) {
 		if (base == 16) {
@@ -285,13 +305,15 @@ int     put_numbers_args(long n, int base, int is_uppercase, t_flags flags) {
 	i = 0;
 	if (base == 17 || base == 16)
 		num_len = ft_numlen_hex(n);
-	else
+	else if (base == 8) {
+		num_len = ft_numlen_oct(n);
+	} else
 		num_len = ft_numlen_ll(n);
 
-	if (base == 8 || base == 16 || base == 17 || base == 10)
-		put_formatting_from_flags(n, base, flags, 1);
-	else
+	if (base == 8 || base == 16 || base == 17)
 		put_formatting_from_flags(n, base, flags, 0);
+	else
+		put_formatting_from_flags(n, base, flags, 1);
 	if (base == 17)
 		base = 16;
 	if (flags.left && flags.plus && base != 8  && base != 16) {
