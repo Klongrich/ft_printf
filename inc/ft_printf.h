@@ -18,6 +18,7 @@ typedef struct args {
 	int	pound;
 	int	space;
 	int 	plus;
+	int	dot;
 
 }		t_flags;
 

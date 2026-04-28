@@ -33,6 +33,7 @@ t_flags init() {
 	flags.pound = 0;
 	flags.space = 0;
 	flags.plus = 0;
+	flags.dot = 0;
 	return (flags);
 }
 
@@ -44,7 +45,7 @@ void	parse_flags(char *buffer, t_flags *flags) {
 	i = 0;
 	j = 0;
 	buff[0] = '\0';
-	while (buffer[i] == '#' || buffer[i] == '0' || buffer[i] == '-' || buffer[i] == '+' || buffer[i] == ' ') {
+	while (buffer[i] == '#' || buffer[i] == '0' || buffer[i] == '-' || buffer[i] == '+' || buffer[i] == ' ' || buffer[i] == '.') {
 		if (buffer[i] == '#')
 			flags->pound = 1;
 		else if (buffer[i] == '0')
@@ -55,6 +56,8 @@ void	parse_flags(char *buffer, t_flags *flags) {
 			flags->plus = 1;
 		else if (buffer[i] == ' ')
 			flags->space = 1;
+		else if (buffer[i] == '.')
+			flags->dot = 1;
 		i++;
 	}
 	while (buffer[i]) {
@@ -145,6 +148,19 @@ int	put_formatting_from_flags(long n, int base, t_flags flags, int is_signed) {
 		num_len = ft_numlen_oct(n);
 	}  else
 		num_len = ft_numlen_ll(n);
+
+	if (flags.dot) {
+		if (n < 0 ) {
+			ft_putchar('-');
+			num_len--;
+		}
+		//printf("padding: %d -> num_len: %d -> n: %d\n", flags.padding, num_len, n);
+		while (i < flags.padding - num_len) {
+			ft_putchar('0');
+			i++;	
+		}
+		return (10);
+	}
 	if (flags.zero) {
 		if (base == 16) {
 			if (flags.pound) {
