@@ -124,7 +124,7 @@ int	put_formatting_from_flags(long n, int base, t_flags flags, int is_signed) {
 		base = 16;
 	}
 	else
-		num_len = ft_numlen(n);
+		num_len = ft_numlen_ll(n);
 	if (flags.zero) {
 		if (base == 16) {
 			if (flags.pound) {
@@ -316,7 +316,7 @@ int     put_numbers_args_u(long n, int base, int is_uppercase, t_flags flags) {
 	int num_len;
 
 	i = 0;
-	num_len = ft_numlen(n);
+	num_len = ft_numlen_ll(n);
 	put_formatting_from_flags(n, base, flags, 1);
 	putunit_max(n, base);
 	if (flags.padding != 0 && flags.left) {
