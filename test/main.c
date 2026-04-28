@@ -508,6 +508,123 @@ int	main() {
 
 	printf("\n--------- END CHECKING X ------------\n");
 
+	printf("\n----------- CHECKING o --------------\n");
+
+	printf("checking normal value\n");
+	CHECK("%o\n", 12);
+	printf("checking passing value of 123456\n");
+	CHECK("%o\n", 123456);
+
+	printf("checking 0\n");
+	CHECK("%o\n", 0);
+
+	printf("Checking + with (0)\n");
+	CHECK("%+o\n", 0);
+	
+	printf("checking right padding o\n");
+	CHECK("%10o - % 10o - %7o - %5o\n", 654, 389237, 49848, 0);
+	printf("checking left padding o\n");
+	CHECK("%-o, %-7o, %-5o - %-3o -\n", 674, 784, 900, 900);
+	printf("checking 0 o\n");
+	CHECK("%08o - %00o - %01o - %023o\n", 784, 837, 9485, 48);
+	printf("checking + o\n");
+	CHECK("%+o - %+o - %+o\n", 784, 837, 674);
+	
+	//0 with right align, left align, and +;
+	printf("checking right padding w/ 0 o\n");
+	CHECK("%02o - %010o - %05o %04o\n", 758, 859, 950, 758);
+	printf("checking + with / 0 o\n");
+	CHECK("%+07o - %+04o - %+01o %+010o\n", 37834, 2343, 48749, 7849);
+
+	//+ with right align;
+	printf("checking + with right padding\n");
+	CHECK("%+8o - %+2o - %+10o - %+5o\n", 728, 928, 839, 0);
+
+	//+ with left align;
+	printf("checking + with left padding\n");
+	CHECK("%+-8o - %+-2o - %+-10o - %+-8o - %+-4o -\n", 128, 3992, 94849, 23904, 0);
+
+	printf("checking negative values with flags\n");
+	CHECK("%05o\n", -42);
+	CHECK("%+o\n", -42);
+	CHECK("% o\n", 42);
+	CHECK("% o\n", -42);
+
+	printf("checking flag conflicts\n");
+	CHECK("%-05o\n", 42);  // '-' wins over '0'
+	CHECK("%+ o\n", 42);   // '+' wins over ' '
+
+	printf("checking limits\n");
+	CHECK("%o\n", 4294967295);
+	CHECK("%015o\n",  4294967295);
+	printf("\n--------- END CHECKING o ------------\n");
+	
+	printf("\n----------- CHECKING f --------------\n");
+
+	printf("checking normal value\n");
+	CHECK("%f\n", 12.5);
+	printf("checking passing value of 123456\n");
+	CHECK("%f\n", 123456);
+
+	printf("checking 0\n");
+	CHECK("%f\n", 0);
+
+	printf("Checking + with (0)\n");
+	CHECK("%+f\n", 0);
+	
+	printf("checking right padding f\n");
+	CHECK("%10f - % 10f - %7f - %5f\n", 654, 389237, 49848, 0);
+	printf("checking left padding f\n");
+	CHECK("%-f, %-7f, %-5f - %-3f -\n", 674, 784, 900, 900);
+	printf("checking 0 f\n");
+	CHECK("%08f - %00f - %01f - %023f\n", 784, 837, 9485, 48);
+	printf("checking + f\n");
+	CHECK("%+f - %+f - %+f\n", 784, 837, 674);
+	
+	//0 with right align, left align, and +;
+	printf("checking right padding w/ 0 f\n");
+	CHECK("%02f - %010f - %05f %04f\n", 758, 859, 950, 758);
+	printf("checking + with / 0 f\n");
+	CHECK("%+07f - %+04f - %+01f %+010f\n", 37834, 2343, 48749, 7849);
+
+	//+ with right align;
+	printf("checking + with right padding\n");
+	CHECK("%+8f - %+2f - %+10f - %+5f - %+7f\n", 728, 928, 94849, 0, 8743);
+
+	//+ with left align;
+	printf("checking + with left padding\n");
+	CHECK("%+-8f - %+-2f - %+-10f - %+-8f - %+-4f -\n", 728, 928, 94849, 0, 0);
+
+	printf("checking negative values with flags\n");
+	CHECK("%05f\n", -42);
+	CHECK("%+f\n", -42);
+	CHECK("% f\n", 42);
+	CHECK("% f\n", -42);
+
+	printf("checking flag conflicts\n");
+	CHECK("%-05f\n", 42);  // '-' wins over '0'
+	CHECK("%+ f\n", 42);   // '+' wins over ' '
+
+	printf("checking limits\n");
+	CHECK("%f\n", 4294967295);
+	CHECK("%015f\n",  4294967295);
+
+	printf("checking # with f\n");
+	CHECK("%#f - %#f - %#f\n", 84, 485, 23840);
+	
+	printf("checking # with 0 value for f\n");
+	CHECK("%#f\n", 0);
+	
+	printf("checking # with left padding f\n");
+	CHECK("%-#10f - %-#7f - %-#6f - %-#8f -\n", 948, 74758, 23849, 0);
+
+	printf("checking # with right padding f\n");
+	CHECK("%#8f - %#12f - %#7f - %#12f\n", 3849, 345, 985, 84830);
+
+	printf("chcking # w/ 0 and f\n");
+	CHECK("%#015f - %#07f - %#05f - %#010f -\n", 4294967295, 947, 75, 0);
+
+	printf("\n--------- END CHECKING f ------------\n");
 	
 	printf("\n----------- CHECKING hhd --------------\n");
 
@@ -890,6 +1007,33 @@ int	main() {
 
 	ft_putchar('\n');
 	ft_putchar('\n');
+
+	CHECK("%12f\n", -12.849);
+	CHECK("%12f\n", 12.849);
+	CHECK("%012f\n", 12.849);
+	CHECK("%+012f\n", 12.849);
+	CHECK("%+012f\n", -12.849);
+	
+	ft_putchar('\n');
+	ft_putchar('\n');
+
+	CHECK("%-12f -\n", -12.849);
+	CHECK("%-12f -\n", 12.849);
+	CHECK("%-012f -\n", 12.849);
+	CHECK("%+-12f -\n", 12.849);
+	CHECK("%+-12f -\n", -12.849);
+
+	ft_putchar('\n');
+	ft_putchar('\n');
+
+	long double testing;
+
+	testing = 938.9484949494949;
+	printf("%#.100Lf\n", testing);
+	printf("%#.100f\n", testing);
+
+	CHECK("%.10d\n", -239);
+	CHECK("%.10d\n", 239);
 	//CHECK("\n %hhd - %hhi - %ho - %hu - %d -  %u - %ld\n", -55, 110, check, check, check, check, check, check);
 	//CHECK("%hd - %hi - %hu - %hx - %hX - %ho\n", check, check, check, check, check, check);
 	//CHECK("%hhd - %hhi - %hhu - %hhx - %hhX - %hho\n", check, check, check, check, check, check);
