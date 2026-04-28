@@ -115,7 +115,7 @@ int	put_formatting_from_flags(long n, int base, t_flags flags, int is_signed) {
 
 	
 	i = 0;
-	if (is_signed) {
+	if (!is_signed) {
 		flags.plus = 0;
 		flags.space = 0;
 	}
@@ -288,7 +288,7 @@ int     put_numbers_args(long n, int base, int is_uppercase, t_flags flags) {
 	else
 		num_len = ft_numlen_ll(n);
 
-	if (base == 8 || base == 16 || base == 17)
+	if (base == 8 || base == 16 || base == 17 || base == 10)
 		put_formatting_from_flags(n, base, flags, 1);
 	else
 		put_formatting_from_flags(n, base, flags, 0);
@@ -330,7 +330,7 @@ int     put_numbers_args_u(long n, int base, int is_uppercase, t_flags flags) {
 
 	i = 0;
 	num_len = ft_numlen_ll(n);
-	put_formatting_from_flags(n, base, flags, 1);
+	put_formatting_from_flags(n, base, flags, 0);
 	putunit_max(n, base);
 	if (flags.padding != 0 && flags.left) {
 		while (i < flags.padding - num_len) {
