@@ -1279,6 +1279,107 @@ int put_float(double f, t_flags flags) {
 	return (count);
 }
 
+int put_float_L(long double f, t_flags flags) {
+	int precision;
+	int count;
+	long int_part;
+	long double fraction;
+	int digit;
+	char c;
+	int num_len;
+	num_len = 0;
+	count = 0;
+
+	//f += 0.0000005;
+	int_part = (long)f;
+
+	if (flags.dot) {
+		precision = flags.padding;
+		//f += get_percesion(precision);
+	} else {
+		precision = 6;
+		f += 0.0000005;
+	}
+
+	num_len = ft_numlen(int_part) + precision + 1;
+	int i = 0;
+
+	if (!flags.dot) {
+	if (!flags.left && flags.padding != 0) {
+		if (flags.zero) {
+			if (flags.plus) {
+				if (int_part >= 0) {
+					ft_putchar('+');
+					num_len++;
+				}
+			}
+			if (int_part < 0 ) {
+				ft_putchar('-');
+			}
+			while (i < flags.padding - num_len) {
+				ft_putchar('0');
+				i++;
+			}
+						
+		} else {
+			if (flags.plus) {
+				if (int_part >= 0) {
+					num_len++;
+				}
+			}
+			while (i < flags.padding - num_len) {
+				ft_putchar(' ');
+				i++;
+			}
+			if (flags.plus) {
+				if (int_part >= 0)
+					ft_putchar('+');
+			}
+			if (int_part < 0)
+				ft_putchar('-');
+		}
+	}
+	
+	if (flags.left && flags.padding != 0) {
+		if (flags.plus) {
+			if (int_part >= 0) {
+				ft_putchar('+');
+				num_len++;
+			}
+		}
+	}
+	}
+	if (f < 0) {
+		if (flags.left || flags.padding == 0 || flags.dot)
+			count += ft_putchar('-');
+		f = -f;
+		int_part = -int_part;
+		if(!flags.dot)
+			f += 0.0000005;
+	}
+    	ft_putnbr(int_part);
+    	write(1, ".", 1);
+    	fraction = f - (long double)int_part;
+	while (precision--) {
+        	fraction *= 10;
+        	digit = (int)fraction;
+        	c = digit + '0';
+        	count += ft_putchar(c);
+       		fraction -= digit;
+    	}
+
+	if (!flags.dot) {
+	if (flags.left && flags.padding != 0) {
+		while (i < flags.padding - num_len) {
+			ft_putchar(' ');
+			i++;
+		}
+	}
+	}
+	return (count);
+}
+
+/*
 int put_float_L(long double f) {
 	int precision;
 	int count;
@@ -1307,6 +1408,7 @@ int put_float_L(long double f) {
     	}
 	return (count);
 }
+*/
 
 int	check_c(char c) {
 	if (c == 'c')
@@ -1455,7 +1557,7 @@ int	ft_printf(char *str, ...) {
 			i += 1;
 		} else if (str[i] == 'L') {
 			if (str[i + 1] == 'f') {
-				put_float_L(va_arg(list, long double));
+				put_float_L(va_arg(list, long double), flags);
 			}
 			i += 1;
 		}
