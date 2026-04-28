@@ -1027,13 +1027,17 @@ int	main() {
 	ft_putchar('\n');
 
 	long double testing;
+	double another_test;
 
+	another_test =  9484.94840;
 	testing = 938.9484949494949;
 	printf("%#.100Lf\n", testing);
 	printf("%#.100f\n", testing);
 
 	CHECK("%.10d\n", -239);
 	CHECK("%.10d\n", 239);
+
+	CHECK("%.30f\n", another_test);
 	//CHECK("\n %hhd - %hhi - %ho - %hu - %d -  %u - %ld\n", -55, 110, check, check, check, check, check, check);
 	//CHECK("%hd - %hi - %hu - %hx - %hX - %ho\n", check, check, check, check, check, check);
 	//CHECK("%hhd - %hhi - %hhu - %hhx - %hhX - %hho\n", check, check, check, check, check, check);
