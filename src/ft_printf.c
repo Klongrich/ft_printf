@@ -90,7 +90,7 @@ int	put_number(long n, int base, int is_uppercase, char *buffer) {
 	return (count);
 }
 
-int             ft_numlen_hex(int n) {
+int             ft_numlen_hex(long n) {
          int i;
  
          i = 0;
@@ -285,13 +285,13 @@ int     put_numbers_args(long n, int base, int is_uppercase, t_flags flags) {
 	i = 0;
 	num_len = ft_numlen(n);
 
-	if (base == 8 || base == 16)
+	if (base == 8 || base == 16 || base == 17)
 		put_formatting_from_flags(n, base, flags, 1);
 	else
 		put_formatting_from_flags(n, base, flags, 0);
 	if (base == 17)
 		base = 16;
-	if (flags.left && flags.plus && base != 8) {
+	if (flags.left && flags.plus && base != 8  && base != 16) {
 		ft_putchar('+');
 		num_len++;
 	}
