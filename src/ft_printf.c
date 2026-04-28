@@ -1162,6 +1162,23 @@ void	put_64bit(long long num) {
 	ft_putnbr(value);
 }
 
+
+long double get_percesion(int p) {
+	int i;
+	long double res;
+
+	i = 0;
+	res = 0.5;
+	printf("p: %d\n", p);
+	while (i < p) {
+		res  = res * .1;
+		printf("i: %d res: %.16Lf\n", i, res); 
+		i++;
+	}
+	printf("%.16Lf\n", res);
+	return (res);
+}
+
 int put_float(double f, t_flags flags) {
 	int precision;
 	int count;
@@ -1173,12 +1190,21 @@ int put_float(double f, t_flags flags) {
 	num_len = 0;
 	count = 0;
 
-	f += 0.0000005;
+	//f += 0.0000005;
 	int_part = (long)f;
-	precision = 6;
+
+	if (flags.dot) {
+		precision = flags.padding;
+		//f += get_percesion(precision);
+	} else {
+		precision = 6;
+		f += 0.0000005;
+	}
 
 	num_len = ft_numlen(int_part) + precision + 1;
 	int i = 0;
+
+	if (!flags.dot) {
 	if (!flags.left && flags.padding != 0) {
 		if (flags.zero) {
 			if (flags.plus) {
@@ -1229,6 +1255,7 @@ int put_float(double f, t_flags flags) {
 		int_part = -int_part;
 		f += 0.0000005;
 	}
+	}
     	ft_putnbr(int_part);
     	write(1, ".", 1);
     	fraction = f - (double)int_part;
@@ -1240,11 +1267,13 @@ int put_float(double f, t_flags flags) {
        		fraction -= digit;
     	}
 
+	if (!flags.dot) {
 	if (flags.left && flags.padding != 0) {
 		while (i < flags.padding - num_len) {
 			ft_putchar(' ');
 			i++;
 		}
+	}
 	}
 	return (count);
 }
