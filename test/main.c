@@ -370,8 +370,60 @@ int	main() {
 	CHECK("%+ u\n", 42);   // '+' wins over ' '
 
 	printf("checking limits\n");
-	CHECK("%u\n", -2147483648);
-	CHECK("%015u\n", -2147483648);
+	CHECK("%u\n", 4294967295);
+	CHECK("%015u\n",  4294967295);
+	printf("\n--------- END CHECKING u ------------\n");
+
+	printf("\n----------- CHECKING x --------------\n");
+
+	printf("checking normal value\n");
+	CHECK("%x\n", 12);
+	printf("checking passing value of 123456\n");
+	CHECK("%x\n", 123456);
+
+	printf("checking 0\n");
+	CHECK("%x\n", 0);
+
+	printf("Checking + with (0)\n");
+	CHECK("%+x\n", 0);
+	
+	printf("checking right padding x\n");
+	CHECK("%10x - % 10x - %7x - %5x\n", 654, 389237, 49848, 0);
+	printf("checking left padding x\n");
+	CHECK("%-x, %-7x, %-5x - %-3x -\n", 674, 784, 900, 900);
+	printf("checking 0 x\n");
+	CHECK("%08x - %00x - %01x - %023x\n", 784, 837, 9485, 48);
+	printf("checking + x\n");
+	CHECK("%+x - %+x - %+x\n", 784, 837, 674);
+	
+	//0 with right align, left align, and +;
+	printf("checking right padding w/ 0 x\n");
+	CHECK("%02x - %010x - %05x %04x\n", 758, 859, 950, 758);
+	printf("checking + with / 0 x\n");
+	CHECK("%+07x - %+04x - %+01x %+010x\n", 37834, 2343, 48749, 7849);
+
+	//+ with right align;
+	printf("checking + with right padding\n");
+	CHECK("%+8x - %+2x - %+10x - %+5x\n", 728, 928, 839, 0);
+
+	//+ with left align;
+	printf("checking + with left padding\n");
+	CHECK("%+-8x - %+-2x - %+-10x - %+-8x - %+-4x -\n", 128, 3992, 94849, 23904, 0);
+
+	printf("checking negative values with flags\n");
+	CHECK("%05x\n", -42);
+	CHECK("%+x\n", -42);
+	CHECK("% x\n", 42);
+	CHECK("% x\n", -42);
+
+	printf("checking flag conflicts\n");
+	CHECK("%-05x\n", 42);  // '-' wins over '0'
+	CHECK("%+ u\n", 42);   // '+' wins over ' '
+
+	printf("checking limits\n");
+	CHECK("%x\n", 4294967295);
+	CHECK("%015x\n",  4294967295);
+
 	printf("\n--------- END CHECKING u ------------\n");
 
 	
