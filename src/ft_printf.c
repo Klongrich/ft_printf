@@ -1248,13 +1248,14 @@ int put_float(double f, t_flags flags) {
 			}
 		}
 	}
+	}
 	if (f < 0) {
-		if (flags.left || flags.padding == 0)
+		if (flags.left || flags.padding == 0 || flags.dot)
 			count += ft_putchar('-');
 		f = -f;
 		int_part = -int_part;
-		f += 0.0000005;
-	}
+		if(!flags.dot)
+			f += 0.0000005;
 	}
     	ft_putnbr(int_part);
     	write(1, ".", 1);
