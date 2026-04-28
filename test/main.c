@@ -678,7 +678,89 @@ int	main() {
 	long long check;
 
 	check = 18446744073709551615;
+	
+	//add hhx, hhi, etc to flag values being parsed.
+	//add is_signed, is_unsigned, is_hex, etc ..
+	//reuse parser -> pass flags
+	
+        //put_formatting_signed
+        //put_formatting_unsigned
+        //put_formatting_hex
+        //put_formatting_oct
+        //put_formatting_float
+        //put_formatting_string
+        //put_formatting_character
+        //put_formatting_pointer 
 
+	//Add if (is_hex)
+        //              put_formatting_hex(va_lis(list, (long long)n), flags);
+        //etc ...
+	
+	
+	//padding number needs to know num lenght + if there are any additonal formatters being added (-, +, 0x);
+	//if 0 is passed the (+, -) for singed goes to the far left (ex. -000047 || +000048) 
+
+	//signed -> needs to know about + -> (+ or -);
+	//unsigned -> nothing
+	//hex - needs to know about (0x)
+	//octal -> nothing
+	//float needs to know about # as well as sign -> (#, +, -);
+
+	
+	//put_formatting_hex(long n, t_flags flags)
+	//
+	//	padding_right
+	//		check for (0x)
+	//		put_padding(flags.padding, n)
+	//
+	//	check for (0x)
+	//
+	//	if (flags.hh)
+	//		ft_putnumber(unsigned char)n, 16);	
+	//	else if (flags.h)
+	//		ft_putnumber(usigned short)n 16);
+	// 	etc ...
+	//
+	//	padding_left
+	//		check for (0x)
+	//		put_padding(flags.padding, n)
+	//
+
+	//put_formatting_signed(long n, t_flags flags)
+	//
+	//	padding_right
+	//		check for (-, +)
+	//		put_padding(n, flags);
+	//
+	//	check (-, +, space)
+	//
+	//	if (flag.hh)
+	//		ft_putnumber(signed char)n, 10);
+	//	else if (flags.h)
+	//		ft_putnumber(signed short)n, 10);
+	//	etc ..
+	//	
+	//	padding_left
+	//		check for (-, +)
+	//		put_padding(n, flags)
+	//
+
+
+
+	//What is an easier way to handle left and right formatting around the ft_putnumber function? 
+	//I'm thinking maybe break it into 3 things.
+	// 
+	//	- put_right_padding_signed
+	//	- put_left_padding_signed
+	//	- put_no_padding_signed
+	//
+	//The idea of having hh, h, l, ll in a struct with base and is_signed, is_unsigned, is_hex, is_oct, is_flat.
+	
+	//Use ft_putnumber() to printf + get total value
+	
+	//Run current test we have written. 
+	//100 / 100 
+	//printf = compeleted
 
 	ft_putchar('\n');
 	ft_putnbr((signed char)check);
