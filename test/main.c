@@ -404,11 +404,11 @@ int	main() {
 
 	//+ with right align;
 	printf("checking + with right padding\n");
-	CHECK("%+8x - %+2x - %+10x - %+5x\n", 728, 928, 839, 0);
+	CHECK("%+8x - %+2x - %+10x - %+5x - %+7x\n", 728, 928, 94849, 0, 8743);
 
 	//+ with left align;
 	printf("checking + with left padding\n");
-	CHECK("%+-8x - %+-2x - %+-10x - %+-8x - %+-4x -\n", 128, 3992, 94849, 23904, 0);
+	CHECK("%+-8x - %+-2x - %+-10x - %+-8x - %+-4x -\n", 728, 928, 94849, 0, 0);
 
 	printf("checking negative values with flags\n");
 	CHECK("%05x\n", -42);
@@ -424,7 +424,22 @@ int	main() {
 	CHECK("%x\n", 4294967295);
 	CHECK("%015x\n",  4294967295);
 
-	printf("\n--------- END CHECKING u ------------\n");
+	printf("checking # with x\n");
+	CHECK("%#x - %#x - %#x\n", 84, 485, 23840);
+	
+	printf("checking # with 0 value for x\n");
+	CHECK("%#x\n", 0);
+	
+	printf("checking # with left padding x\n");
+	CHECK("%-#10x - %-#7x - %-#6x - %-#8x -\n", 948, 74758, 23849, 0);
+
+	printf("checking # with right padding x\n");
+	CHECK("%#8x - %#12x - %#7x - %#12x\n", 3849, 345, 985, 84830);
+
+	printf("chcking # w/ 0 and x\n");
+	CHECK("%#015x - %#07x - %#05x - %#010x -\n", 4294967295, 947, 75, 0);
+
+	printf("\n--------- END CHECKING x ------------\n");
 
 	
 	printf("\n----------- CHECKING hhd --------------\n");
