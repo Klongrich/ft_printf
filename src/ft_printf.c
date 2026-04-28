@@ -143,7 +143,7 @@ int	put_formatting_from_flags(long n, int base, t_flags flags, int is_signed) {
 		base = 16;
 	} else if (base == 8) {
 		num_len = ft_numlen_oct(n);
-	} else
+	}  else
 		num_len = ft_numlen_ll(n);
 	if (flags.zero) {
 		if (base == 16) {
@@ -1146,32 +1146,90 @@ void	put_64bit(long long num) {
 	ft_putnbr(value);
 }
 
-
-int put_float(double f) {
+int put_float(double f, t_flags flags) {
 	int precision;
 	int count;
 	long int_part;
 	double fraction;
 	int digit;
 	char c;
-
+	int num_len;
+	num_len = 0;
 	count = 0;
+
+	f += 0.0000005;
 	int_part = (long)f;
 	precision = 6;
+
+	num_len = ft_numlen(int_part) + precision + 1;
+	int i = 0;
+	if (!flags.left && flags.padding != 0) {
+		if (flags.zero) {
+			if (flags.plus) {
+				if (int_part >= 0) {
+					ft_putchar('+');
+					num_len++;
+				}
+			}
+			if (int_part < 0 ) {
+				ft_putchar('-');
+			}
+			while (i < flags.padding - num_len) {
+				ft_putchar('0');
+				i++;
+			}
+						
+		} else {
+			if (flags.plus) {
+				if (int_part >= 0) {
+					num_len++;
+				}
+			}
+			while (i < flags.padding - num_len) {
+				ft_putchar(' ');
+				i++;
+			}
+			if (flags.plus) {
+				if (int_part >= 0)
+					ft_putchar('+');
+			}
+			if (int_part < 0)
+				ft_putchar('-');
+		}
+	}
+	
+	if (flags.left && flags.padding != 0) {
+		if (flags.plus) {
+			if (int_part >= 0) {
+				ft_putchar('+');
+				num_len++;
+			}
+		}
+	}
 	if (f < 0) {
-		count += ft_putchar('-');
+		if (flags.left || flags.padding == 0)
+			count += ft_putchar('-');
 		f = -f;
+		int_part = -int_part;
+		f += 0.0000005;
 	}
     	ft_putnbr(int_part);
     	write(1, ".", 1);
     	fraction = f - (double)int_part;
-    	while (precision--) {
+	while (precision--) {
         	fraction *= 10;
         	digit = (int)fraction;
         	c = digit + '0';
         	count += ft_putchar(c);
        		fraction -= digit;
     	}
+
+	if (flags.left && flags.padding != 0) {
+		while (i < flags.padding - num_len) {
+			ft_putchar(' ');
+			i++;
+		}
+	}
 	return (count);
 }
 
@@ -1283,7 +1341,7 @@ int	ft_printf(char *str, ...) {
 		else if (str[i] == 'o')
 			count += put_numbers_args(va_arg(list, unsigned int), 8, 0, flags);
 		else if (str[i] == 'f')
-			count += put_float(va_arg(list, double));			
+			count += put_float(va_arg(list, double), flags);
 		else if (str[i] == 'h' && str[i + 1] == 'h') {
 			if (str[i + 2] == 'u')
 				put_8bit(va_arg(list, unsigned int), 0, flags);
@@ -1347,7 +1405,7 @@ int	ft_printf(char *str, ...) {
 			else if (str[i + 1] == 'X')
 				put_numbers_args_ull(va_arg(list, unsigned long), 16, 1, flags);
 			else if (str[i + 1] == 'f')
-				put_float(va_arg(list, double));
+				put_float(va_arg(list, double), flags);
 			i += 1;
 		} else if (str[i] == 'L') {
 			if (str[i + 1] == 'f') {
