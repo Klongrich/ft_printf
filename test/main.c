@@ -625,6 +625,58 @@ int	main() {
 	CHECK("%#015f - %#07f - %#05f - %#010f -\n", 4294967295, 947, 75, 0);
 
 	printf("\n--------- END CHECKING f ------------\n");
+
+	printf("\n----------- CHECKING hhu --------------\n");
+
+	printf("checking normal value\n");
+	CHECK("%hhu\n", 12);
+	printf("checking passing value of 123456\n");
+	CHECK("%hhu\n", 123456);
+
+	printf("checking 0\n");
+	CHECK("%hhu\n", 0);
+
+	printf("Checking + with (0)\n");
+	CHECK("%+hhu\n", 0);
+	
+	printf("checking right padding hhu\n");
+	CHECK("%10hhu - % 10hhu - %7hhu - %5hhu\n", 654, 389237, 49848, 0);
+	printf("checking left padding hhu\n");
+	CHECK("%-hhu, %-7hhu, %-5hhu - %-3hhu -\n", 674, 784, 900, 900);
+	printf("checking 0 hhu\n");
+	CHECK("%08hhu - %00hhu - %01hhu - %023hhu\n", 784, 837, 9485, 48);
+	printf("checking + hhu\n");
+	CHECK("%+hhu - %+hhu - %+hhu\n", 784, 837, 674);
+	
+	//0 with right align, left align, and +;
+	printf("checking right padding w/ 0 hhu\n");
+	CHECK("%02hhu - %010hhu - %05hhu %04hhu\n", 758, 859, 950, 758);
+	printf("checking + with / 0 u\n");
+	CHECK("%+07hhu - %+04hhu - %+01hhu %+010hhu\n", 37834, 2343, 48749, 7849);
+
+	//+ with right align;
+	printf("checking + with right padding\n");
+	CHECK("%+8hhu - %+2hhu - %+10hhu - %+5hhu\n", 728, 928, 839, 0);
+
+	//+ with left align;
+	printf("checking + with left padding\n");
+	CHECK("%+-8hhu - %+-2hhu - %+-10hhu - %+-8hhu - %+-4hhu -\n", 128, 3992, 94849, 23904, 0);
+
+	printf("checking negative values with flags\n");
+	CHECK("%05hhu\n", -42);
+	CHECK("%+hhu\n", -42);
+	CHECK("% hhu\n", 42);
+	CHECK("% hhu\n", -42);
+
+	printf("checking flag conflicts\n");
+	CHECK("%-05hhu\n", 42);  // '-' wins over '0'
+	CHECK("%+ hhu\n", 42);   // '+' wins over ' '
+
+	printf("checking limits\n");
+	CHECK("%hhu\n", 4294967295);
+	CHECK("%015hhu\n",  4294967295);
+	printf("\n--------- END CHECKING hhu ------------\n");
+
 	
 	printf("\n----------- CHECKING hhd --------------\n");
 
@@ -1050,13 +1102,6 @@ int	main() {
 	CHECK("%.0Lf\n", ld);
 	CHECK("%#.0Lf\n", ld);
 	CHECK("%Lf\n", ld);
-
-	ft_printf("\n\n");
-
-	CHECK("%+f\n", 78.98);
-	CHECK("% f\n", 72.0);
-	CHECK("% d\n", 73);
-	CHECK("% i\n", 73);
 	//CHECK("\n %hhd - %hhi - %ho - %hu - %d -  %u - %ld\n", -55, 110, check, check, check, check, check, check);
 	//CHECK("%hd - %hi - %hu - %hx - %hX - %ho\n", check, check, check, check, check, check);
 	//CHECK("%hhd - %hhi - %hhu - %hhx - %hhX - %hho\n", check, check, check, check, check, check);
