@@ -784,6 +784,19 @@ int	main() {
 	printf("checking + with left padding\n");
 	CHECK("%+-8hhi - %+-2hhi - %+-10hhi - %+-8hhi - %+-4hhi -\n", 128, 3992, 94849, 23904, 0);
 
+	printf("checking negative values with flags\n");
+	CHECK("%05hhi\n", -42);
+	CHECK("%+hhi\n", -42);
+	CHECK("% hhi\n", 42);
+	CHECK("% hhi\n", -42);
+
+	printf("checking flag conflicts\n");
+	CHECK("%-05hhi\n", 42);  // '-' wins over '0'
+	CHECK("%+ hhi\n", 42);   // '+' wins over ' '
+
+	printf("checking limits\n");
+	CHECK("%hhi\n", -2147483648);
+	CHECK("%015hhi\n", -2147483648);
 	printf("\n--------- END CHECKING hhi ------------\n");
 
 	//with hext check 0c 40
