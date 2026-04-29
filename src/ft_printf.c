@@ -1481,10 +1481,6 @@ int	ft_printf(char *str, ...) {
 				put_8bit_hex(va_arg(list, unsigned int), 0, flags);
 			else if (str[i + 2] == 'X')
 				put_8bit_hex(va_arg(list, unsigned int), 1, flags);
-			else if (str[i + 2] == 's')
-				count += put_string_args(va_arg(list, char*), flags);
-			else if (str[i + 2] == 'c')
-				 count +=  put_character_args(va_arg(list, int), flags);
 			i += 2;
 		}
 		else if (str[i] == 'h') {
