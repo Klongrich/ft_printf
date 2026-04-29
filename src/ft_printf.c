@@ -1015,22 +1015,6 @@ void	put_16bit(unsigned int num, int s, t_flags flags) {
 	}	
 }
 
-long double get_percesion(int p) {
-	int i;
-	long double res;
-
-	i = 0;
-	res = 0.5;
-	printf("p: %d\n", p);
-	while (i < p) {
-		res  = res * .1;
-		printf("i: %d res: %.16Lf\n", i, res); 
-		i++;
-	}
-	printf("%.16Lf\n", res);
-	return (res);
-}
-
 int put_float(double f, t_flags flags) {
 	int precision;
 	int count;
