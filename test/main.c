@@ -1356,7 +1356,60 @@ int	main() {
 	CHECK("%015ld\n", -2147483648);
 	printf("\n--------- END CHECKING ld ------------\n");
 
+	printf("\n----------- CHECKING li --------------\n");
 
+	printf("checking normal value\n");
+	CHECK("%li\n", 12LL);
+	printf("checking passing value of 123456\n");
+	CHECK("%li\n", 123456LL);
+
+	printf("Checking min and max value (-9223372036854775808, 9223372036854775807)");
+	CHECK("min: %li - max: %li\n", -9223372036854775808LL, 9223372036854775807LL); 
+
+	printf("checking 0\n");
+	CHECK("%li\n", 0);
+
+	printf("Checking + with (0)\n");
+	CHECK("%+li\n", 0);
+	
+	printf("checking right padding li\n");
+	CHECK("%10li - % 10li - %7li - %5li\n", 654LL, 389237LL, 49848LL, 0);
+	printf("checking left padding li\n");
+	CHECK("%-li, %-7li, %-5li - %-3li -\n", 674LL, 784LL, 900LL, 900LL);
+	printf("checking 0 li\n");
+	CHECK("%08li - %00li - %01li - %023li\n", 784, 837, 9485, 48);
+	printf("checking + li\n");
+	CHECK("%+li - %+li - %+li\n", 784, 837, 674);
+	
+	//0 with right align, left align, and +;
+	printf("checking right padding w/ 0 li\n");
+	CHECK("%02li - %010li - %05li %04li\n", 758, 859, 950, 758);
+	printf("checking + with / 0 li\n");
+	CHECK("%+07li - %+04li - %+01li %+010li\n", 37834LL, -2343LL, 48749LL, -7849LL);
+
+	//+ with right align;
+	printf("checking + with right padding\n");
+	CHECK("%+8li - %+2li - %+10li - %+5li\n", 728, 928, 839, 0);
+
+	//+ with left align;
+	printf("checking + with left padding\n");
+	CHECK("%+-8li - %+-2li - %+-10li - %+-8li - %+-4li -\n", 128, 3992, 94849, 23904, 0);
+
+	printf("checking negative values with flags\n");
+	CHECK("%05li\n", -42);
+	CHECK("%+li\n", -42);
+	CHECK("% li\n", 42);
+	CHECK("% li\n", -42);
+
+	printf("checking flag conflicts\n");
+	CHECK("%-05li\n", 42);  // '-' wins over '0'
+	CHECK("%+ li\n", 42);   // '+' wins over ' '
+
+	printf("checking limits\n");
+	CHECK("% li\n", 0);
+	CHECK("%li\n", -2147483648);
+	CHECK("%015li\n", -2147483648);
+	printf("\n--------- END CHECKING li ------------\n");
 
 
 	long long check;
