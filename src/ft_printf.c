@@ -799,10 +799,9 @@ void	put_16bit_hex(unsigned int num, int uppercase, t_flags flags) {
 		ft_putstr("0x");
 		num_len++;
 		num_len++;
-		num_len++;
 	}
 	if (!flags.left && !flags.padding && !flags.zero && flags.pound) {
-		if (num != 0)
+		if (num != 0) 
 			ft_putstr("0x");
 	}
 	if (num != 0) {
@@ -821,10 +820,14 @@ void	put_16bit_hex(unsigned int num, int uppercase, t_flags flags) {
 			ft_putchar(value[3]);
 			num_len -= 3;
 		} else {
-			ft_putchar(value[0]);
-			ft_putchar(value[1]);
-			ft_putchar(value[2]);
-			ft_putchar(value[3]);
+			if (value[0] == '0' && value[1] == '0' && value[2] == '0' && value[3] == '0') {
+				ft_putchar('0');
+			} else {
+				ft_putchar(value[0]);
+				ft_putchar(value[1]);
+				ft_putchar(value[2]);
+				ft_putchar(value[3]);
+			}
 		}
 	} else {
 		ft_putchar('0');
@@ -1003,11 +1006,25 @@ void	put_16bit(unsigned int num, int s, t_flags flags) {
 		put_formatting_from_flags(value, 10, flags, 1);
 	else
 		put_formatting_from_flags(value, 10, flags, 0);	
+	if (flags.left && flags.padding != 0 && s) {
+		if (value < 0) {
+			ft_putchar('-');
+		}
+		if (value >= 0 && flags.plus) {
+			ft_putchar('+');
+			num_len++;
+			}
+		}      
+	if (s && !flags.padding && !flags.plus && flags.space) {
+		if (value >= 0) {
+			ft_putchar(' ');
+		}
+	}
 	ft_putnbr_f(value);
 	if (value < 0)
 		num_len++;
 	if (flags.padding != 0 && flags.left) {
-		while (i < flags.padding - num_len) {
+		while (i < flags.padding - num_len - 1) {
 			ft_putchar(' ');
 			i++;
 		}	

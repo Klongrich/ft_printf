@@ -1303,7 +1303,7 @@ int	main() {
 	long long check;
 
 	check = 18446744073709551615;
-	
+
 	//add hhx, hhi, etc to flag values being parsed.
 	//add is_signed, is_unsigned, is_hex, etc ..
 	//reuse parser -> pass flags
@@ -1491,6 +1491,17 @@ int	main() {
 	CHECK("%.0Lf\n", ld);
 	CHECK("%#.0Lf\n", ld);
 	CHECK("%Lf\n", ld);
+
+	CHECK("%hx\n", 65536);
+	CHECK("%hX\n", 65536);
+	CHECK("%+-10hd -\n", 758);
+	CHECK("%+-10hi -\n", 758);
+	CHECK("%-10hu -\n", 8430);
+	CHECK("%-10hd -\n", 8430);
+	CHECK("%-10hi -\n", 8430);
+	CHECK("%-10ho -\n", 8430);
+	CHECK("%-#10hx -\n", 8430);
+	CHECK("%-#10hX -\n", 8430);
 	//CHECK("\n %hhd - %hhi - %ho - %hu - %d -  %u - %ld\n", -55, 110, check, check, check, check, check, check);
 	//CHECK("%hd - %hi - %hu - %hx - %hX - %ho\n", check, check, check, check, check, check);
 	//CHECK("%hhd - %hhi - %hhu - %hhx - %hhX - %hho\n", check, check, check, check, check, check);
