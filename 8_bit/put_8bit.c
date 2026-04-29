@@ -74,6 +74,11 @@ void	put_8bit(unsigned int num, int s, t_flags flags) {
 			ft_putchar('+');
 			num_len++;
 		}
+	}
+	if (s && !flags.padding && !flags.plus && flags.space) {
+		if (value >= 0) {
+			ft_putchar(' ');
+		}
 	}	
 	ft_putnbr_f(value);
 	if (flags.padding != 0 && flags.left) {
