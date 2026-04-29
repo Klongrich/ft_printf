@@ -16,6 +16,8 @@
 # include <unistd.h>
 # include <stdarg.h>
 
+ int             ft_numlen_ull(unsigned long long n);
+int					ft_numlen_hex(long n);
 int     				ft_putnumber_ull(unsigned long long n, unsigned int base);
 int     				ft_putnumber(long long n, int base);
 void    				ft_putnbr_u(unsigned int n);
