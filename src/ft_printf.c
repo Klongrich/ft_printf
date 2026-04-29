@@ -1190,15 +1190,12 @@ int put_float(double f, t_flags flags) {
 	num_len = 0;
 	count = 0;
 
-	//f += 0.0000005;
 	int_part = (long)f;
 
 	if (flags.dot) {
 		precision = flags.padding;
-		//f += get_percesion(precision);
 	} else {
 		precision = 6;
-		f += 0.0000005;
 	}
 
 	num_len = ft_numlen(int_part) + precision + 1;
@@ -1254,8 +1251,6 @@ int put_float(double f, t_flags flags) {
 			count += ft_putchar('-');
 		f = -f;
 		int_part = -int_part;
-		if(!flags.dot)
-			f += 0.0000005;
 	}
     	ft_putnbr(int_part);
     	write(1, ".", 1);
@@ -1295,7 +1290,7 @@ int put_float_L(long double f, t_flags flags) {
 	if (flags.dot) {
 		precision = flags.padding;
 	} else {
-		precision = 7;
+		precision = 6;
 	}
 
 	num_len = ft_numlen(int_part) + precision + 1;
