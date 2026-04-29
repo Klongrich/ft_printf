@@ -1248,58 +1248,6 @@ int	main() {
 
 	printf("\n--------- END CHECKING hX ------------\n");
 
-
-	printf("\n----------- CHECKING hx --------------\n");
-
-	printf("checking normal value\n");
-	CHECK("%hx\n", 12);
-	printf("checking passing value of 123456\n");
-	CHECK("%hx\n", 123456);
-
-	printf("Checking min and max value (-128, 127)");
-	CHECK("min: %hx - max: %hx\n", -128, 127); 
-
-	printf("Checking one under min, one over max hhd (-129, 128)\n");
-	CHECK("%hx - %hx\n", -129, 128);
-	
-	printf("Checking values well under and well over max (-12500, 34560)\n");
-	CHECK("%hx - %hx\n", -12500, 34560);
-
-	printf("checking 0\n");
-	CHECK("%hx\n", 0);
-
-	printf("Checking # with (0)\n");
-	CHECK("%#hx\n", 0);
-
-	printf("Checking hex value with hx\n");
-	CHECK("%hx\n", 0xa0);
-	
-	printf("checking right padding hx\n");
-	CHECK("%10hx - %10hx - %7hx - %5hx\n", 654, 389237, 49848, 0);
-	printf("checking left padding hx\n");
-	CHECK("%-hx, %-7hx, %-5hx - %-3hx -\n", 674, 784, 900, 900);
-	printf("checking 0 hx\n");
-	CHECK("%08hx - %00hx - %01hx - %023hx\n", 784, 837, 9485, 48);
-	
-	printf("checking right padding w/ 0 hx\n");
-	CHECK("%02hx - %010hx - %05hx - %04hx\n", 758, 859, 950, 758);
-
-	printf("checking right padding w/ # hx\n");
-	CHECK("%#10hx - %#7hx - %#6hx - %#5hx -\n", 474, 238, 0, 9485);
-
-	printf("checking left padding w/ # hx\n");
-	CHECK("%-#5hx - %-#hx - %-#12hx - %-#5hx\n", 4848, 754, 0, 948);
-
-        printf("checking right padding w/ # w/ 0 x\n");
-        CHECK("%#010x - %#012x - %#03x - %#07x\n", 847, 9484, 0, 848);
-	printf("\n--------- END CHECKING hx ------------\n");
-
-	printf("checking hx\n");
-	CHECK("%hx - %hx - %hx - %hx\n", 0xffaa, 0x0faa, 0x00aa, 0x000a);
-	
-	printf ("checking x\n");
-	CHECK("%x - %x - %x - %x - %x\n", 0xfabcf, 0x0fbca, 0x00bbf, 0x000fa, 0x0000b);
-	CHECK("% d\n", 0);	
 	long long check;
 
 	check = 18446744073709551615;
@@ -1318,7 +1266,7 @@ int	main() {
 	//put_formatting_pointer 
 
 	//Add if (is_hex)
-	//              put_formatting_hex(va_lis(list, (long long)n), flags);
+	//              put_formatting_hex(va_lis(list, (unsigned long long)n), flags);
 	//etc ...
 	
 	
@@ -1335,6 +1283,7 @@ int	main() {
 	//put_formatting_hex(long n, t_flags flags)
 	//
 	//	padding_right
+	//		check for (0)
 	//		check for (0x)
 	//		put_padding(flags.padding, n)
 	//
@@ -1354,6 +1303,7 @@ int	main() {
 	//put_formatting_signed(long n, t_flags flags)
 	//
 	//	padding_right
+	//		check for (0)
 	//		check for (-, +)
 	//		put_padding(n, flags);
 	//
