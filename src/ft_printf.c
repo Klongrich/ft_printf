@@ -137,7 +137,7 @@ int	put_formatting_from_flags(long n, int base, t_flags flags, int is_signed) {
 
 	
 	i = 0;
-	if (!is_signed) {
+	if (!is_signed || base == 8) {
 		flags.plus = 0;
 		flags.space = 0;
 	}
@@ -863,7 +863,6 @@ void	put_8bit_octal(unsigned int num, t_flags flags) {
 	put_formatting_from_flags(value, 8, flags, 1);	
 	ft_putnbr_f(value);
 	if (flags.padding != 0 && flags.left) {
-		//check -1
 		while (i < flags.padding - num_len - 1) {
 			ft_putchar(' ');
 			i++;
