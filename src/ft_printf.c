@@ -507,6 +507,12 @@ int     put_numbers_args_ull(unsigned long long n, int base, int is_uppercase, t
 	} else
 		num_len = ft_numlen_ull(n);
 	put_formatting_from_flags_ull(n, base, flags);	
+	if (base == 16 && flags.pound && (!flags.padding || flags.left)) {
+		if (n != 0) {
+			ft_putstr("0x");
+			num_len += 2;
+		}
+	}
 	put_number_ull(n, base, is_uppercase);
 	if (flags.padding != 0 && flags.left) {
 		while (i < flags.padding - num_len) {
