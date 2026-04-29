@@ -1290,15 +1290,12 @@ int put_float_L(long double f, t_flags flags) {
 	num_len = 0;
 	count = 0;
 
-	//f += 0.0000005;
 	int_part = (long)f;
 
 	if (flags.dot) {
 		precision = flags.padding;
-		//f += get_percesion(precision);
 	} else {
-		precision = 6;
-		f += 0.0000005;
+		precision = 7;
 	}
 
 	num_len = ft_numlen(int_part) + precision + 1;
@@ -1354,8 +1351,6 @@ int put_float_L(long double f, t_flags flags) {
 			count += ft_putchar('-');
 		f = -f;
 		int_part = -int_part;
-		if(!flags.dot)
-			f += 0.0000005;
 	}
     	ft_putnbr(int_part);
     	write(1, ".", 1);
@@ -1378,37 +1373,6 @@ int put_float_L(long double f, t_flags flags) {
 	}
 	return (count);
 }
-
-/*
-int put_float_L(long double f) {
-	int precision;
-	int count;
-	long long int_part;
-	long double fraction;
-	int digit;
-	char c;
-
-	count = 0;
-	int_part = (long long)f;
-
-	precision = 6;
-	if (f < 0) {
-		count += ft_putchar('-');
-		f = -f;
-	}
-    	ft_putnbr_ll(int_part);
-    	write(1, ".", 1);
-    	fraction = f - (long double)int_part;
-    	while (precision--) {
-        	fraction *= 10;
-        	digit = (int)fraction;
-        	c = digit + '0';
-        	count += ft_putchar(c);
-       		fraction -= digit;
-    	}
-	return (count);
-}
-*/
 
 int	check_c(char c) {
 	if (c == 'c')
