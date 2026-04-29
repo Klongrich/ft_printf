@@ -1248,6 +1248,117 @@ int	main() {
 
 	printf("\n--------- END CHECKING hX ------------\n");
 
+
+	printf("\n----------- CHECKING lu --------------\n");
+
+	printf("checking normal value\n");
+	CHECK("%lu\n", 12);
+	printf("checking passing value of 123456\n");
+	CHECK("%lu\n", 123456);
+
+	printf("checking 0\n");
+	CHECK("%lu\n", 0);
+
+	printf("Checking + with (0)\n");
+	CHECK("%+lu\n", 0);
+	
+	printf("checking right padding lu\n");
+	CHECK("%10lu - % 10lu - %7lu - %5lu\n", 654, 389237, 49848, 0);
+	printf("checking left padding lu\n");
+	CHECK("%-lu, %-7lu, %-5lu - %-3lu -\n", 674, 784, 900, 900);
+	printf("checking 0 lu\n");
+	CHECK("%08lu - %00lu - %01lu - %023lu\n", 784, 837, 9485, 48);
+	printf("checking + lu\n");
+	CHECK("%+lu - %+lu - %+lu\n", 784, 837, 674);
+	
+	//0 with right align, left align, and +;
+	printf("checking right padding w/ 0 lu\n");
+	CHECK("%02lu - %010lu - %05lu %04lu\n", 758, 859, 950, 758);
+	printf("checking + with / 0 lu\n");
+	CHECK("%+07lu - %+04lu - %+01lu %+010lu\n", 37834, 2343, 48749, 7849);
+
+	//+ with right align;
+	printf("checking + with right padding\n");
+	CHECK("%+8lu - %+2lu - %+10lu - %+5lu\n", 728, 928, 839, 0);
+
+	//+ with left align;
+	printf("checking + with left padding\n");
+	CHECK("%+-8lu - %+-2lu - %+-10lu - %+-8lu - %+-4lu -\n", 128, 3992, 94849, 23904, 0);
+
+	printf("checking negative values with flags\n");
+	CHECK("%05lu\n", -42);
+	CHECK("%+lu\n", -42);
+	CHECK("% lu\n", 42);
+	CHECK("% lu\n", -42);
+
+	printf("checking flag conflicts\n");
+	CHECK("%-05lu\n", 42);  // '-' wins over '0'
+	CHECK("%+ lu\n", 42);   // '+' wins over ' '
+
+	printf("checking limits\n");
+	CHECK("%lu\n", 18446744073709551615ULL);
+	CHECK("%015lu\n", 18446744073709551613ULL);
+	printf("\n--------- END CHECKING lu ------------\n");
+
+
+	printf("\n----------- CHECKING ld --------------\n");
+
+	printf("checking normal value\n");
+	CHECK("%ld\n", 12LL);
+	printf("checking passing value of 123456\n");
+	CHECK("%ld\n", 123456LL);
+
+	printf("Checking min and max value (-9223372036854775808, 9223372036854775807)");
+	CHECK("min: %ld - max: %ld\n", -9223372036854775808LL, 9223372036854775807LL); 
+
+	printf("checking 0\n");
+	CHECK("%ld\n", 0);
+
+	printf("Checking + with (0)\n");
+	CHECK("%+ld\n", 0);
+	
+	printf("checking right padding ld\n");
+	CHECK("%10ld - % 10ld - %7ld - %5ld\n", 654LL, 389237LL, 49848LL, 0);
+	printf("checking left padding ld\n");
+	CHECK("%-ld, %-7ld, %-5ld - %-3ld -\n", 674LL, 784LL, 900LL, 900LL);
+	printf("checking 0 ld\n");
+	CHECK("%08ld - %00ld - %01ld - %023ld\n", 784, 837, 9485, 48);
+	printf("checking + ld\n");
+	CHECK("%+ld - %+ld - %+ld\n", 784, 837, 674);
+	
+	//0 with right align, left align, and +;
+	printf("checking right padding w/ 0 ld\n");
+	CHECK("%02ld - %010ld - %05ld %04ld\n", 758, 859, 950, 758);
+	printf("checking + with / 0 ld\n");
+	CHECK("%+07ld - %+04ld - %+01ld %+010ld\n", 37834LL, -2343LL, 48749LL, -7849LL);
+
+	//+ with right align;
+	printf("checking + with right padding\n");
+	CHECK("%+8ld - %+2ld - %+10ld - %+5ld\n", 728, 928, 839, 0);
+
+	//+ with left align;
+	printf("checking + with left padding\n");
+	CHECK("%+-8ld - %+-2ld - %+-10ld - %+-8ld - %+-4ld -\n", 128, 3992, 94849, 23904, 0);
+
+	printf("checking negative values with flags\n");
+	CHECK("%05ld\n", -42);
+	CHECK("%+ld\n", -42);
+	CHECK("% ld\n", 42);
+	CHECK("% ld\n", -42);
+
+	printf("checking flag conflicts\n");
+	CHECK("%-05ld\n", 42);  // '-' wins over '0'
+	CHECK("%+ ld\n", 42);   // '+' wins over ' '
+
+	printf("checking limits\n");
+	CHECK("% ld\n", 0);
+	CHECK("%ld\n", -2147483648);
+	CHECK("%015ld\n", -2147483648);
+	printf("\n--------- END CHECKING ld ------------\n");
+
+
+
+
 	long long check;
 
 	check = 18446744073709551615;
@@ -1452,6 +1563,8 @@ int	main() {
 	CHECK("%-10ho -\n", 8430);
 	CHECK("%-#10hx -\n", 8430);
 	CHECK("%-#10hX -\n", 8430);
+
+	printf("testing\n");
 	//CHECK("\n %hhd - %hhi - %ho - %hu - %d -  %u - %ld\n", -55, 110, check, check, check, check, check, check);
 	//CHECK("%hd - %hi - %hu - %hx - %hX - %ho\n", check, check, check, check, check, check);
 	//CHECK("%hhd - %hhi - %hhu - %hhx - %hhX - %hho\n", check, check, check, check, check, check);
