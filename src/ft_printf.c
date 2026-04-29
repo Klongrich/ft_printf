@@ -416,9 +416,10 @@ int     put_string_args(char *str, t_flags flags) {
 	return (count);
 }
 
-int	put_number_ll(long long n, int base, int is_uppercase) {
+int	put_number_ll(signed long long n, int base, int is_uppercase) {
 	int	count;
 	char	*symbols;
+	unsigned long long nb; 
 
 	count = 0;
 	if (!is_uppercase)
@@ -428,13 +429,15 @@ int	put_number_ll(long long n, int base, int is_uppercase) {
 	if (n == 0)
 		return (ft_putchar('0'));
 	else if (n < 0) {
-		//ft_putchar ('-');
-		n = -n;
+		//ft_putchar('-')
 		count++;
-	}
-	if (n >= base)
-		count += put_number_ll(n / base, base, is_uppercase);
-	count += ft_putchar(symbols[n % base]);
+		nb = (unsigned long long)-n;
+	} else {
+		nb = (unsigned long long)n;
+    	}
+	if (nb >= base)
+		count += put_number_ll(nb / base, base, is_uppercase);
+	count += ft_putchar(symbols[nb % base]);
 	return (count);
 }
 
@@ -460,15 +463,16 @@ int	put_number_ull(unsigned long long n, int base, int is_uppercase) {
 	return (count);
 }
 
-int     put_numbers_args_ll(long long n, int base, int is_uppercase, t_flags flags) { 
+int     put_numbers_args_ll(signed long long n, int base, int is_uppercase, t_flags flags) { 
 	int i;
 	int num_len;
 
 	i = 0;
 	num_len = ft_numlen_ll(n);
 	put_formatting_from_flags(n, base, flags, 1);
-	if (flags.left && flags.plus && base != 8) {
-		ft_putchar('+');
+	if (flags.left && flags.plus) {
+		if( n >= 0)
+			ft_putchar('+');
 		num_len++;
 	}
 	if (flags.space && !flags.padding && !flags.plus) {
@@ -1338,9 +1342,9 @@ int	ft_printf(char *str, ...) {
 			if (str[i + 1] == 'u')
 				put_numbers_args_ull(va_arg(list, unsigned long), 10, 0, flags);
 			else if (str[i + 1] == 'd')
-				put_numbers_args_ll(va_arg(list, long), 10, 0, flags);
+				put_numbers_args_ll(va_arg(list, signed long long), 10, 0, flags);
 			else if (str[i + 1] == 'i')
-				put_numbers_args_ll(va_arg(list, long), 10, 0, flags);
+				put_numbers_args_ll(va_arg(list, signed long long), 10, 0, flags);
 			else if (str[i + 1] == 'o')
 				put_numbers_args_ull(va_arg(list, unsigned long), 8, 0, flags);
 			else if (str[i + 1] == 'x')
