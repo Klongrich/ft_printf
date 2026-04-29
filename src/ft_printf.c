@@ -347,6 +347,13 @@ int     put_numbers_args(long n, int base, int is_uppercase, t_flags flags) {
 		if (n != 0)
 			ft_putstr("0x");	
 	}
+	if (base == 10) {
+		if (flags.space && !flags.padding && !flags.plus) {
+			if (n >= 0) {
+				ft_putchar(' ');
+			}
+		}
+	}
 	put_number(n, base, is_uppercase, "holder");
 	if (base == 16) {
 		if (flags.pound && n != 0)
@@ -1252,6 +1259,16 @@ int put_float(double f, t_flags flags) {
 		f = -f;
 		int_part = -int_part;
 	}
+	if (!flags.padding && flags.plus) {
+		if (int_part >= 0) {
+			ft_putchar('+');
+		}
+	}
+	if (flags.space && !flags.padding && !flags.plus) {
+		if (int_part >= 0) {
+			ft_putchar(' ');
+		}
+	}
     	ft_putnbr(int_part);
 	if (precision != 0 || (precision == 0 && flags.pound))
     		write(1, ".", 1);
@@ -1349,7 +1366,6 @@ int put_float_L(long double f, t_flags flags) {
 		int_part = -int_part;
 	}
     	ft_putnbr(int_part);
-
 	if (precision != 0 || (precision == 0 && flags.pound))
     		write(1, ".", 1);
     	fraction = f - (long double)int_part;
