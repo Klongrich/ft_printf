@@ -723,6 +723,20 @@ int	main() {
 	printf("checking + with left padding\n");
 	CHECK("%+-8hhd - %+-2hhd - %+-10hhd - %+-8hhd - %+-4hhd -\n", 128, 3992, 94849, 23904, 0);
 
+	printf("checking negative values with flags\n");
+	CHECK("%05hhd\n", -42);
+	CHECK("%+hhd\n", -42);
+	CHECK("% hhd\n", 42);
+	CHECK("% hhd\n", -42);
+
+	printf("checking flag conflicts\n");
+	CHECK("%-05hhd\n", 42);  // '-' wins over '0'
+	CHECK("%+ hhd\n", 42);   // '+' wins over ' '
+
+	printf("checking limits\n");
+	CHECK("% hhd\n", 0);
+	CHECK("%hhd\n", -2147483648);
+	CHECK("%015hhd\n", -2147483648);
 	printf("\n--------- END CHECKING hhd ------------\n");
 
 	printf("\n----------- CHECKING hhi --------------\n");
