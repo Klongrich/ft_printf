@@ -1010,9 +1010,10 @@ int	main() {
 
 	CHECK("%12f\n", -12.849);
 	CHECK("%12f\n", 12.849);
+	CHECK("%+12f\n", 12.849);
 	CHECK("%012f\n", 12.849);
-	CHECK("%+012f\n", 12.849);
-	CHECK("%+012f\n", -12.849);
+	CHECK("%+015f\n", 12.849);
+	CHECK("%+015f\n", -12.849);
 	
 	ft_putchar('\n');
 	ft_putchar('\n');
@@ -1029,15 +1030,33 @@ int	main() {
 	long double testing;
 	double another_test;
 
-	another_test =  9484.94840;
-	testing = 938.9484949494949;
+	another_test = 9485949404.90495058403404840;
+	testing = 4859.948494949949494949;
 	printf("%#.100Lf\n", testing);
 	printf("%#.100f\n", testing);
 
 	CHECK("%.10d\n", -239);
 	CHECK("%.10d\n", 239);
-
 	CHECK("%.30f\n", another_test);
+	CHECK("%.100Lf\n", testing);
+	CHECK("%.100f\n", testing);
+	CHECK("%.0f\n", 78.0);
+	CHECK("%#.0f\n", 78.0);
+	CHECK("%f\n", 78.0);
+
+	long double ld;
+
+	ld = 78.0;
+	CHECK("%.0Lf\n", ld);
+	CHECK("%#.0Lf\n", ld);
+	CHECK("%Lf\n", ld);
+
+	ft_printf("\n\n");
+
+	CHECK("%+f\n", 78.98);
+	CHECK("% f\n", 72.0);
+	CHECK("% d\n", 73);
+	CHECK("% i\n", 73);
 	//CHECK("\n %hhd - %hhi - %ho - %hu - %d -  %u - %ld\n", -55, 110, check, check, check, check, check, check);
 	//CHECK("%hd - %hi - %hu - %hx - %hX - %ho\n", check, check, check, check, check, check);
 	//CHECK("%hhd - %hhi - %hhu - %hhx - %hhX - %hho\n", check, check, check, check, check, check);
