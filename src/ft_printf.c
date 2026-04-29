@@ -93,7 +93,7 @@ int	put_number(long n, int base, int is_uppercase, char *buffer) {
 	return (count);
 }
 
-int             ft_numlen_hex(long n) {
+int             ft_numlen_hex(unsigned long long n) {
          int i;
  
          i = 0;
@@ -112,7 +112,7 @@ int             ft_numlen_hex(long n) {
          return (i);
 }
 
-int             ft_numlen_oct(long n) {
+int             ft_numlen_oct(unsigned long long n) {
          int i;
  
          i = 0;
@@ -249,7 +249,12 @@ int	put_formatting_from_flags_ull(unsigned long long n, int base, t_flags flags)
 	int num_len;
 
 	i = 0;
-	num_len = ft_numlen_ull(n);
+	if (base == 17 || base == 16)
+		num_len = ft_numlen_hex(n);
+	else if (base == 8) {
+		num_len = ft_numlen_oct(n);
+	} else  
+		num_len = ft_numlen_ull(n);
 	if (flags.zero) {
 		if (base == 16) {
 			if (flags.pound) {
@@ -431,7 +436,7 @@ int	put_number_ll(signed long long n, int base, int is_uppercase) {
 	else if (n < 0) {
 		//ft_putchar('-')
 		count++;
-		nb = (unsigned long long)-n;
+		nb = (unsigned long long)-n; // Safely convert to unsigne
 	} else {
 		nb = (unsigned long long)n;
     	}
@@ -495,7 +500,12 @@ int     put_numbers_args_ull(unsigned long long n, int base, int is_uppercase, t
 	int num_len;
 
 	i = 0;
-	num_len = ft_numlen_ull(n);
+	if (base == 16)
+		num_len = ft_numlen_hex(n);
+	else if (base == 8) {
+		num_len = ft_numlen_oct(n);
+	} else
+		num_len = ft_numlen_ull(n);
 	put_formatting_from_flags_ull(n, base, flags);	
 	put_number_ull(n, base, is_uppercase);
 	if (flags.padding != 0 && flags.left) {
