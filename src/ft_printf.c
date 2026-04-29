@@ -1253,7 +1253,8 @@ int put_float(double f, t_flags flags) {
 		int_part = -int_part;
 	}
     	ft_putnbr(int_part);
-    	write(1, ".", 1);
+	if (precision != 0 || (precision == 0 && flags.pound))
+    		write(1, ".", 1);
     	fraction = f - (double)int_part;
 	while (precision--) {
         	fraction *= 10;
@@ -1348,7 +1349,9 @@ int put_float_L(long double f, t_flags flags) {
 		int_part = -int_part;
 	}
     	ft_putnbr(int_part);
-    	write(1, ".", 1);
+
+	if (precision != 0 || (precision == 0 && flags.pound))
+    		write(1, ".", 1);
     	fraction = f - (long double)int_part;
 	while (precision--) {
         	fraction *= 10;
