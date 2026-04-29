@@ -937,6 +937,318 @@ int	main() {
 
 	printf("\n--------- END CHECKING hhX ------------\n");
 
+	printf("\n----------- CHECKING hu --------------\n");
+
+	printf("checking normal value\n");
+	CHECK("%hu\n", 12);
+	printf("checking passing value of 123456\n");
+	CHECK("%hu\n", 123456);
+
+	printf("checking 0\n");
+	CHECK("%hu\n", 0);
+
+	printf("Checking + with (0)\n");
+	CHECK("%+hu\n", 0);
+	
+	printf("checking right padding hu\n");
+	CHECK("%10hu - % 10hu - %7hu - %5hu\n", 654, 389237, 49848, 0);
+	printf("checking left padding hu\n");
+	CHECK("%-hu, %-7hu, %-5hu - %-3hu -\n", 674, 784, 900, 900);
+	printf("checking 0 hu\n");
+	CHECK("%08hhu - %00hu - %01hu - %023hu\n", 784, 837, 9485, 48);
+	printf("checking + hu\n");
+	CHECK("%+hu - %+hu - %+hu\n", 784, 837, 674);
+	
+	//0 with right align, left align, and +;
+	printf("checking right padding w/ 0 hu\n");
+	CHECK("%02hu - %010hu - %05hu %04hu\n", 758, 859, 950, 758);
+	printf("checking + with / 0 u\n");
+	CHECK("%+07hu - %+04hu - %+01hu %+010hu\n", 37834, 2343, 48749, 7849);
+
+	//+ with right align;
+	printf("checking + with right padding\n");
+	CHECK("%+8hu - %+2hu - %+10hu - %+5hu\n", 728, 928, 839, 0);
+
+	//+ with left align;
+	printf("checking + with left padding\n");
+	CHECK("%+-8hu - %+-2hu - %+-10hu - %+-8hu - %+-4hu -\n", 128, 3992, 94849, 23904, 0);
+
+	printf("checking negative values with flags\n");
+	CHECK("%05hu\n", -42);
+	CHECK("%+hu\n", -42);
+	CHECK("% hu\n", 42);
+	CHECK("% hu\n", -42);
+
+	printf("checking flag conflicts\n");
+	CHECK("%-05hu\n", 42);  // '-' wins over '0'
+	CHECK("%+ hu\n", 42);   // '+' wins over ' '
+
+	printf("checking limits\n");
+	CHECK("%hu\n", 4294967295);
+	CHECK("%015hu\n",  4294967295);
+	printf("\n--------- END CHECKING hu ------------\n");
+
+	
+	printf("\n----------- CHECKING hd --------------\n");
+
+	printf("checking normal value\n");
+	CHECK("%hd\n", 12);
+	printf("checking passing value of 123456\n");
+	CHECK("%hd\n", 123456);
+
+	printf("Checking min and max value (-32768, 32767)");
+	CHECK("min: %hd - max: %hd\n", -32768, 32767); 
+
+	printf("Checking one under min, one over max hhd (-32769, 32768)\n");
+	CHECK("%hd - %hd\n", -32769, 32768);
+	
+	printf("Checking values well under and well over max (-1250000, 3456000)\n");
+	CHECK("%hd - %hd\n", -1250000, 3456000);
+
+	printf("checking 0\n");
+	CHECK("%hd\n", 0);
+
+	printf("Checking + with (0)\n");
+	CHECK("%+hd\n", 0);
+	
+	printf("checking right padding hd\n");
+	CHECK("%10hd - % 10hd - %7hd - %5hd\n", 654, 389237, 49848, 0);
+	printf("checking left padding hd\n");
+	CHECK("%-hd, %-7hd, %-5hd - %-3hd -\n", 674, 784, 900, 900);
+	printf("checking 0 hd\n");
+	CHECK("%08hd - %00hd - %01hd - %023hd\n", 784, 837, 9485, 48);
+	printf("checking + hd\n");
+	CHECK("%+hd - %+hd - %+hd\n", 784, 837, 674);
+	
+	//0 with right align, left align, and +;
+	printf("checking right padding w/ 0 hd\n");
+	CHECK("%02hd - %010hd - %05hd %04hd\n", 758, 859, 950, 758);
+	printf("checking + with / 0 hd\n");
+	CHECK("%+07hd - %+04hd - %+01hd %+010hd\n", 37834, 2343, 48749, 7849);
+
+	//+ with right align;
+	printf("checking + with right padding\n");
+	CHECK("%+8hd - %+2hd - %+10hd - %+5hd\n", 728, 928, 839, 0);
+
+	//+ with left align;
+	printf("checking + with left padding\n");
+	CHECK("%+-8hd - %+-2hd - %+-10hd - %+-8hd - %+-4hd -\n", 128, 3992, 94849, 23904, 0);
+
+	printf("checking negative values with flags\n");
+	CHECK("%05hd\n", -42);
+	CHECK("%+hd\n", -42);
+	CHECK("% hd\n", 42);
+	CHECK("% hd\n", -42);
+
+	printf("checking flag conflicts\n");
+	CHECK("%-05hd\n", 42);  // '-' wins over '0'
+	CHECK("%+ hd\n", 42);   // '+' wins over ' '
+
+	printf("checking limits\n");
+	CHECK("% hd\n", 0);
+	CHECK("%hd\n", -2147483648);
+	CHECK("%015hd\n", -2147483648);
+	printf("\n--------- END CHECKING hd ------------\n");
+
+	printf("\n----------- CHECKING hi --------------\n");
+
+	printf("checking normal value\n");
+	CHECK("%hi\n", 12);
+	printf("checking passing value of 123456\n");
+	CHECK("%hi\n", 123456);
+
+	printf("Checking min and max value (-32768, 32767)");
+	CHECK("min: %hi - max: %hi\n", -32768, 32767); 
+
+	printf("Checking one under min, one over max hhd (-32769, 32768)\n");
+	CHECK("%hi - %hi\n", -32769, 32768);
+	
+	printf("Checking values well under and well over max (-150000, 3456000)\n");
+	CHECK("%hi - %hi\n", -150000, 3456000);
+
+	printf("checking 0\n");
+	CHECK("%hi\n", 0);
+
+	printf("Checking + with (0)\n");
+	CHECK("%+hi\n", 0);
+	
+	printf("checking right padding hi\n");
+	CHECK("%10hi - % 10hi - %7hi - %5hi\n", 654, 389237, 49848, 0);
+	printf("checking left padding hi\n");
+	CHECK("%-hi, %-7hi, %-5hi - %-3hi -\n", 674, 784, 900, 900);
+	printf("checking 0 hi\n");
+	CHECK("%08hi - %00hi - %01hi - %023hi\n", 784, 837, 9485, 48);
+	printf("checking + hi\n");
+	CHECK("%+hi - %+hi - %+hi\n", 784, 837, 674);
+	
+	//0 with right align, left align, and +;
+	printf("checking right padding w/ 0 hi\n");
+	CHECK("%02hi - %010hi - %05hi %04hi\n", 758, 859, 950, 758);
+	printf("checking + with / 0 hi\n");
+	CHECK("%+07hi - %+04hi - %+01hi %+010hi\n", 37834, 2343, 48749, 7849);
+
+	//+ with right align;
+	printf("checking + with right padding\n");
+	CHECK("%+8hi - %+2hi - %+10hi - %+5hi\n", 728, 928, 839, 0);
+
+	//+ with left align;
+	printf("checking + with left padding\n");
+	CHECK("%+-8hi - %+-2hi - %+-10hi - %+-8hi - %+-4hi -\n", 128, 3992, 94849, 23904, 0);
+
+	printf("checking negative values with flags\n");
+	CHECK("%05hi\n", -42);
+	CHECK("%+hi\n", -42);
+	CHECK("% hi\n", 42);
+	CHECK("% hi\n", -42);
+
+	printf("checking flag conflicts\n");
+	CHECK("%-05hi\n", 42);  // '-' wins over '0'
+	CHECK("%+ hi\n", 42);   // '+' wins over ' '
+
+	printf("checking limits\n");
+	CHECK("%hi\n", -2147483648);
+	CHECK("%015hi\n", -2147483648);
+	printf("\n--------- END CHECKING hi ------------\n");
+
+	printf("\n----------- CHECKING ho --------------\n");
+
+	printf("checking normal value\n");
+	CHECK("%ho\n", 12);
+	printf("checking passing value of 123456\n");
+	CHECK("%ho\n", 123456);
+
+	printf("checking 0\n");
+	CHECK("%ho\n", 0);
+
+	printf("Checking + with (0)\n");
+	CHECK("%+ho\n", 0);
+	
+	printf("checking right padding ho\n");
+	CHECK("%10ho - % 10ho - %7ho - %5ho\n", 654, 389237, 49848, 0);
+	printf("checking left padding ho\n");
+	CHECK("%-ho, %-7ho, %-5ho - %-3ho -\n", 674, 784, 900, 900);
+	printf("checking 0 ho\n");
+	CHECK("%08ho - %00ho - %01ho - %023ho\n", 784, 837, 9485, 48);
+	printf("checking + ho\n");
+	CHECK("%+ho - %+ho - %+ho\n", 784, 837, 674);
+	
+	//0 with right align, left align, and +;
+	printf("checking right padding w/ 0 ho\n");
+	CHECK("%02ho - %010ho - %05ho %04ho\n", 758, 859, 950, 758);
+	printf("checking + with / 0 ho\n");
+	CHECK("%+07ho - %+04ho - %+01ho %+010ho\n", 37834, 2343, 48749, 7849);
+
+	//+ with right align;
+	printf("checking + with right padding\n");
+	CHECK("%+8ho - %+2ho - %+10ho - %+5ho\n", 728, 928, 839, 0);
+
+	//+ with left align;
+	printf("checking + with left padding\n");
+	CHECK("%+-8ho - %+-2ho - %+-10ho - %+-8ho - %+-4ho -\n", 128, 3992, 94849, 23904, 0);
+
+	printf("checking negative values with flags\n");
+	CHECK("%05ho\n", -42);
+	CHECK("%+ho\n", -42);
+	CHECK("% ho\n", 42);
+	CHECK("% ho\n", -42);
+
+	printf("checking flag conflicts\n");
+	CHECK("%-05ho\n", 42);  // '-' wins over '0'
+	CHECK("%+ ho\n", 42);   // '+' wins over ' '
+
+	printf("checking limits\n");
+	CHECK("%ho\n", 4294967295);
+	CHECK("%015ho\n",  4294967295);
+	printf("\n--------- END CHECKING ho ------------\n");
+
+	//with hext check 0c 40
+	printf("\n----------- CHECKING hhx --------------\n");
+
+	printf("checking normal value\n");
+	CHECK("%hx\n", 12);
+	printf("checking passing value of 123456\n");
+	CHECK("%hx\n", 123456);
+
+	printf("Checking min and max value (0, 65535)");
+	CHECK("min: %hx - max: %hx\n", 0, 65535); 
+
+	printf("Checking one under min, one over max hhd (-1, 65536)\n");
+	CHECK("%hx - %hx\n", 0, 65536);
+	
+	printf("Checking values well under and well over max (-100, 3456000)\n");
+	CHECK("%hx - %hx\n", -100, 3456000);
+
+	printf("checking 0\n");
+	CHECK("%hx\n", 0);
+
+	printf("Checking # with (0)\n");
+	CHECK("%#hx\n", 0);
+
+	printf("Checking hex value with hx\n");
+	CHECK("%hx\n", 0xa0);
+	
+	printf("checking right padding hx\n");
+	CHECK("%10hx - %10hx - %7hx - %5hx\n", 654, 389237, 49848, 0);
+	printf("checking left padding hx\n");
+	CHECK("%-hx, %-7hx, %-5hx - %-3hx -\n", 674, 784, 900, 900);
+	printf("checking 0 hx\n");
+	CHECK("%08hx - %00hx - %01hx - %023hx\n", 784, 837, 9485, 48);
+	
+	printf("checking right padding w/ 0 hx\n");
+	CHECK("%02hx - %010hx - %05hx - %04hx\n", 758, 859, 950, 758);
+
+	printf("checking right padding w/ # hx\n");
+	CHECK("%#10hx - %#7hx - %#6hx - %#5hx -\n", 474, 238, 0, 9485);
+
+	printf("checking left padding w/ # hx\n");
+	CHECK("%-#12hx - %-#hx - %-#12hx - %-#5hx\n", 4848, 754, 0, 948);
+
+	printf("\n--------- END CHECKING hx ------------\n");
+
+	printf("\n----------- CHECKING hX --------------\n");
+
+	printf("checking normal value\n");
+	CHECK("%hX\n", 12);
+	printf("checking passing value of 123456\n");
+	CHECK("%hX\n", 123456);
+
+	printf("Checking min and max value (0, 65535)");
+	CHECK("min: %hX - max: %hX\n", 0, 65535); 
+
+	printf("Checking one under min, one over max hhX (-1, 65536)\n");
+	CHECK("%hx - %hX\n", -1, 65536);
+	
+	printf("Checking values well under and well over max (-100, 3456330)\n");
+	CHECK("%hx - %hX\n", -100, 3456330);
+
+	printf("checking 0\n");
+	CHECK("%hX\n", 0);
+
+	printf("Checking # with (0)\n");
+	CHECK("%#hX\n", 0);
+
+	printf("Checking hex value with hX\n");
+	CHECK("%hX\n", 0xa0);
+	
+	printf("checking right padding hX\n");
+	CHECK("%10hX - %10hX - %7hX - %5hX\n", 654, 389237, 49848, 0);
+	printf("checking left padding hX\n");
+	CHECK("%-hX, %-7hX, %-5hX - %-3hX -\n", 674, 784, 900, 900);
+	printf("checking 0 hX\n");
+	CHECK("%08hX - %00hX - %01hX - %023hX\n", 784, 837, 9485, 48);
+	
+	printf("checking right padding w/ 0 hX\n");
+	CHECK("%02hX - %010hX - %05hX - %04hX\n", 758, 859, 950, 758);
+
+	printf("checking right padding w/ # hX\n");
+	CHECK("%#10hX - %#7hX - %#6hX - %#5hX -\n", 474, 238, 0, 9485);
+
+	printf("checking left padding w/ # hX\n");
+	CHECK("%-#12hX - %-#hX - %-#12hX - %-#5hX\n", 4848, 754, 0, 948);
+
+	printf("\n--------- END CHECKING hX ------------\n");
+
+
 	printf("\n----------- CHECKING hx --------------\n");
 
 	printf("checking normal value\n");
