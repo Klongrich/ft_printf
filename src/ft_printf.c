@@ -549,8 +549,8 @@ int	put_pointer(void *pointer, t_flags flags) {
 		}
 	}
 	if (pointer == NULL)
-		ft_putstr("(nil)");
-	ft_putstr("0x");
+		count += ft_count_putstr("(nil)");
+	count += ft_count_putstr("0x");
 	count += putunit_max(address, 16);
 	if (flags.padding != 0 && flags.left) {
 		while (i < flags.padding - num_len) {
