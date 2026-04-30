@@ -159,7 +159,7 @@ int	put_formatting_from_flags(long n, int base, t_flags flags, int is_signed) {
 			count += ft_putchar('0');
 			i++;	
 		}
-		return (10);
+		return (count);
 	}
 	if (flags.zero) {
 		if (base == 16) {
@@ -440,7 +440,6 @@ int	put_number_ll(signed long long n, int base, int is_uppercase) {
 	if (n == 0)
 		return (ft_putchar('0'));
 	else if (n < 0) {
-		count++;
 		nb = (unsigned long long)-n;
 	} else {
 		nb = (unsigned long long)n;
@@ -1132,7 +1131,7 @@ int put_float(double f, t_flags flags) {
 			count += ft_putchar(' ');
 		}
 	}
-    	count += ft_putnbr_f(int_part);
+    	count += put_number_ll(int_part, 10, 0);
 	if (precision != 0 || (precision == 0 && flags.pound)) {
     		write(1, ".", 1);
 		count += 1;
@@ -1184,15 +1183,15 @@ int put_float_L(long double f, t_flags flags) {
 		if (flags.zero) {
 			if (flags.plus) {
 				if (int_part >= 0) {
-					ft_putchar('+');
+					count += ft_putchar('+');
 					num_len++;
 				}
 			}
 			if (int_part < 0 ) {
-				ft_putchar('-');
+				count += ft_putchar('-');
 			}
 			while (i < flags.padding - num_len) {
-				ft_putchar('0');
+				count += ft_putchar('0');
 				i++;
 			}
 						
@@ -1203,22 +1202,22 @@ int put_float_L(long double f, t_flags flags) {
 				}
 			}
 			while (i < flags.padding - num_len) {
-				ft_putchar(' ');
+				count += ft_putchar(' ');
 				i++;
 			}
 			if (flags.plus) {
 				if (int_part >= 0)
-					ft_putchar('+');
+					count += ft_putchar('+');
 			}
 			if (int_part < 0)
-				ft_putchar('-');
+				count += ft_putchar('-');
 		}
 	}
 	
 	if (flags.left && flags.padding != 0) {
 		if (flags.plus) {
 			if (int_part >= 0) {
-				ft_putchar('+');
+				count += ft_putchar('+');
 				num_len++;
 			}
 		}
@@ -1230,9 +1229,11 @@ int put_float_L(long double f, t_flags flags) {
 		f = -f;
 		int_part = -int_part;
 	}
-    	ft_putnbr(int_part);
-	if (precision != 0 || (precision == 0 && flags.pound))
+    	count += put_number_ll(int_part, 10, 0);
+	if (precision != 0 || (precision == 0 && flags.pound)) {
     		write(1, ".", 1);
+		count += 1;
+	}
     	fraction = f - (long double)int_part;
 	while (precision--) {
         	fraction *= 10;
@@ -1245,7 +1246,7 @@ int put_float_L(long double f, t_flags flags) {
 	if (!flags.dot) {
 	if (flags.left && flags.padding != 0) {
 		while (i < flags.padding - num_len) {
-			ft_putchar(' ');
+			count += ft_putchar(' ');
 			i++;
 		}
 	}
