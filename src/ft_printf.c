@@ -1361,17 +1361,17 @@ int	ft_printf(char *str, ...) {
 		}
 		else if (str[i] == 'l' && str[i + 1] == 'l') {
 			if (str[i + 2] == 'u')
-				put_numbers_args_ull(va_arg(list, unsigned long long), 10, 0, flags);
+				count += put_numbers_args_ull(va_arg(list, unsigned long long), 10, 0, flags);
 			else if (str[i + 2] == 'd')
 				put_numbers_args_ll(va_arg(list, long long), 10, 0, flags);
 			else if (str[i + 2] == 'i')
 				put_numbers_args_ll(va_arg(list, long long), 10, 0, flags);
 			else if (str[i + 2] == 'o')
-				put_numbers_args_ull(va_arg(list, unsigned long long), 8, 0, flags);
+				count += put_numbers_args_ull(va_arg(list, unsigned long long), 8, 0, flags);
 			else if (str[i + 2] == 'x')
-				put_numbers_args_ull(va_arg(list, unsigned long long), 16, 0, flags);
+				count += put_numbers_args_ull(va_arg(list, unsigned long long), 16, 0, flags);
 			else if (str[i + 2] == 'X')
-				put_numbers_args_ull(va_arg(list, unsigned long long), 16, 1, flags);
+				count += put_numbers_args_ull(va_arg(list, unsigned long long), 16, 1, flags);
 			i += 2;
 		}
 		else if (str[i] == 'l') {
