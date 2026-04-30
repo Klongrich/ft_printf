@@ -10,9 +10,9 @@
     r2 = ft_printf("MINE: " format, __VA_ARGS__); \
     printf("\n"); \
     if (r1 != r2) \
-        printf("\033[31m  [KO] Return values differ! (Orig: %d, Mine: %d)\033[0m\n", r1, r2); \
+        printf("\033[31m[KO] Return values differ! (Orig: %d, Mine: %d)\033[0m\n", r1, r2); \
     else \
-        printf("\033[32m  [OK] Return values match: %d\033[0m\n", r1); \
+        printf("\033[32m[OK] Return values match: %d\033[0m\n", r1); \
     printf("--------------------\n"); \
 } while (0)
 
