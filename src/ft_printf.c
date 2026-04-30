@@ -358,18 +358,20 @@ int     put_numbers_args(long n, int base, int is_uppercase, t_flags flags) {
 int     put_numbers_args_u(long n, int base, int is_uppercase, t_flags flags) { 
 	int i;
 	int num_len;
+	int count;
 
 	i = 0;
+	count = 0;
 	num_len = ft_numlen_ll(n);
-	put_formatting_from_flags(n, base, flags, 0);
-	putunit_max(n, base);
+	count += put_formatting_from_flags(n, base, flags, 0);
+	count += putunit_max(n, base);
 	if (flags.padding != 0 && flags.left) {
 		while (i < flags.padding - num_len) {
-			ft_putchar(' ');
+			count += ft_putchar(' ');
 			i++;
 		}	
 	}
-	return (0);
+	return (count);
 }
 
 int     put_character_args(char c, t_flags flags) { 
