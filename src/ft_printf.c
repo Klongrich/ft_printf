@@ -840,15 +840,17 @@ void	put_16bit_hex(unsigned int num, int uppercase, t_flags flags) {
 }
 
 
-void	put_8bit_octal(unsigned int num, t_flags flags) {
+int	put_8bit_octal(unsigned int num, t_flags flags) {
 	int bits[8];
 	int j;
 	int i;
 	int value;
 	int num_len;
+	int count;
 
 	i = 7;
 	j = 0;
+	count = 0;
 	value = 0;
 	while (i > -1) {
 		bits[j] = (num >> i) & 1;
@@ -861,14 +863,15 @@ void	put_8bit_octal(unsigned int num, t_flags flags) {
 	
 
 	num_len = ft_numlen(value);
-	put_formatting_from_flags(value, 8, flags, 1);	
-	ft_putnbr_f(value);
+	count += put_formatting_from_flags(value, 8, flags, 1);	
+	count += ft_putnbr_f(value);
 	if (flags.padding != 0 && flags.left) {
 		while (i < flags.padding - num_len - 1) {
-			ft_putchar(' ');
+			count += ft_putchar(' ');
 			i++;
 		}	
 	}
+	return (count);
 }
 
 
@@ -1319,7 +1322,7 @@ int	ft_printf(char *str, ...) {
 			else if (str[i + 2] == 'i')
 				count += put_8bit(va_arg(list, int), 1, flags);
 			else if (str[i + 2] == 'o')
-				put_8bit_octal(va_arg(list, unsigned int), flags);
+				count += put_8bit_octal(va_arg(list, unsigned int), flags);
 			else if (str[i + 2] == 'x')
 				put_8bit_hex(va_arg(list, unsigned int), 0, flags);
 			else if (str[i + 2] == 'X')
