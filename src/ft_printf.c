@@ -912,15 +912,17 @@ void	put_16bit_octal(unsigned int num, t_flags flags) {
 	}
 }
 
-void	put_16bit(unsigned int num, int s, t_flags flags) {
+int	put_16bit(unsigned int num, int s, t_flags flags) {
 	int bits[16];
 	int j;
 	int i;
 	int value;
 	int num_len;
+	int count;
 
 	i = 15;
 	j = 0;
+	count = 0;
 	value = 0;
 	while (i > -1) {
 		bits[j] = (num >> i) & 1;
@@ -1007,32 +1009,33 @@ void	put_16bit(unsigned int num, int s, t_flags flags) {
 	}
 	num_len = ft_numlen(value);
 	if (s)
-		put_formatting_from_flags(value, 10, flags, 1);
+		count += put_formatting_from_flags(value, 10, flags, 1);
 	else
-		put_formatting_from_flags(value, 10, flags, 0);	
+		count += put_formatting_from_flags(value, 10, flags, 0);	
 	if (flags.left && flags.padding != 0 && s) {
 		if (value < 0) {
-			ft_putchar('-');
+			count += ft_putchar('-');
 		}
 		if (value >= 0 && flags.plus) {
 			ft_putchar('+');
-			num_len++;
+			count += num_len++;
 			}
 		}      
 	if (s && !flags.padding && !flags.plus && flags.space) {
 		if (value >= 0) {
-			ft_putchar(' ');
+			count += ft_putchar(' ');
 		}
 	}
-	ft_putnbr_f(value);
+	count += ft_putnbr_f(value);
 	if (value < 0)
 		num_len++;
 	if (flags.padding != 0 && flags.left) {
 		while (i < flags.padding - num_len - 1) {
-			ft_putchar(' ');
+			count += ft_putchar(' ');
 			i++;
 		}	
-	}	
+	}
+	return (count);	
 }
 
 int put_float(double f, t_flags flags) {
@@ -1334,11 +1337,11 @@ int	ft_printf(char *str, ...) {
 		}
 		else if (str[i] == 'h') {
 			if(str[i + 1] == 'u')
-				put_16bit(va_arg(list, unsigned int), 0, flags);
+				count += put_16bit(va_arg(list, unsigned int), 0, flags);
 			else if (str[i + 1] == 'd')
-				put_16bit(va_arg(list, int), 1, flags);
+				count += put_16bit(va_arg(list, int), 1, flags);
 			else if (str[i + 1] == 'i')
-				put_16bit(va_arg(list, int), 1, flags);
+				count += put_16bit(va_arg(list, int), 1, flags);
 			else if(str[i + 1] == 'o')
 				put_16bit_octal(va_arg(list, unsigned int), flags);
 			else if(str[i + 1] == 'x')
