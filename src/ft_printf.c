@@ -1022,10 +1022,10 @@ int	put_16bit(unsigned int num, int s, t_flags flags) {
 			count += ft_putchar('-');
 		}
 		if (value >= 0 && flags.plus) {
-			ft_putchar('+');
-			count += num_len++;
-			}
-		}      
+			count += ft_putchar('+');
+			num_len++;
+		}
+	}      
 	if (s && !flags.padding && !flags.plus && flags.space) {
 		if (value >= 0) {
 			count += ft_putchar(' ');
