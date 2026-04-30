@@ -372,7 +372,7 @@ int     put_numbers_args_u(long n, int base, int is_uppercase, t_flags flags) {
 			i++;
 		}	
 	}
-	return (0);
+	return (count);
 }
 
 int     put_character_args(char c, t_flags flags) { 
