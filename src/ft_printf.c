@@ -247,7 +247,9 @@ int	put_formatting_from_flags(long n, int base, t_flags flags, int is_signed) {
 int	put_formatting_from_flags_ull(unsigned long long n, int base, t_flags flags) {
 	int i;
 	int num_len;
+	int count;
 
+	count = 0;
 	i = 0;
 	if (base == 17 || base == 16)
 		num_len = ft_numlen_hex(n);
@@ -259,8 +261,8 @@ int	put_formatting_from_flags_ull(unsigned long long n, int base, t_flags flags)
 		if (base == 16) {
 			if (flags.pound) {
 				if(n != 0) {
-					ft_putchar('0');
-					ft_putchar('x');
+					count += ft_putchar('0');
+					count += ft_putchar('x');
 					num_len += 2;
 				}
 			}
@@ -269,7 +271,7 @@ int	put_formatting_from_flags_ull(unsigned long long n, int base, t_flags flags)
 	if (flags.padding != 0 && !flags.left) {
 		if (flags.zero) {
 			while (i < flags.padding - num_len ) {
-				ft_putchar('0');
+				count += ft_putchar('0');
 				i++;
 			}
 		} else {
@@ -280,21 +282,21 @@ int	put_formatting_from_flags_ull(unsigned long long n, int base, t_flags flags)
 				}
 			} 
 			while (i < flags.padding - num_len) {
-				ft_putchar(' ');
+				count += ft_putchar(' ');
 				i++;
 			}
 
 			if (base == 16) {
 				if (flags.pound)  {
 					if (n != 0) {
-						ft_putchar('0');
-						ft_putchar('x');
+						count += ft_putchar('0');
+						count += ft_putchar('x');
 					}
 				}
 			} 
 		}	
 	}
-	return (0);
+	return (count);
 }
 
 int     put_numbers_args(long n, int base, int is_uppercase, t_flags flags) { 
@@ -500,7 +502,9 @@ int     put_numbers_args_ll(signed long long n, int base, int is_uppercase, t_fl
 int     put_numbers_args_ull(unsigned long long n, int base, int is_uppercase, t_flags flags) { 
 	int i;
 	int num_len;
+	int count;
 
+	count = 0;
 	i = 0;
 	if (base == 16)
 		num_len = ft_numlen_hex(n);
@@ -508,21 +512,21 @@ int     put_numbers_args_ull(unsigned long long n, int base, int is_uppercase, t
 		num_len = ft_numlen_oct(n);
 	} else
 		num_len = ft_numlen_ull(n);
-	put_formatting_from_flags_ull(n, base, flags);	
+	count += put_formatting_from_flags_ull(n, base, flags);	
 	if (base == 16 && flags.pound && (!flags.padding || flags.left)) {
 		if (n != 0) {
-			ft_putstr("0x");
+			count += ft_count_putstr("0x");
 			num_len += 2;
 		}
 	}
-	put_number_ull(n, base, is_uppercase);
+	count += put_number_ull(n, base, is_uppercase);
 	if (flags.padding != 0 && flags.left) {
 		while (i < flags.padding - num_len) {
-			ft_putchar(' ');
+			count += ft_putchar(' ');
 			i++;
 		}	
 	}
-	return (0);
+	return (count);
 }
 
 
@@ -1372,17 +1376,17 @@ int	ft_printf(char *str, ...) {
 		}
 		else if (str[i] == 'l') {
 			if (str[i + 1] == 'u')
-				put_numbers_args_ull(va_arg(list, unsigned long), 10, 0, flags);
+				count += put_numbers_args_ull(va_arg(list, unsigned long), 10, 0, flags);
 			else if (str[i + 1] == 'd')
 				put_numbers_args_ll(va_arg(list, signed long long), 10, 0, flags);
 			else if (str[i + 1] == 'i')
 				put_numbers_args_ll(va_arg(list, signed long long), 10, 0, flags);
 			else if (str[i + 1] == 'o')
-				put_numbers_args_ull(va_arg(list, unsigned long), 8, 0, flags);
+				count += put_numbers_args_ull(va_arg(list, unsigned long), 8, 0, flags);
 			else if (str[i + 1] == 'x')
-				put_numbers_args_ull(va_arg(list, unsigned long), 16, 0, flags);
+				count += put_numbers_args_ull(va_arg(list, unsigned long), 16, 0, flags);
 			else if (str[i + 1] == 'X')
-				put_numbers_args_ull(va_arg(list, unsigned long), 16, 1, flags);
+				count += put_numbers_args_ull(va_arg(list, unsigned long), 16, 1, flags);
 			else if (str[i + 1] == 'f')
 				put_float(va_arg(list, double), flags);
 			i += 1;
