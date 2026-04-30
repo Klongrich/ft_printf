@@ -878,13 +878,15 @@ int	put_8bit_octal(unsigned int num, t_flags flags) {
 }
 
 
-void	put_16bit_octal(unsigned int num, t_flags flags) {
+int	put_16bit_octal(unsigned int num, t_flags flags) {
 	int bits[16];
 	int j;
 	int i;
 	int value;
 	int num_len;
-
+	int count;
+	
+	count = 0;
 	i = 15;
 	j = 0;
 	value = 0;
@@ -901,15 +903,15 @@ void	put_16bit_octal(unsigned int num, t_flags flags) {
 	value += convert_octal_bits(bits[13], bits[14], bits[15]);
 
 	num_len = ft_numlen(value);
-	put_formatting_from_flags(value, 8, flags, 1);	
-	ft_putnbr_f(value);
+	count += put_formatting_from_flags(value, 8, flags, 1);	
+	count += ft_putnbr_f(value);
 	if (flags.padding != 0 && flags.left) {
-		//check -1
 		while (i < flags.padding - num_len - 1) {
-			ft_putchar(' ');
+			count += ft_putchar(' ');
 			i++;
 		}	
 	}
+	return (count);
 }
 
 int	put_16bit(unsigned int num, int s, t_flags flags) {
@@ -1343,7 +1345,7 @@ int	ft_printf(char *str, ...) {
 			else if (str[i + 1] == 'i')
 				count += put_16bit(va_arg(list, int), 1, flags);
 			else if(str[i + 1] == 'o')
-				put_16bit_octal(va_arg(list, unsigned int), flags);
+				count += put_16bit_octal(va_arg(list, unsigned int), flags);
 			else if(str[i + 1] == 'x')
 				put_16bit_hex(va_arg(list, unsigned int), 0, flags);
 			else if (str[i + 1] == 'X')
