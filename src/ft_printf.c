@@ -409,9 +409,9 @@ int     put_string_args(char *str, t_flags flags) {
 		}
 	}
 	if (str == NULL)
-		ft_putstr("(null)");
+		count += ft_count_putstr("(null)");
 	else
-		ft_putstr(str);
+		count += ft_count_putstr(str);
 	if (flags.padding != 0 && flags.left) {
 		while (i < flags.padding - str_len) {
 			count += ft_putchar(' ');
