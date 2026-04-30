@@ -1699,16 +1699,13 @@ int	main() {
 	ft_putchar('\n');
 	ft_putchar('\n');
 
+	ft_printf("\n---------------- Testing f ---------------\n");
 	CHECK("%12f\n", -12.849);
 	CHECK("%12f\n", 12.849);
 	CHECK("%+12f\n", 12.849);
 	CHECK("%012f\n", 12.849);
 	CHECK("%+015f\n", 12.849);
 	CHECK("%+015f\n", -12.849);
-	
-	ft_putchar('\n');
-	ft_putchar('\n');
-
 	CHECK("%-12f -\n", -12.849);
 	CHECK("%-12f -\n", 12.849);
 	CHECK("%-012f -\n", 12.849);
@@ -1753,7 +1750,13 @@ int	main() {
 	CHECK("%-#10hx -\n", 8430);
 	CHECK("%-#10hX -\n", 8430);
 
-	printf("testing\n");
+	printf("testing\n\n");
+
+	CHECK("testing\n", "testing"); 
+
+	CHECK("testing str: %s\n", "another str");
+
+	
 	//CHECK("\n %hhd - %hhi - %ho - %hu - %d -  %u - %ld\n", -55, 110, check, check, check, check, check, check);
 	//CHECK("%hd - %hi - %hu - %hx - %hX - %ho\n", check, check, check, check, check, check);
 	//CHECK("%hhd - %hhi - %hhu - %hhx - %hhX - %hho\n", check, check, check, check, check, check);
