@@ -155,7 +155,6 @@ int	put_formatting_from_flags(long n, int base, t_flags flags, int is_signed) {
 			count += ft_putchar('-');
 			num_len--;
 		}
-		//printf("padding: %d -> num_len: %d -> n: %d\n", flags.padding, num_len, n);
 		while (i < flags.padding - num_len) {
 			count += ft_putchar('0');
 			i++;	
@@ -371,7 +370,7 @@ int     put_numbers_args_u(long n, int base, int is_uppercase, t_flags flags) {
 			i++;
 		}	
 	}
-	return (count);
+	return (0);
 }
 
 int     put_character_args(char c, t_flags flags) { 
@@ -439,9 +438,8 @@ int	put_number_ll(signed long long n, int base, int is_uppercase) {
 	if (n == 0)
 		return (ft_putchar('0'));
 	else if (n < 0) {
-		//ft_putchar('-')
 		count++;
-		nb = (unsigned long long)-n; // Safely convert to unsigne
+		nb = (unsigned long long)-n;
 	} else {
 		nb = (unsigned long long)n;
     	}
@@ -463,7 +461,6 @@ int	put_number_ull(unsigned long long n, int base, int is_uppercase) {
 	if (n == 0)
 		return (ft_putchar('0'));
 	else if (n < 0) {
-		//ft_putchar ('-');
 		n = -n;
 		count++;
 	}
@@ -1316,11 +1313,11 @@ int	ft_printf(char *str, ...) {
 			count += put_float(va_arg(list, double), flags);
 		else if (str[i] == 'h' && str[i + 1] == 'h') {
 			if (str[i + 2] == 'u')
-				put_8bit(va_arg(list, unsigned int), 0, flags);
+				count += put_8bit(va_arg(list, unsigned int), 0, flags);
 			else if (str[i + 2] == 'd')
-				put_8bit(va_arg(list, int), 1, flags);
+				count += put_8bit(va_arg(list, int), 1, flags);
 			else if (str[i + 2] == 'i')
-				put_8bit(va_arg(list, int), 1, flags);
+				count += put_8bit(va_arg(list, int), 1, flags);
 			else if (str[i + 2] == 'o')
 				put_8bit_octal(va_arg(list, unsigned int), flags);
 			else if (str[i + 2] == 'x')

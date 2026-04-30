@@ -1,12 +1,14 @@
 #include "../inc/ft_printf.h"
 
-void	put_8bit(unsigned int num, int s, t_flags flags) {
+int	put_8bit(unsigned int num, int s, t_flags flags) {
 	int bits[8];
 	int j;
 	int i;
 	int value;
 	int num_len;
+	int count;
 
+	count = 0;
 	i = 7;
 	j = 0;
 	value = 0;
@@ -63,28 +65,29 @@ void	put_8bit(unsigned int num, int s, t_flags flags) {
 
 	num_len = ft_numlen(value) + 1;
 	if (s)
-		put_formatting_from_flags(value, 10, flags, 1);
+		count += put_formatting_from_flags(value, 10, flags, 1);
 	else
-		put_formatting_from_flags(value, 10, flags, 0);
+		count += put_formatting_from_flags(value, 10, flags, 0);
 	if (flags.left && flags.padding != 0 && s) {
 		if (value < 0) {
-			ft_putchar('-');
+			count += ft_putchar('-');
 		}
 		if (value >= 0 && flags.plus) {
-			ft_putchar('+');
+			count += ft_putchar('+');
 			num_len++;
 		}
 	}
 	if (s && !flags.padding && !flags.plus && flags.space) {
 		if (value >= 0) {
-			ft_putchar(' ');
+			count += ft_putchar(' ');
 		}
 	}	
-	ft_putnbr_f(value);
+	count += ft_putnbr_f(value);
 	if (flags.padding != 0 && flags.left) {
 		while (i < flags.padding - num_len) {
-			ft_putchar(' ');
+			count += ft_putchar(' ');
 			i++;
 		}	
 	}
+	return (count);
 }
