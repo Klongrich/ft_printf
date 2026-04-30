@@ -689,13 +689,15 @@ char	get_hex_char_uppercase(int num) {
 
 }
 
-void	put_8bit_hex(unsigned int num, int uppercase, t_flags flags) {
+int 	put_8bit_hex(unsigned int num, int uppercase, t_flags flags) {
 	int bits[8];
 	int j;
 	int i;
 	char value[2];
 	int num_len;
-
+	int count;
+	
+	count = 0;
 	i = 7;
 	j = 0;
 	while (i > -1) {
@@ -714,40 +716,41 @@ void	put_8bit_hex(unsigned int num, int uppercase, t_flags flags) {
 	num_len = 2;
 	
 	if (value[0] == '0' && value[1] != '0')
-		put_formatting_from_flags(1, 16, flags, 1);
+		count += put_formatting_from_flags(1, 16, flags, 1);
 	else if (num != 0)
-		put_formatting_from_flags(11, 16, flags, 1);
+		count += put_formatting_from_flags(11, 16, flags, 1);
 	else
-		put_formatting_from_flags(0, 16, flags, 1);
+		count += put_formatting_from_flags(0, 16, flags, 1);
 	if (flags.pound && flags.left && !flags.zero && num != 0) {
-		ft_putstr("0x");
+		count += ft_count_putstr("0x");
 		num_len++;
 		num_len++;
 	}
 	if (!flags.left && !flags.padding && !flags.zero && flags.pound) {
 		if (num != 0) 
-			ft_putstr("0x");
+			count += ft_count_putstr("0x");
 	}
 	if (num != 0) {	
 		if (value[0] == '0' && value[1] == '0')
-			ft_putchar('0');
+			count += ft_putchar('0');
 		else {
 			if (value[0] != '0')
-				ft_putchar(value[0]);
+				count += ft_putchar(value[0]);
 			else
 				num_len--;
-			ft_putchar(value[1]);
+			count += ft_putchar(value[1]);
 		}
 	} else {
-		ft_putchar('0');
+		count += ft_putchar('0');
 		num_len--;
 	}
 	if (flags.padding != 0 && flags.left) {
 		while (i < flags.padding - num_len - 1) {
-			ft_putchar(' ');
+			count += ft_putchar(' ');
 			i++;
 		}	
 	}
+	return (count);
 }
 
 void	put_16bit_hex(unsigned int num, int uppercase, t_flags flags) {
@@ -1324,9 +1327,9 @@ int	ft_printf(char *str, ...) {
 			else if (str[i + 2] == 'o')
 				count += put_8bit_octal(va_arg(list, unsigned int), flags);
 			else if (str[i + 2] == 'x')
-				put_8bit_hex(va_arg(list, unsigned int), 0, flags);
+				count += put_8bit_hex(va_arg(list, unsigned int), 0, flags);
 			else if (str[i + 2] == 'X')
-				put_8bit_hex(va_arg(list, unsigned int), 1, flags);
+				count += put_8bit_hex(va_arg(list, unsigned int), 1, flags);
 			i += 2;
 		}
 		else if (str[i] == 'h') {
