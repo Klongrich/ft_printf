@@ -22,7 +22,7 @@ int	ft_putnbr_f(int n)
 	if (num < 0)
 		num *= -1;
 	if (num > 9)
-		ft_putnbr(num / 10);
+		count += ft_putnbr_f(num / 10);
 	count += ft_putchar((num % 10) + 48);
 	return (count);
 }
