@@ -753,14 +753,16 @@ int 	put_8bit_hex(unsigned int num, int uppercase, t_flags flags) {
 	return (count);
 }
 
-void	put_16bit_hex(unsigned int num, int uppercase, t_flags flags) {
+int	put_16bit_hex(unsigned int num, int uppercase, t_flags flags) {
 	int bits[16];
 	int j;
 	int i;
 	char value[4];
 	int num_len;
 	int padding_value;
+	int count;	
 
+	count = 0;
 	i = 15;
 	j = 0;
 	padding_value = 1111;
@@ -793,53 +795,54 @@ void	put_16bit_hex(unsigned int num, int uppercase, t_flags flags) {
 		padding_value /= 1000;
 	}
 	if (num != 0)
-		put_formatting_from_flags(padding_value, 16, flags, 1);
+		count += put_formatting_from_flags(padding_value, 16, flags, 1);
 	else
-		put_formatting_from_flags(0, 16, flags, 1);
+		count += put_formatting_from_flags(0, 16, flags, 1);
 	if (flags.pound && flags.left && !flags.zero && num != 0) {
-		ft_putstr("0x");
+		count += ft_count_putstr("0x");
 		num_len++;
 		num_len++;
 	}
 	if (!flags.left && !flags.padding && !flags.zero && flags.pound) {
 		if (num != 0) 
-			ft_putstr("0x");
+			count += ft_count_putstr("0x");
 	}
 	if (num != 0) {
 		if (value[0] == '0' && value[1] != '0') {
-			ft_putchar(value[1]);
-			ft_putchar(value[2]);
-			ft_putchar(value[3]);
+			count += ft_putchar(value[1]);
+			count += ft_putchar(value[2]);
+			count += ft_putchar(value[3]);
 			num_len--;
 		}
 		else if (value[0] == '0' && value[1] == '0' && value[2] != '0') {
-			ft_putchar(value[2]);
-			ft_putchar(value[3]);
+			count += ft_putchar(value[2]);
+			count += ft_putchar(value[3]);
 			num_len -= 2;
 		}
 		else if (value[0] == '0' && value[1] == '0' && value[2] == '0' && value[3] != '0') {
-			ft_putchar(value[3]);
+			count += ft_putchar(value[3]);
 			num_len -= 3;
 		} else {
 			if (value[0] == '0' && value[1] == '0' && value[2] == '0' && value[3] == '0') {
-				ft_putchar('0');
+				count += ft_putchar('0');
 			} else {
-				ft_putchar(value[0]);
-				ft_putchar(value[1]);
-				ft_putchar(value[2]);
-				ft_putchar(value[3]);
+				count += ft_putchar(value[0]);
+				count += ft_putchar(value[1]);
+				count += ft_putchar(value[2]);
+				count += ft_putchar(value[3]);
 			}
 		}
 	} else {
-		ft_putchar('0');
+		count += ft_putchar('0');
 		num_len -= 3;
 	}
 	if (flags.padding != 0 && flags.left) {
 		while (i < flags.padding - num_len - 1) {
-			ft_putchar(' ');
+			count += ft_putchar(' ');
 			i++;
 		}	
 	}
+	return (count);
 }
 
 
@@ -1347,9 +1350,9 @@ int	ft_printf(char *str, ...) {
 			else if(str[i + 1] == 'o')
 				count += put_16bit_octal(va_arg(list, unsigned int), flags);
 			else if(str[i + 1] == 'x')
-				put_16bit_hex(va_arg(list, unsigned int), 0, flags);
+				count += put_16bit_hex(va_arg(list, unsigned int), 0, flags);
 			else if (str[i + 1] == 'X')
-				put_16bit_hex(va_arg(list, unsigned int), 1, flags);
+				count += put_16bit_hex(va_arg(list, unsigned int), 1, flags);
 			i += 1;
 		}
 		else if (str[i] == 'l' && str[i + 1] == 'l') {
