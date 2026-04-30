@@ -440,7 +440,6 @@ int	put_number_ll(signed long long n, int base, int is_uppercase) {
 	if (n == 0)
 		return (ft_putchar('0'));
 	else if (n < 0) {
-		count++;
 		nb = (unsigned long long)-n;
 	} else {
 		nb = (unsigned long long)n;
@@ -475,28 +474,30 @@ int	put_number_ull(unsigned long long n, int base, int is_uppercase) {
 int     put_numbers_args_ll(signed long long n, int base, int is_uppercase, t_flags flags) { 
 	int i;
 	int num_len;
+	int count;
 
+	count = 0;
 	i = 0;
 	num_len = ft_numlen_ll(n);
-	put_formatting_from_flags(n, base, flags, 1);
+	count += put_formatting_from_flags(n, base, flags, 1);
 	if (flags.left && flags.plus) {
 		if( n >= 0)
-			ft_putchar('+');
+			count += ft_putchar('+');
 		num_len++;
 	}
 	if (flags.space && !flags.padding && !flags.plus) {
 		if (n >= 0) {
-			ft_putchar(' ');
+			count += ft_putchar(' ');
 		}
 	}	
-	put_number_ll(n, base, is_uppercase);
+	count += put_number_ll(n, base, is_uppercase);
 	if (flags.padding != 0 && flags.left) {
 		while (i < flags.padding - num_len) {
-			ft_putchar(' ');
+			count += ft_putchar(' ');
 			i++;
 		}	
 	}
-	return (0);
+	return (count);
 }
 
 int     put_numbers_args_ull(unsigned long long n, int base, int is_uppercase, t_flags flags) { 
@@ -1363,9 +1364,9 @@ int	ft_printf(char *str, ...) {
 			if (str[i + 2] == 'u')
 				count += put_numbers_args_ull(va_arg(list, unsigned long long), 10, 0, flags);
 			else if (str[i + 2] == 'd')
-				put_numbers_args_ll(va_arg(list, long long), 10, 0, flags);
+				count += put_numbers_args_ll(va_arg(list, long long), 10, 0, flags);
 			else if (str[i + 2] == 'i')
-				put_numbers_args_ll(va_arg(list, long long), 10, 0, flags);
+				count += put_numbers_args_ll(va_arg(list, long long), 10, 0, flags);
 			else if (str[i + 2] == 'o')
 				count += put_numbers_args_ull(va_arg(list, unsigned long long), 8, 0, flags);
 			else if (str[i + 2] == 'x')
@@ -1378,9 +1379,9 @@ int	ft_printf(char *str, ...) {
 			if (str[i + 1] == 'u')
 				count += put_numbers_args_ull(va_arg(list, unsigned long), 10, 0, flags);
 			else if (str[i + 1] == 'd')
-				put_numbers_args_ll(va_arg(list, signed long long), 10, 0, flags);
+				count += put_numbers_args_ll(va_arg(list, signed long long), 10, 0, flags);
 			else if (str[i + 1] == 'i')
-				put_numbers_args_ll(va_arg(list, signed long long), 10, 0, flags);
+				count += put_numbers_args_ll(va_arg(list, signed long long), 10, 0, flags);
 			else if (str[i + 1] == 'o')
 				count += put_numbers_args_ull(va_arg(list, unsigned long), 8, 0, flags);
 			else if (str[i + 1] == 'x')
