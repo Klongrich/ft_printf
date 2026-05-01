@@ -969,6 +969,98 @@ int	put_16bit_octal(unsigned int num, t_flags flags) {
 	return (count);
 }
 
+int	put_8bit(unsigned int num, int s, t_flags flags) {
+	int bits[8];
+	int j;
+	int i;
+	int value;
+	int num_len;
+	int count;
+
+	count = 0;
+	i = 7;
+	j = 0;
+	value = 0;
+	while (i > -1) {
+		bits[j] = (num >> i) & 1;
+		i--;
+		j++;	
+	}
+	i = 7;
+	j = 0;
+	while (i > -1) {
+		switch(i) {
+			case 7:
+				if (bits[j] == 1) {
+					if (s)
+						value -= 128;
+					else
+						value += 128;
+				}
+				break;
+			case 6:
+				if (bits[j] == 1)
+					value += 64;
+				break;
+			case 5:
+				if(bits[j] == 1)
+					value += 32;
+				break;
+			case 4:
+				if(bits[j] == 1)
+					value += 16;
+				break;
+			case 3:
+				if(bits[j] == 1)
+					value += 8;
+				break;
+			case 2:
+				if(bits[j] == 1)
+					value += 4;
+				break;
+			case 1:
+				if(bits[j] == 1)
+					value += 2;
+				break;
+			case 0:
+				if (bits[j] == 1)
+					value += 1;
+				break;
+
+		}
+		i--;
+		j++;
+	}
+
+	num_len = ft_numlen(value) + 1;
+	if (s)
+		count += put_formatting_from_flags(value, 10, flags, 1);
+	else
+		count += put_formatting_from_flags(value, 10, flags, 0);
+	if (flags.left && flags.padding != 0 && s) {
+		if (value < 0) {
+			count += ft_putchar('-');
+		}
+		if (value >= 0 && flags.plus) {
+			count += ft_putchar('+');
+			num_len++;
+		}
+	}
+	if (s && !flags.padding && !flags.plus && flags.space) {
+		if (value >= 0) {
+			count += ft_putchar(' ');
+		}
+	}	
+	count += ft_putnbr_f(value);
+	if (flags.padding != 0 && flags.left) {
+		while (i < flags.padding - num_len) {
+			count += ft_putchar(' ');
+			i++;
+		}	
+	}
+	return (count);
+}
+
 int	put_16bit(unsigned int num, int s, t_flags flags) {
 	int bits[16];
 	int j;

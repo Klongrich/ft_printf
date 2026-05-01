@@ -24,7 +24,6 @@ static int g_failed = 0;
 } while (0)
 
 int    ft_printf(char *str, ...); 
-void    put_64bit_ull(unsigned long long num);
 
 typedef struct args {
 	int	zero;
@@ -36,6 +35,3 @@ typedef struct args {
 	int	dot;
 
 }		t_flags;
-
-int     put_8bit(unsigned int num, int s, t_flags flags);
-int     put_formatting_from_flags(long n, int base, t_flags flags, int is_signed);

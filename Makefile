@@ -1,14 +1,11 @@
 NAME = ft_printf
-OBJ = main.o ft_printf.o put_8bit.o
+OBJ = main.o ft_printf.o
 INC = -I inc
 CFLAGS = -w 
 LIBFT = libft/libft.a
 LIBH = libft/libft.h
 
 all: $(NAME)
-
-%.o: $(addprefix ./8_bit/,%.c)
-	@gcc $(CFLAGS) $(INC) -c $< $(LIBH)
 
 %.o: $(addprefix ./src/,%.c)
 	@gcc $(CFLAGS) $(INC) -c $< $(LIBH)
