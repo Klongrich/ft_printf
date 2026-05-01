@@ -290,6 +290,31 @@ int	put_formatting_from_flags(long n, int base, t_flags flags, int is_signed) {
 }
 
 
+int	get_numlen_ull(unsigned long long n, int base) {
+	if (base == 17 || base == 16)
+		return(ft_numlen_hex(n));
+	else if (base == 8) 
+		return(ft_numlen_oct(n));
+	else  
+		return(ft_numlen_ull(n));
+}
+
+int	put_padding_zero_ull(unsigned long long n, int base, int num_len, t_flags flags) {
+	int count;
+	int i;
+
+	count = 0;
+	i = 0;
+	if (base == 16 && flags.pound && n != 0) {
+		count += ft_count_putstr("0x");
+		num_len += 2;
+	}
+	while (i < flags.padding - num_len ) {
+		count += ft_putchar('0');
+		i++;
+	}
+	return (count);
+}
 
 int	put_formatting_from_flags_ull(unsigned long long n, int base, t_flags flags) {
 	int i;
@@ -298,50 +323,52 @@ int	put_formatting_from_flags_ull(unsigned long long n, int base, t_flags flags)
 
 	count = 0;
 	i = 0;
-	if (base == 17 || base == 16)
-		num_len = ft_numlen_hex(n);
-	else if (base == 8) {
-		num_len = ft_numlen_oct(n);
-	} else  
-		num_len = ft_numlen_ull(n);
-	if (flags.zero) {
-		if (base == 16) {
-			if (flags.pound) {
-				if(n != 0) {
-					count += ft_putchar('0');
-					count += ft_putchar('x');
-					num_len += 2;
-				}
-			}
-		}
-	}
+	num_len = get_numlen_ull(n, base);
+	if (flags.zero && !flags.left)
+		return (put_padding_zero_ull(n, base, num_len, flags));
 	if (flags.padding != 0 && !flags.left) {
-		if (flags.zero) {
-			while (i < flags.padding - num_len ) {
-				count += ft_putchar('0');
-				i++;
-			}
-		} else {
-			if (base == 16) {
-				if (flags.pound) {
-					if (n != 0)
-						num_len += 2;
-				}
-			} 
-			while (i < flags.padding - num_len) {
-				count += ft_putchar(' ');
-				i++;
-			}
+		if (base == 16 && flags.pound && n != 0) 
+			num_len += 2;
+		while (i++ < flags.padding - num_len) 
+			count += ft_putchar(' ');
+		if (base == 16 && flags.pound && n != 0) 
+			count += ft_count_putstr("0x");
+	}
+	return (count);
+}
 
-			if (base == 16) {
-				if (flags.pound)  {
-					if (n != 0) {
-						count += ft_putchar('0');
-						count += ft_putchar('x');
-					}
-				}
-			} 
-		}	
+int	get_numlen_args(long n, int base) {
+	if (base == 17 || base == 16)
+		return (ft_numlen_hex(n));
+	if (base == 8)
+		return (ft_numlen_oct(n));
+	else
+		return (ft_numlen_ll(n));
+
+}
+
+int	put_padding_left(long n, int base, int is_uppercase, t_flags flags) {
+	int count;	
+	int i;
+	int num_len;
+
+	i = 0;
+	count = 0;
+	num_len = get_numlen_args(n, base);
+	if (flags.left && flags.plus && base != 8  && base != 16) {
+		count += ft_putchar('+');
+		num_len++;
+	}
+	if (flags.left && flags.pound && base == 16 && n != 0) {
+		count += ft_count_putstr("0x");
+		num_len++;
+	}
+	count += put_number(n, base, is_uppercase, "holder");
+	if (flags.pound && base == 16 && n != 0) 
+		num_len += 1;
+	if (flags.left && flags.padding != 0) {
+		while (i++ < flags.padding - num_len) 
+			count += ft_putchar(' ');
 	}
 	return (count);
 }
@@ -353,54 +380,23 @@ int     put_numbers_args(long n, int base, int is_uppercase, t_flags flags) {
 
 	count = 0;
 	i = 0;
-	if (base == 17 || base == 16)
-		num_len = ft_numlen_hex(n);
-	else if (base == 8) {
-		num_len = ft_numlen_oct(n);
-	} else
-		num_len = ft_numlen_ll(n);
-
+	num_len = get_numlen_args(n, base);
 	if (base == 8 || base == 16 || base == 17)
 		count += put_formatting_from_flags(n, base, flags, 0);
 	else
 		count += put_formatting_from_flags(n, base, flags, 1);
 	if (base == 17)
 		base = 16;
-	if (flags.left && flags.plus && base != 8  && base != 16) {
-		count += ft_putchar('+');
-		num_len++;
-	}
-	if (flags.left && flags.pound && base == 16) {
-		if (n != 0) {
-			count += ft_count_putstr("0x");
-			num_len++;
-		}
-	}
-
-	if (!flags.left && !flags.padding && flags.pound && base == 16) {
-		if (n != 0)
+	if (flags.left) 
+		return (put_padding_left(n, base, is_uppercase, flags));
+	else {
+		if (!flags.left && !flags.padding && flags.pound && base == 16 && n != 0)
 			count += ft_count_putstr("0x");	
-	}
-	if (base == 10) {
-		if (flags.space && !flags.padding && !flags.plus) {
-			if (n >= 0) {
-				count += ft_putchar(' ');
-			}
-		}
-	}
-	count += put_number(n, base, is_uppercase, "holder");
-	if (base == 16) {
-		if (flags.pound && n != 0)
-			num_len += 1;
-	}
-	
-	if (flags.padding != 0 && flags.left) {
-		while (i < flags.padding - num_len) {
+		if (flags.space && !flags.padding && !flags.plus && base == 10 && n >= 0) 
 			count += ft_putchar(' ');
-			i++;
-		}	
+		count += put_number(n, base, is_uppercase, "holder");
+		return (count);
 	}
-	return (count);
 }
 
 int     put_numbers_args_u(long n, int base, int is_uppercase, t_flags flags) { 
@@ -561,18 +557,14 @@ int     put_numbers_args_ull(unsigned long long n, int base, int is_uppercase, t
 	} else
 		num_len = ft_numlen_ull(n);
 	count += put_formatting_from_flags_ull(n, base, flags);	
-	if (base == 16 && flags.pound && (!flags.padding || flags.left)) {
-		if (n != 0) {
-			count += ft_count_putstr("0x");
-			num_len += 2;
-		}
+	if (base == 16 && flags.pound && n != 0 && (!flags.padding || flags.left)) {
+		count += ft_count_putstr("0x");
+		num_len += 2;
 	}
 	count += put_number_ull(n, base, is_uppercase);
 	if (flags.padding != 0 && flags.left) {
-		while (i < flags.padding - num_len) {
+		while (i++ < flags.padding - num_len) 
 			count += ft_putchar(' ');
-			i++;
-		}	
 	}
 	return (count);
 }
@@ -590,20 +582,16 @@ int	put_pointer(void *pointer, t_flags flags) {
 	num_len = ft_numlen_ll(address);
 	num_len--;
 	if (flags.padding != 0 && !flags.left) {
-		while (i < flags.padding - num_len) {
+		while (i++ < flags.padding - num_len)
 			count += ft_putchar(' ');
-			i++;
-		}
 	}
 	if (pointer == NULL)
 		count += ft_count_putstr("(nil)");
 	count += ft_count_putstr("0x");
 	count += putunit_max(address, 16);
 	if (flags.padding != 0 && flags.left) {
-		while (i < flags.padding - num_len) {
+		while (i++ < flags.padding - num_len)
 			count += ft_putchar(' ');
-			i++;
-		}
 	}
 	return(count);
 }
