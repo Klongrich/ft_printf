@@ -1756,6 +1756,17 @@ int	main() {
 
 	CHECK("testing str: %s\n", "another str");
 
+	CHECK("%u\n", 49930);
+
+	int k;
+
+	k = 123;
+
+	CHECK("%p\n",&k); 
+
+	printf("\n=== FINAL RESULTS ===\n");
+    	printf("\033[32mPassed: %d\033[0m\n", g_passed);
+    	printf("\033[31mFailed: %d\033[0m\n", g_failed);
 	
 	//CHECK("\n %hhd - %hhi - %ho - %hu - %d -  %u - %ld\n", -55, 110, check, check, check, check, check, check);
 	//CHECK("%hd - %hi - %hu - %hx - %hX - %ho\n", check, check, check, check, check, check);
