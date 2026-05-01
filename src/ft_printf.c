@@ -615,178 +615,136 @@ int	convert_octal_bits(int bit1, int bit2, int bit3) {
 
 
 int	convert_hex_bits(int bit1, int bit2, int bit3, int bit4) {
-	if (bit1 == 0 && bit2 == 0 && bit3 == 0 && bit4 == 0)
-		return (0);
-	if (bit1 == 0 && bit2 == 0 && bit3 == 0 && bit4 == 1)
-		return (1);
-	if (bit1 == 0 && bit2 == 0 && bit3 == 1 && bit4 == 0)
-		return (2);
-	if (bit1 == 0 && bit2 == 0 && bit3 == 1 && bit4 == 1)
-		return (3);
-	if (bit1 == 0 && bit2 == 1 && bit3 == 0 && bit4 == 0)
-		return(4);
-	if (bit1 == 0 && bit2 == 1 && bit3 == 0 && bit4 == 1)
-		return (5);
-	if (bit1 == 0 && bit2 == 1 && bit3 == 1 && bit4 == 0)
-		return (6);
-	if (bit1 == 0 && bit2 == 1 && bit3 == 1 && bit4 == 1)
-		return (7);
-	if (bit1 == 1 && bit2 == 0 && bit3 == 0 && bit4 == 0)
-		return (8);
-	if (bit1 == 1 && bit2 == 0 && bit3 == 0 && bit4 == 1)
-		return (9);
-	if (bit1 == 1 && bit2 == 0 && bit3 == 1 && bit4 == 0)
-		return (10);
-	if (bit1 == 1 && bit2 == 0 && bit3 == 1 && bit4 == 1)
-		return (11);
-	if (bit1 == 1 && bit2 == 1 && bit3 == 0 && bit4 == 0)
-		return (12);
-	if (bit1 == 1 && bit2 == 1 && bit3 == 0 && bit4 == 1)
-		return (13);
-	if (bit1 == 1 && bit2 == 1 && bit3 == 1 && bit4 == 0)
-		return (14);
-	if (bit1 == 1 && bit2 == 1 && bit3 == 1 && bit4 == 1)
-		return (15);
-	return (0);
+	return (bit1 == 0 && bit2 == 0 && bit3 == 0 && bit4 == 0) ? 0 :
+	(bit1 == 0 && bit2 == 0 && bit3 == 0 && bit4 == 1) ? 1 :
+	(bit1 == 0 && bit2 == 0 && bit3 == 1 && bit4 == 0) ? 2 :
+	(bit1 == 0 && bit2 == 0 && bit3 == 1 && bit4 == 1) ? 3 :
+	(bit1 == 0 && bit2 == 1 && bit3 == 0 && bit4 == 0) ? 4 :
+	(bit1 == 0 && bit2 == 1 && bit3 == 0 && bit4 == 1) ? 5 :
+	(bit1 == 0 && bit2 == 1 && bit3 == 1 && bit4 == 0) ? 6 :
+	(bit1 == 0 && bit2 == 1 && bit3 == 1 && bit4 == 1) ? 7 :
+	(bit1 == 1 && bit2 == 0 && bit3 == 0 && bit4 == 0) ? 8 :
+	(bit1 == 1 && bit2 == 0 && bit3 == 0 && bit4 == 1) ? 9 :
+	(bit1 == 1 && bit2 == 0 && bit3 == 1 && bit4 == 0) ? 10 :
+	(bit1 == 1 && bit2 == 0 && bit3 == 1 && bit4 == 1) ? 11 :
+	(bit1 == 1 && bit2 == 1 && bit3 == 0 && bit4 == 0) ? 12 :
+	(bit1 == 1 && bit2 == 1 && bit3 == 0 && bit4 == 1) ? 13 :
+	(bit1 == 1 && bit2 == 1 && bit3 == 1 && bit4 == 0) ? 14 : 
+	(bit1 == 1 && bit2 == 1 && bit3 == 1 && bit4 == 1) ? 15 : 0;
 }
 
 
 char	get_hex_char(int num) {
-	if (num == 0)
-		return ('0');
-	if (num == 1)
-		return ('1');
-	if (num == 2)
-		return ('2');
-	if (num == 3)
-		return ('3');
-	if (num == 4)
-		return ('4');
-	if (num == 5)
-		return ('5');
-	if (num == 6)
-		return ('6');
-	if (num == 7)
-		return ('7');
-	if (num == 8)
-		return ('8');
-	if (num == 9)
-		return ('9');
-	if (num == 10)
-		return ('a');
-	if (num == 11)
-		return ('b');
-	if (num == 12)
-		return ('c');
-	if (num == 13)
-		return ('d');
-	if (num == 14)
-		return ('e');
-	if (num == 15)
-		return ('f');
-	return ('0');
-
+	return (num == 0)  ? '0' :
+	(num == 1)  ? '1' :
+	(num == 2)  ? '2' :
+	(num == 3)  ? '3' :
+	(num == 4)  ? '4' :
+	(num == 5)  ? '5' :
+	(num == 6)  ? '6' :
+	(num == 7)  ? '7' :
+	(num == 8)  ? '8' :
+	(num == 9)  ? '9' :
+	(num == 10) ? 'a' :
+	(num == 11) ? 'b' :
+	(num == 12) ? 'c' :
+	(num == 13) ? 'd' :
+	(num == 14) ? 'e' :
+	(num == 15) ? 'f' : '0';
 }
 
 char	get_hex_char_uppercase(int num) {
-	if (num == 0)
-		return ('0');
-	if (num == 1)
-		return ('1');
-	if (num == 2)
-		return ('2');
-	if (num == 3)
-		return ('3');
-	if (num == 4)
-		return ('4');
-	if (num == 5)
-		return ('5');
-	if (num == 6)
-		return ('6');
-	if (num == 7)
-		return ('7');
-	if (num == 8)
-		return ('8');
-	if (num == 9)
-		return ('9');
-	if (num == 10)
-		return ('A');
-	if (num == 11)
-		return ('B');
-	if (num == 12)
-		return ('C');
-	if (num == 13)
-		return ('D');
-	if (num == 14)
-		return ('E');
-	if (num == 15)
-		return ('F');
-	return ('0');
-
+	return (num == 0)  ? '0' :
+	(num == 1)  ? '1' :
+	(num == 2)  ? '2' :
+	(num == 3)  ? '3' :
+	(num == 4)  ? '4' :
+	(num == 5)  ? '5' :
+	(num == 6)  ? '6' :
+	(num == 7)  ? '7' :
+	(num == 8)  ? '8' :
+	(num == 9)  ? '9' :
+	(num == 10) ? 'A' :
+	(num == 11) ? 'B' :
+	(num == 12) ? 'C' :
+	(num == 13) ? 'D' :
+	(num == 14) ? 'E' :
+	(num == 15) ? 'F' : '0';
 }
 
-int 	put_8bit_hex(unsigned int num, int uppercase, t_flags flags) {
-	int bits[8];
-	int j;
-	int i;
-	char value[2];
-	int num_len;
+int	put_8bit_hex_value(unsigned int num, char *value) {
 	int count;
-	
-	count = 0;
-	i = 7;
-	j = 0;
-	while (i > -1) {
-		bits[j] = (num >> i) & 1;
-		i--;
-		j++;
-	}
-	if (!uppercase) {
-		value[0] = get_hex_char(convert_hex_bits(bits[0], bits[1], bits[2], bits[3]));
-		value[1] = get_hex_char(convert_hex_bits(bits[4], bits[5], bits[6], bits[7]));
-	} else {
-		value[0] = get_hex_char_uppercase(convert_hex_bits(bits[0], bits[1], bits[2], bits[3]));
-		value[1] = get_hex_char_uppercase(convert_hex_bits(bits[4], bits[5], bits[6], bits[7]));
-	}
 
-	num_len = 2;
-	
-	if (value[0] == '0' && value[1] != '0')
-		count += put_formatting_from_flags(1, 16, flags, 1);
-	else if (num != 0)
-		count += put_formatting_from_flags(11, 16, flags, 1);
-	else
-		count += put_formatting_from_flags(0, 16, flags, 1);
-	if (flags.pound && flags.left && !flags.zero && num != 0) {
-		count += ft_count_putstr("0x");
-		num_len++;
-		num_len++;
-	}
-	if (!flags.left && !flags.padding && !flags.zero && flags.pound) {
-		if (num != 0) 
-			count += ft_count_putstr("0x");
-	}
+	count = 0;
 	if (num != 0) {	
 		if (value[0] == '0' && value[1] == '0')
 			count += ft_putchar('0');
 		else {
 			if (value[0] != '0')
 				count += ft_putchar(value[0]);
-			else
-				num_len--;
 			count += ft_putchar(value[1]);
 		}
 	} else {
 		count += ft_putchar('0');
-		num_len--;
-	}
-	if (flags.padding != 0 && flags.left) {
-		while (i < flags.padding - num_len - 1) {
-			count += ft_putchar(' ');
-			i++;
-		}	
 	}
 	return (count);
+}
+
+int	put_8bit_hex_value_padding_left(char *value, unsigned int num, t_flags flags) {
+	int count;
+	int num_len;
+	int i;
+
+	i = 0;
+	count = 0;
+	num_len = 2;
+	if (flags.pound && flags.left && !flags.zero && num != 0) {
+		count += ft_count_putstr("0x");
+		num_len += 2;
+	}
+	if (!flags.left && !flags.padding && !flags.zero && flags.pound && num != 0)
+		count += ft_count_putstr("0x");
+	if (value[0] == '0' && num == 0)
+		num_len--;
+	count += put_8bit_hex_value(num, value);
+	if (flags.padding != 0 && flags.left) {
+		while (i++ < flags.padding - num_len) 
+			count += ft_putchar(' ');
+	}
+	return (count);
+}
+
+void	*get_hex_values(int uppercase, int *bits, char *res) {
+	if (!uppercase) {
+		res[0] = get_hex_char(convert_hex_bits(bits[0], bits[1], bits[2], bits[3]));
+		res[1] = get_hex_char(convert_hex_bits(bits[4], bits[5], bits[6], bits[7]));
+	} else {
+		res[0] = get_hex_char_uppercase(convert_hex_bits(bits[0], bits[1], bits[2], bits[3]));
+		res[1] = get_hex_char_uppercase(convert_hex_bits(bits[4], bits[5], bits[6], bits[7]));
+	}
+	res[2] = '\0';
+}
+
+int 	put_8bit_hex(unsigned int num, int uppercase, t_flags flags) {
+	int bits[8];
+	int j;
+	int i;
+	char value[3];
+	int count;
+
+	count = 0;
+	i = 7;
+	j = 0;
+	while (i > -1) 
+		bits[j++] = (num >> i--) & 1;
+	get_hex_values(uppercase, bits, value);
+	if (value[0] == '0' && value[1] != '0')
+		count += put_formatting_from_flags(1, 16, flags, 1);
+	else if (num != 0)
+		count += put_formatting_from_flags(11, 16, flags, 1);
+	else
+		count += put_formatting_from_flags(0, 16, flags, 1);
+	return (count += put_8bit_hex_value_padding_left(value, num, flags) );
 }
 
 int	put_16bit_hex(unsigned int num, int uppercase, t_flags flags) {
