@@ -714,7 +714,7 @@ int	put_8bit_hex_value_padding_left(char *value, unsigned int num, t_flags flags
 	return (count);
 }
 
-void	*get_hex_values(int uppercase, int *bits, char *res) {
+void	get_8bit_hex_values(int uppercase, int *bits, char *res) {
 	if (!uppercase) {
 		res[0] = get_hex_char(convert_hex_bits(bits[0], bits[1], bits[2], bits[3]));
 		res[1] = get_hex_char(convert_hex_bits(bits[4], bits[5], bits[6], bits[7]));
@@ -737,7 +737,7 @@ int 	put_8bit_hex(unsigned int num, int uppercase, t_flags flags) {
 	j = 0;
 	while (i > -1) 
 		bits[j++] = (num >> i--) & 1;
-	get_hex_values(uppercase, bits, value);
+	get_8bit_hex_values(uppercase, bits, value);
 	if (value[0] == '0' && value[1] != '0')
 		count += put_formatting_from_flags(1, 16, flags, 1);
 	else if (num != 0)
@@ -747,25 +747,7 @@ int 	put_8bit_hex(unsigned int num, int uppercase, t_flags flags) {
 	return (count += put_8bit_hex_value_padding_left(value, num, flags) );
 }
 
-int	put_16bit_hex(unsigned int num, int uppercase, t_flags flags) {
-	int bits[16];
-	int j;
-	int i;
-	char value[4];
-	int num_len;
-	int padding_value;
-	int count;	
-
-	count = 0;
-	i = 15;
-	j = 0;
-	padding_value = 1111;
-	while (i > -1) {
-		bits[j] = (num >> i) & 1;
-		i--;
-		j++;
-	}
-
+void	get_16bit_hex_values(int uppercase, int *bits, char *value) {
 	if (!uppercase) {
 		value[0] = get_hex_char(convert_hex_bits(bits[0], bits[1], bits[2], bits[3]));
 		value[1] = get_hex_char(convert_hex_bits(bits[4], bits[5], bits[6], bits[7]));
@@ -777,8 +759,11 @@ int	put_16bit_hex(unsigned int num, int uppercase, t_flags flags) {
 		value[2] = get_hex_char_uppercase(convert_hex_bits(bits[8], bits[9], bits[10], bits[11]));
 		value[3] = get_hex_char_uppercase(convert_hex_bits(bits[12], bits[13], bits[14], bits[15]));
 	}
+	value [4] = '\0';
+}
 
-	num_len = 4;
+int	get_padding_value(char *value) {
+	int padding_value = 1111;
 	if (value[0] == '0' && value[1] != '0') {
 		padding_value /= 10;
 	}
@@ -788,54 +773,103 @@ int	put_16bit_hex(unsigned int num, int uppercase, t_flags flags) {
 	else if (value[0] == '0' && value[1] == '0' && value[2] == '0' && value[3] != '0') {
 		padding_value /= 1000;
 	}
-	if (num != 0)
-		count += put_formatting_from_flags(padding_value, 16, flags, 1);
-	else
-		count += put_formatting_from_flags(0, 16, flags, 1);
-	if (flags.pound && flags.left && !flags.zero && num != 0) {
-		count += ft_count_putstr("0x");
-		num_len++;
-		num_len++;
-	}
-	if (!flags.left && !flags.padding && !flags.zero && flags.pound) {
-		if (num != 0) 
-			count += ft_count_putstr("0x");
-	}
+	return (padding_value);
+}
+
+
+int put_4hex_16bit(char *value) {
+	ft_putchar(value[0]);
+	ft_putchar(value[1]);
+	ft_putchar(value[2]);
+	ft_putchar(value[3]);
+	return (4);
+}
+
+int	put_16bit_hex_value(char *value, unsigned int num) {
+	int count;
+
+	count = 0;
 	if (num != 0) {
 		if (value[0] == '0' && value[1] != '0') {
 			count += ft_putchar(value[1]);
 			count += ft_putchar(value[2]);
 			count += ft_putchar(value[3]);
-			num_len--;
 		}
 		else if (value[0] == '0' && value[1] == '0' && value[2] != '0') {
 			count += ft_putchar(value[2]);
 			count += ft_putchar(value[3]);
-			num_len -= 2;
 		}
 		else if (value[0] == '0' && value[1] == '0' && value[2] == '0' && value[3] != '0') {
 			count += ft_putchar(value[3]);
-			num_len -= 3;
 		} else {
 			if (value[0] == '0' && value[1] == '0' && value[2] == '0' && value[3] == '0') {
 				count += ft_putchar('0');
-			} else {
-				count += ft_putchar(value[0]);
-				count += ft_putchar(value[1]);
-				count += ft_putchar(value[2]);
-				count += ft_putchar(value[3]);
-			}
+			} else 
+				count += put_4hex_16bit(value);
 		}
-	} else {
+	} else 
 		count += ft_putchar('0');
-		num_len -= 3;
+	return (count);
+}
+
+int 	get_padding_left_for_numlen(char *value, unsigned int num) {
+	if (num != 0) {
+		if (value[0] == '0' && value[1] != '0') 
+			return (-1);
+		else if (value[0] == '0' && value[1] == '0' && value[2] != '0')
+			return (-2);
+		else if (value[0] == '0' && value[1] == '0' && value[2] == '0' && value[3] != '0')
+			return (-3);
+		else
+			return (0);
+	} else {
+		return (-3);
 	}
+}
+
+int     put_16bit_hex_value_padding_left(char *value, unsigned int num, t_flags flags) {
+	int count;
+	int num_len;
+	int i;
+
+	i = 0;
+	count = 0;
+	num_len = 4;
+	if (flags.pound && flags.left && !flags.zero && num != 0) {
+		count += ft_count_putstr("0x");
+		num_len += 2;
+	}
+	if (!flags.left && !flags.padding && !flags.zero && flags.pound && num != 0) 
+		count += ft_count_putstr("0x");
+	num_len += get_padding_left_for_numlen(value, num);
+	count += put_16bit_hex_value(value, num);
 	if (flags.padding != 0 && flags.left) {
-		while (i < flags.padding - num_len - 1) {
+		while (i < flags.padding - num_len) {
 			count += ft_putchar(' ');
 			i++;
 		}	
 	}
+	return (count);
+}
+
+int	put_16bit_hex(unsigned int num, int uppercase, t_flags flags) {
+	int bits[16];
+	int j;
+	int i;
+	char value[5];
+	int count;	
+
+	count = 0;
+	i = 15;
+	j = 0;
+	while (i > -1) 
+		bits[j++] = (num >> i--) & 1;
+	get_16bit_hex_values(uppercase, bits, value);
+	if (num != 0)
+		count += put_formatting_from_flags(get_padding_value(value), 16, flags, 1);
+	else
+		count += put_formatting_from_flags(0, 16, flags, 1);
+	count += put_16bit_hex_value_padding_left(value, num, flags);
 	return (count);
 }
 
@@ -860,8 +894,6 @@ int	put_8bit_octal(unsigned int num, t_flags flags) {
 	value += convert_octal_bits(0, bits[0], bits[1]) * 100;
 	value += convert_octal_bits(bits[2], bits[3], bits[4]) * 10;
 	value += convert_octal_bits(bits[5], bits[6], bits[7]);
-	
-
 	num_len = ft_numlen(value);
 	count += put_formatting_from_flags(value, 8, flags, 1);	
 	count += ft_putnbr_f(value);
@@ -898,7 +930,6 @@ int	put_16bit_octal(unsigned int num, t_flags flags) {
 	value += convert_octal_bits(bits[7], bits[8], bits[9]) * 100;
 	value += convert_octal_bits(bits[10], bits[11], bits[12]) * 10;
 	value += convert_octal_bits(bits[13], bits[14], bits[15]);
-
 	num_len = ft_numlen(value);
 	count += put_formatting_from_flags(value, 8, flags, 1);	
 	count += ft_putnbr_f(value);
