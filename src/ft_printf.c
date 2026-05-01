@@ -37,6 +37,21 @@ t_flags init() {
 	return (flags);
 }
 
+void	set_flags(char c, t_flags *flags) {
+	if (c == '#')
+		flags->pound = 1;
+	else if (c == '0')
+		flags->zero = 1;
+	else if (c == '-')
+		flags->left = 1;
+	else if (c == '+')
+		flags->plus = 1;
+	else if (c == ' ')
+		flags->space = 1;
+	else if (c == '.')
+		flags->dot = 1;
+}
+
 void	parse_flags(char *buffer, t_flags *flags) {
 	int i;
 	int j;
@@ -46,18 +61,7 @@ void	parse_flags(char *buffer, t_flags *flags) {
 	j = 0;
 	buff[0] = '\0';
 	while (buffer[i] == '#' || buffer[i] == '0' || buffer[i] == '-' || buffer[i] == '+' || buffer[i] == ' ' || buffer[i] == '.') {
-		if (buffer[i] == '#')
-			flags->pound = 1;
-		else if (buffer[i] == '0')
-			flags->zero = 1;
-		else if (buffer[i] == '-')
-			flags->left = 1;
-		else if (buffer[i] == '+')
-			flags->plus = 1;
-		else if (buffer[i] == ' ')
-			flags->space = 1;
-		else if (buffer[i] == '.')
-			flags->dot = 1;
+		set_flags(buffer[i], flags);
 		i++;
 	}
 	while (buffer[i]) {
@@ -131,6 +135,135 @@ int             ft_numlen_oct(unsigned long long n) {
          return (i);
 }
 
+int	get_numlen(long n, int base) {
+	if (base == 17) {
+ 		return(ft_numlen_hex(n));
+	} else if (base == 8) {
+		return(ft_numlen_oct(n));
+	}  else
+		return(ft_numlen_ll(n));
+}
+
+int 	put_dot(long n, int num_len, int count, int padding) {
+	int i;
+
+	i = 0;
+	if (n < 0 ) {
+		count += ft_putchar('-');
+		num_len--;
+	}
+	while (i < padding - num_len) {
+		count += ft_putchar('0');
+		i++;	
+	}
+	return (count);
+}
+
+int	put_padding_zero(long n, int base, int num_len, t_flags flags) {
+	int count;
+	int i;	
+
+	i = 0;
+	count = 0;
+	if (base == 16 && flags.pound) {
+		if(n != 0) {
+			count += ft_putchar('0');
+			count += ft_putchar('x');
+			num_len += 2;
+		}
+	} else {
+		if (n > 0 && flags.plus && base != 8) {
+			count += ft_putchar('+');
+			num_len++;
+		}
+		else if (n < 0)
+			count += ft_putchar('-');
+	}
+	while (i < flags.padding - num_len ) {
+		count += ft_putchar('0');
+		i++;
+	}
+	return (count);
+}
+
+int	put_no_padding(long n, int base, int is_signed, t_flags flags) {
+	int count;
+
+	count = 0;
+	if (flags.padding == 0 && base != 16) {
+		if (flags.plus && n >= 0) {
+			count  += ft_putchar('+');
+		}
+	}
+	if (flags.padding == 0 && flags.space) {
+		if (n >= 0 && !flags.plus && !is_signed)
+			count += ft_putchar(' ');
+	}
+	if (n < 0 && !flags.zero && !flags.padding) {
+		count += ft_putchar('-');
+	}
+	return (count);
+}
+
+int put_padding_right_hex(long n, int num_len, t_flags flags) {
+	int count;
+	int i;
+
+	count = 0;
+	i = 0;
+	if (flags.pound && n != 0) 
+		num_len += 2;
+	while (i < flags.padding - num_len) {
+		count += ft_putchar(' ');
+		i++;
+	}
+	if (flags.pound && n != 0)  {
+		count += ft_putchar('0');
+		count += ft_putchar('x');
+	}
+	return (count);
+}
+
+int put_padding_right_decimal_octal(long n, int base, int num_len, t_flags flags) {
+	int count;
+	int i;
+
+	i = 0;
+	count = 0;
+	if (flags.plus) {
+		if (n >= 0 && base != 8) {
+			if (!flags.padding)
+				count += ft_putchar('+');
+			num_len++;
+		}
+	}
+	while (i++ < flags.padding - num_len)
+		count += ft_putchar(' ');
+	if (n < 0 && !flags.plus)
+		count += ft_putchar('-');
+	if (flags.plus) {
+		if (n >= 0 && base != 8) {
+			count += ft_putchar('+');
+		} else if (n < 0)
+			count += ft_putchar('-');
+	}
+	return (count);
+}
+
+int put_padding_right(long n, int base, int num_len, t_flags flags) {
+	int count;
+	int i;	
+
+	i = 0;
+	count = 0;
+	if (base == 16) {
+		return (put_padding_right_hex(n, num_len, flags));
+	} else {
+		return (put_padding_right_decimal_octal(n, base, num_len, flags));
+	}
+	return (count);
+}
+
 int	put_formatting_from_flags(long n, int base, t_flags flags, int is_signed) {
 	int i;
 	int num_len;
@@ -142,103 +275,17 @@ int	put_formatting_from_flags(long n, int base, t_flags flags, int is_signed) {
 		flags.plus = 0;
 		flags.space = 0;
 	}
-	if (base == 17) {
- 		num_len = ft_numlen_hex(n);
+	num_len = get_numlen(n, base);
+	if (base == 17)
 		base = 16;
-	} else if (base == 8) {
-		num_len = ft_numlen_oct(n);
-	}  else
-		num_len = ft_numlen_ll(n);
-
-	if (flags.dot) {
-		if (n < 0 ) {
-			count += ft_putchar('-');
-			num_len--;
-		}
-		while (i < flags.padding - num_len) {
-			count += ft_putchar('0');
-			i++;	
-		}
-		return (count);
-	}
-	if (flags.zero) {
-		if (base == 16) {
-			if (flags.pound) {
-				if(n != 0) {
-					count += ft_putchar('0');
-					count += ft_putchar('x');
-					num_len += 2;
-				}
-			}
-		} else {
-			if (n > 0 && flags.plus && base != 8) {
-				count += ft_putchar('+');
-				num_len++;
-			}
-			else if (n < 0)
-				count += ft_putchar('-');
-		}
-	}
-	if (flags.padding == 0 && base != 16) {
-			if (flags.plus && n >= 0) {
-				count  += ft_putchar('+');
-				num_len++;
-			}
-	}
-	if (flags.padding == 0 && flags.space) {
-		if (n >= 0 && !flags.plus && !is_signed)
-			count += ft_putchar(' ');
-	}
-	if (flags.padding != 0 && !flags.left) {
-		if (flags.zero) {
-			while (i < flags.padding - num_len ) {
-				count += ft_putchar('0');
-				i++;
-			}
-		} else {
-			if (base == 16) {
-				if (flags.pound) {
-					if (n != 0)
-						num_len += 2;
-				}
-			} else {
-				if (flags.plus) {
-					if (n >= 0 && base != 8) {
-						if (!flags.padding)
-							count += ft_putchar('+');
-						num_len++;
-					}
-				}
-			}
-			while (i < flags.padding - num_len) {
-				count += ft_putchar(' ');
-				i++;
-			}
-
-			if (base == 16) {
-				if (flags.pound)  {
-					if (n != 0) {
-						count += ft_putchar('0');
-						count += ft_putchar('x');
-					}
-				}
-			} else {
-				if (n < 0 && !flags.plus) {
-					count += ft_putchar('-');
-				}
-				if (flags.plus) {
-					if (n >= 0 && base != 8) {
-						count += ft_putchar('+');
-					} else if (n < 0)
-						count += ft_putchar('-');
-				}
-			}
-		}	
-	}
-	if (n < 0 && !flags.zero && !flags.padding) {
-		count += ft_putchar('-');
-	}
-
+	if (flags.dot) 
+		return (put_dot(n, num_len, count, flags.padding));
+	if (flags.zero && !flags.left) 
+		return(put_padding_zero(n, base, num_len, flags));	
+	if (!flags.padding)
+		return (put_no_padding(n, base, is_signed, flags));
+	if (flags.padding != 0 && !flags.left)
+		return (put_padding_right(n, base, num_len, flags));
 	return (count);
 }
 
