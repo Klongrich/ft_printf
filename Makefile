@@ -1,7 +1,7 @@
 NAME = ft_printf
-OBJ = main.o ft_printf.o put_64bit_ull.o put_8bit.o
+OBJ = main.o ft_printf.o put_8bit.o
 INC = -I inc
-CFLAGS = 
+CFLAGS = -w 
 LIBFT = libft/libft.a
 LIBH = libft/libft.h
 
