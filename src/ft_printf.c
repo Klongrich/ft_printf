@@ -452,20 +452,16 @@ int     put_string_args(char *str, t_flags flags) {
  	else
 		str_len = ft_strlen(str);
 	if (flags.padding != 0 && !flags.left) {
-		while (i < flags.padding - str_len) {
+		while (i++ < flags.padding - str_len)
 			count += ft_putchar(' ');
-			i++;
-		}
 	}
 	if (str == NULL)
 		count += ft_count_putstr("(null)");
 	else
 		count += ft_count_putstr(str);
 	if (flags.padding != 0 && flags.left) {
-		while (i < flags.padding - str_len) {
+		while (i++ < flags.padding - str_len)
 			count += ft_putchar(' ');
-			i++;
-		}	
 	}
 	return (count);
 }
