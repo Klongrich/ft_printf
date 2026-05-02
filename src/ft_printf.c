@@ -1549,18 +1549,6 @@ int	print_data_type(char *str, int i, va_list list, t_flags flags) {
 	return (count);
 }
 
-/*
-void	print_flags(t_flags flags) {
-	printf("zero: %d\n", flags.zero);
-	printf("left: %d\n", flags.left);
-	printf("padding: %d\n", flags.padding);
-	printf("pound: %d\n", flags.pound);
-	printf("space: %d\n", flags.space);
-	printf("plus: %d\n", flags.plus);
-	printf("dot: %d\n", flags.dot);
-}
-*/
-
 int	parse_flag_parameters(char *str, int i, t_flags *flags) {
 	char 	buffer[4095];
 	int	j;
