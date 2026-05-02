@@ -873,7 +873,6 @@ int	put_16bit_hex(unsigned int num, int uppercase, t_flags flags) {
 	return (count);
 }
 
-
 int	put_8bit_octal(unsigned int num, t_flags flags) {
 	int bits[8];
 	int j;
@@ -886,11 +885,8 @@ int	put_8bit_octal(unsigned int num, t_flags flags) {
 	j = 0;
 	count = 0;
 	value = 0;
-	while (i > -1) {
-		bits[j] = (num >> i) & 1;
-		i--;
-		j++;
-	}
+	while (i > -1) 
+		bits[j++] = (num >> i--) & 1;
 	value += convert_octal_bits(0, bits[0], bits[1]) * 100;
 	value += convert_octal_bits(bits[2], bits[3], bits[4]) * 10;
 	value += convert_octal_bits(bits[5], bits[6], bits[7]);
@@ -1396,124 +1392,209 @@ int	check_c(char c) {
 	return (0);
 }
 
+
+int	check_nomral_data_type(char c) {
+	if (c == 'd' || c == 'i')
+		return (1);
+	if (c == 's')
+		return (1);
+	if (c == 'p')
+		return (1);
+	if (c == 'u')
+		return (1);
+	if (c == 'x')
+		return (1);
+	if (c == 'X')
+		return (1);
+	if (c == 'o')
+		return (1);
+	if (c == 'f')
+		return (1);
+	return (0);
+
+}
+
+int	put_normal_data_type(char *str, int i, va_list list, t_flags flags) {
+	int count;
+
+	count = 0;
+	if (str[i] == 'd' || str[i] == 'i')
+		count += put_numbers_args(va_arg(list, int), 10, 0, flags);
+	else if (str[i] == 's')
+		count += put_string_args(va_arg(list, char*), flags);
+	else if (str[i] == 'p')
+		count += put_pointer(va_arg(list, void*), flags);
+	else if (str[i] == 'u')
+		count += put_numbers_args_u(va_arg(list, unsigned int), 10, 0, flags);
+	else if (str[i] == 'x')
+		count += put_numbers_args(va_arg(list, unsigned int), 17, 0, flags);
+	else if (str[i] == 'X')
+		count += put_numbers_args(va_arg(list, unsigned int), 17, 1, flags);
+	else if (str[i] == 'o')
+		count += put_numbers_args(va_arg(list, unsigned int), 8, 0, flags);
+	else if (str[i] == 'f')
+		count += put_float(va_arg(list, double), flags);
+	return (count);
+}
+
+int	put_8bit_data(char *str, int i, va_list list, t_flags flags) {
+	int count;
+	
+	count = 0;
+	if (str[i + 2] == 'u')
+		count += put_8bit(va_arg(list, unsigned int), 0, flags);
+	else if (str[i + 2] == 'd')
+		count += put_8bit(va_arg(list, int), 1, flags);
+	else if (str[i + 2] == 'i')
+		count += put_8bit(va_arg(list, int), 1, flags);
+	else if (str[i + 2] == 'o')
+		count += put_8bit_octal(va_arg(list, unsigned int), flags);
+	else if (str[i + 2] == 'x')
+		count += put_8bit_hex(va_arg(list, unsigned int), 0, flags);
+	else if (str[i + 2] == 'X')
+		count += put_8bit_hex(va_arg(list, unsigned int), 1, flags);
+	return (count);
+}
+
+int	put_16bit_data(char *str, int i, va_list list, t_flags flags) {
+	int count;
+
+	count = 0;
+	if(str[i + 1] == 'u')
+		count += put_16bit(va_arg(list, unsigned int), 0, flags);
+	else if (str[i + 1] == 'd')
+		count += put_16bit(va_arg(list, int), 1, flags);
+	else if (str[i + 1] == 'i')
+		count += put_16bit(va_arg(list, int), 1, flags);
+	else if(str[i + 1] == 'o')
+		count += put_16bit_octal(va_arg(list, unsigned int), flags);
+	else if(str[i + 1] == 'x')
+		count += put_16bit_hex(va_arg(list, unsigned int), 0, flags);
+	else if (str[i + 1] == 'X')
+		count += put_16bit_hex(va_arg(list, unsigned int), 1, flags);
+	return (count);
+}
+
+int	put_long_data(char *str, int i, va_list list, t_flags flags) {
+	int count;
+
+	count = 0;
+	if (str[i + 1] == 'u')
+		count += put_numbers_args_ull(va_arg(list, unsigned long), 10, 0, flags);
+	else if (str[i + 1] == 'd')
+		count += put_numbers_args_ll(va_arg(list, signed long long), 10, 0, flags);
+	else if (str[i + 1] == 'i')
+		count += put_numbers_args_ll(va_arg(list, signed long long), 10, 0, flags);
+	else if (str[i + 1] == 'o')
+		count += put_numbers_args_ull(va_arg(list, unsigned long), 8, 0, flags);
+	else if (str[i + 1] == 'x')
+		count += put_numbers_args_ull(va_arg(list, unsigned long), 16, 0, flags);
+	else if (str[i + 1] == 'X')
+		count += put_numbers_args_ull(va_arg(list, unsigned long), 16, 1, flags);
+	else if (str[i + 1] == 'f')
+		count += put_float(va_arg(list, double), flags);
+	return (count);
+}
+
+int put_64bit_data(char *str, int i, va_list list, t_flags flags) {
+	int count;
+	
+	count = 0;
+	if (str[i + 2] == 'u')
+		count += put_numbers_args_ull(va_arg(list, unsigned long long), 10, 0, flags);
+	else if (str[i + 2] == 'd')
+		count += put_numbers_args_ll(va_arg(list, long long), 10, 0, flags);
+	else if (str[i + 2] == 'i')
+		count += put_numbers_args_ll(va_arg(list, long long), 10, 0, flags);
+	else if (str[i + 2] == 'o')
+		count += put_numbers_args_ull(va_arg(list, unsigned long long), 8, 0, flags);
+	else if (str[i + 2] == 'x')
+		count += put_numbers_args_ull(va_arg(list, unsigned long long), 16, 0, flags);
+	else if (str[i + 2] == 'X')
+		count += put_numbers_args_ull(va_arg(list, unsigned long long), 16, 1, flags);
+	return (count);
+}
+
+
+int	check_i(char *str, int i) {
+	if (str[i] == 'h' && str[i + 1] == 'h')
+		return (2);
+	else if (str[i] == 'h')
+		return (1);
+	else if (str[i] == 'l' && str[i + 1] == 'l')
+		return (2);
+	else if (str[i] == 'l')
+		return (1);
+	else if (str[i] == 'L')
+		return (1);
+	return (0);
+}
+
+int	print_data_type(char *str, int i, va_list list, t_flags flags) {
+	int count;
+
+	count = 0;
+	if (check_nomral_data_type(str[i])) 
+		count += put_normal_data_type(str, i, list, flags);
+	else if (str[i] == 'h' && str[i + 1] == 'h') 
+		count += put_8bit_data(str, i, list, flags);
+	else if (str[i] == 'h') 
+		count += put_16bit_data(str, i, list, flags);
+	else if (str[i] == 'l' && str[i + 1] == 'l') 
+		count += put_64bit_data(str, i, list, flags);
+	else if (str[i] == 'l') 
+		count += put_long_data(str, i, list, flags);
+	else if (str[i] == 'L' && str[i + 1] == 'f') 
+		count += put_float_L(va_arg(list, long double), flags);
+	return (count);
+}
+
+/*
+void	print_flags(t_flags flags) {
+	printf("zero: %d\n", flags.zero);
+	printf("left: %d\n", flags.left);
+	printf("padding: %d\n", flags.padding);
+	printf("pound: %d\n", flags.pound);
+	printf("space: %d\n", flags.space);
+	printf("plus: %d\n", flags.plus);
+	printf("dot: %d\n", flags.dot);
+}
+*/
+
+int	parse_flag_parameters(char *str, int i, t_flags *flags) {
+	char 	buffer[4095];
+	int	j;
+
+	j = 0;
+	buffer[0] = '\0';
+	while(!check_c(str[i]))
+		buffer[j++] = str[i++];
+	buffer[j] = '\0';
+	parse_flags(buffer, flags);
+	return (j);
+}
+
 int	ft_printf(char *str, ...) {
 	va_list list;
 	int	i;
-	int	j;
 	int 	count;
-	char	buffer[4095];
 	t_flags flags;
 
 	i = 0;
-	j = 0;
 	count = 0;
 	flags = init();
-	buffer[0] = '\0';
 	va_start(list, str);
 	while (str[i]) {
 		flags = init();
-		j = 0;
-		ft_bzero(buffer, ft_strlen(buffer));
-		while (str[i] != '%' && str[i]) {
-			count += ft_putchar(str[i]);
-			i++;
-		}
+		while (str[i] != '%' && str[i]) 
+			count += ft_putchar(str[i++]);
 		if (!str[i])
 			break ;
-		i++;
-		while (!check_c(str[i])) {
-			buffer[j] = str[i];
-			i++;
-			j++;
-		}
-		buffer[j] = '\0';
-		parse_flags(buffer, &flags);
-		if (str[i] == 'c') 
-			count +=  put_character_args(va_arg(list, int), flags);
-		if (str[i] == 'd' || str[i] == 'i')
-			count += put_numbers_args(va_arg(list, int), 10, 0, flags);
-		else if (str[i] == 's')
-			count += put_string_args(va_arg(list, char*), flags);
-		else if (str[i] == 'p')
-			count += put_pointer(va_arg(list, void*), flags);
-		else if (str[i] == 'u')
-			count += put_numbers_args_u(va_arg(list, unsigned int), 10, 0, flags);
-		else if (str[i] == 'x')
-			count += put_numbers_args(va_arg(list, unsigned int), 17, 0, flags);
-		else if (str[i] == 'X')
-			count += put_numbers_args(va_arg(list, unsigned int), 17, 1, flags);
-		else if (str[i] == 'o')
-			count += put_numbers_args(va_arg(list, unsigned int), 8, 0, flags);
-		else if (str[i] == 'f')
-			count += put_float(va_arg(list, double), flags);
-		else if (str[i] == 'h' && str[i + 1] == 'h') {
-			if (str[i + 2] == 'u')
-				count += put_8bit(va_arg(list, unsigned int), 0, flags);
-			else if (str[i + 2] == 'd')
-				count += put_8bit(va_arg(list, int), 1, flags);
-			else if (str[i + 2] == 'i')
-				count += put_8bit(va_arg(list, int), 1, flags);
-			else if (str[i + 2] == 'o')
-				count += put_8bit_octal(va_arg(list, unsigned int), flags);
-			else if (str[i + 2] == 'x')
-				count += put_8bit_hex(va_arg(list, unsigned int), 0, flags);
-			else if (str[i + 2] == 'X')
-				count += put_8bit_hex(va_arg(list, unsigned int), 1, flags);
-			i += 2;
-		}
-		else if (str[i] == 'h') {
-			if(str[i + 1] == 'u')
-				count += put_16bit(va_arg(list, unsigned int), 0, flags);
-			else if (str[i + 1] == 'd')
-				count += put_16bit(va_arg(list, int), 1, flags);
-			else if (str[i + 1] == 'i')
-				count += put_16bit(va_arg(list, int), 1, flags);
-			else if(str[i + 1] == 'o')
-				count += put_16bit_octal(va_arg(list, unsigned int), flags);
-			else if(str[i + 1] == 'x')
-				count += put_16bit_hex(va_arg(list, unsigned int), 0, flags);
-			else if (str[i + 1] == 'X')
-				count += put_16bit_hex(va_arg(list, unsigned int), 1, flags);
-			i += 1;
-		}
-		else if (str[i] == 'l' && str[i + 1] == 'l') {
-			if (str[i + 2] == 'u')
-				count += put_numbers_args_ull(va_arg(list, unsigned long long), 10, 0, flags);
-			else if (str[i + 2] == 'd')
-				count += put_numbers_args_ll(va_arg(list, long long), 10, 0, flags);
-			else if (str[i + 2] == 'i')
-				count += put_numbers_args_ll(va_arg(list, long long), 10, 0, flags);
-			else if (str[i + 2] == 'o')
-				count += put_numbers_args_ull(va_arg(list, unsigned long long), 8, 0, flags);
-			else if (str[i + 2] == 'x')
-				count += put_numbers_args_ull(va_arg(list, unsigned long long), 16, 0, flags);
-			else if (str[i + 2] == 'X')
-				count += put_numbers_args_ull(va_arg(list, unsigned long long), 16, 1, flags);
-			i += 2;
-		}
-		else if (str[i] == 'l') {
-			if (str[i + 1] == 'u')
-				count += put_numbers_args_ull(va_arg(list, unsigned long), 10, 0, flags);
-			else if (str[i + 1] == 'd')
-				count += put_numbers_args_ll(va_arg(list, signed long long), 10, 0, flags);
-			else if (str[i + 1] == 'i')
-				count += put_numbers_args_ll(va_arg(list, signed long long), 10, 0, flags);
-			else if (str[i + 1] == 'o')
-				count += put_numbers_args_ull(va_arg(list, unsigned long), 8, 0, flags);
-			else if (str[i + 1] == 'x')
-				count += put_numbers_args_ull(va_arg(list, unsigned long), 16, 0, flags);
-			else if (str[i + 1] == 'X')
-				count += put_numbers_args_ull(va_arg(list, unsigned long), 16, 1, flags);
-			else if (str[i + 1] == 'f')
-				count += put_float(va_arg(list, double), flags);
-			i += 1;
-		} else if (str[i] == 'L') {
-			if (str[i + 1] == 'f') {
-				count += put_float_L(va_arg(list, long double), flags);
-			}
-			i += 1;
-		}
-		i++;
+		i += parse_flag_parameters(str, i + 1, &flags) + 1;
+		if (str[i] == 'c')
+			 count +=  put_character_args(va_arg(list, int), flags);
+		count += print_data_type(str, i, list, flags);
+		i += check_i(str, i) + 1;
 	}
 	return(count);
 }
