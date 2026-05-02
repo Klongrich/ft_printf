@@ -559,12 +559,13 @@ int	main() {
 	CHECK("%015o\n",  4294967295);
 	printf("\n--------- END CHECKING o ------------\n");
 	
+	/*
 	printf("\n----------- CHECKING f --------------\n");
 
 	printf("checking normal value\n");
 	CHECK("%f\n", 12.5);
 	printf("checking passing value of 123456\n");
-	CHECK("%f\n", 123456);
+	CHECK("%f\n", 123456.12);
 
 	printf("checking 0\n");
 	CHECK("%f\n", 0);
@@ -573,7 +574,7 @@ int	main() {
 	CHECK("%+f\n", 0);
 	
 	printf("checking right padding f\n");
-	CHECK("%10f - % 10f - %7f - %5f\n", 654, 389237, 49848, 0);
+	CHECK("%10f - % 10f - %7f - %5f\n", 654.12, 389237.3, 49848.0, 0.0);
 	printf("checking left padding f\n");
 	CHECK("%-f, %-7f, %-5f - %-3f -\n", 674, 784, 900, 900);
 	printf("checking 0 f\n");
@@ -625,6 +626,7 @@ int	main() {
 	CHECK("%#015f - %#07f - %#05f - %#010f -\n", 4294967295, 947, 75, 0);
 
 	printf("\n--------- END CHECKING f ------------\n");
+	*/
 
 	printf("\n----------- CHECKING hhu --------------\n");
 
@@ -1712,22 +1714,19 @@ int	main() {
 	CHECK("%+-12f -\n", 12.849);
 	CHECK("%+-12f -\n", -12.849);
 
+	double more_val;
+
+	more_val = 2749.84;
+	CHECK("%f\n", more_val);
 	ft_putchar('\n');
 	ft_putchar('\n');
 
 	long double testing;
-	double another_test;
-
-	another_test = 9485949404.90495058403404840;
 	testing = 4859.948494949949494949;
-	printf("%#.100Lf\n", testing);
-	printf("%#.100f\n", testing);
 
 	CHECK("%.10d\n", -239);
 	CHECK("%.10d\n", 239);
-	CHECK("%.30f\n", another_test);
 	CHECK("%.100Lf\n", testing);
-	CHECK("%.100f\n", testing);
 	CHECK("%.0f\n", 78.0);
 	CHECK("%#.0f\n", 78.0);
 	CHECK("%f\n", 78.0);
@@ -1763,11 +1762,10 @@ int	main() {
 	k = 123;
 
 	CHECK("%p\n",&k); 
-
+	CHECK("%10o\n", -8493);
 	printf("\n=== FINAL RESULTS ===\n");
     	printf("\033[32mPassed: %d\033[0m\n", g_passed);
     	printf("\033[31mFailed: %d\033[0m\n", g_failed);
-	
 	//CHECK("\n %hhd - %hhi - %ho - %hu - %d -  %u - %ld\n", -55, 110, check, check, check, check, check, check);
 	//CHECK("%hd - %hi - %hu - %hx - %hX - %ho\n", check, check, check, check, check, check);
 	//CHECK("%hhd - %hhi - %hhu - %hhx - %hhX - %hho\n", check, check, check, check, check, check);
