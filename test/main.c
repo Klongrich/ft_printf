@@ -1766,6 +1766,31 @@ int	main() {
 	printf("\n=== FINAL RESULTS ===\n");
     	printf("\033[32mPassed: %d\033[0m\n", g_passed);
     	printf("\033[31mFailed: %d\033[0m\n", g_failed);
+
+    	double standard = 123.456;
+   	double high_precision = 1.23456789012345;
+    	double max_val = DBL_MAX;
+    	double small_val = 1.23e-10;
+
+    	printf("--- Standard %%f Tests ---\n");
+    	// 1. Default (6 decimal places)
+    	CHECK("Standard (default): %f\n", standard);
+
+    	// 2. Controlled precision (2 decimal places)
+    	CHECK("Standard (.2f):    %.2f\n", standard);
+
+   	 // 3. High precision (Note: double only has ~15-17 digits of accuracy)
+    	CHECK("High Precision:    %.15f\n", high_precision);
+
+    	printf("\n--- Edge Case %%f Tests ---\n");
+    	// 4. Large value (Generates ~308 digits before the decimal)
+    	CHECK("DBL_MAX (huge):    %f\n", max_val);
+	CHECK("Max long double: %Lf\n", LDBL_MAX);
+
+    	// 5. Small positive value (Under default precision, this looks like 0)
+    	CHECK("Small (default):   %f\n", small_val);
+    	CHECK("Small (.12f):      %.12f\n", small_val);
+
 	//CHECK("\n %hhd - %hhi - %ho - %hu - %d -  %u - %ld\n", -55, 110, check, check, check, check, check, check);
 	//CHECK("%hd - %hi - %hu - %hx - %hX - %ho\n", check, check, check, check, check, check);
 	//CHECK("%hhd - %hhi - %hhu - %hhx - %hhX - %hho\n", check, check, check, check, check, check);
