@@ -1036,25 +1036,43 @@ int	put_16bit(unsigned int num, int is_signed, t_flags flags) {
 	return (count);	
 }
 
-int put_float(double f, t_flags flags) {
+int	print_decimal(long int_part, int precision, long double f, t_flags flags) {
+	int count;
+	long double fraction;
+	int digit;
+	char c;
+
+	count = 0;
+	if (precision != 0 || (precision == 0 && flags.pound)) {
+    		write(1, ".", 1);
+		count += 1;
+	}
+    	fraction = f - (double)int_part;
+	while (precision--) {
+        	fraction *= 10;
+        	digit = (int)fraction;
+        	c = digit + '0';
+        	count += ft_putchar(c);
+       		fraction -= digit;
+    	}
+	return (count);
+}
+
+int put_float(long double f, t_flags flags) {
 	int precision;
 	int count;
 	long int_part;
-	double fraction;
-	int digit;
-	char c;
 	int num_len;
 	num_len = 0;
 	count = 0;
 
-	int_part = (long)f;
+	int_part =  (long long)f;
 
 	if (flags.dot) {
 		precision = flags.padding;
 	} else {
 		precision = 6;
 	}
-
 	num_len = ft_numlen(int_part) + precision + 1;
 	int i = 0;
 
@@ -1098,125 +1116,12 @@ int put_float(double f, t_flags flags) {
 	if (flags.space && !flags.padding && !flags.plus && int_part >= 0) 
 		count += ft_putchar(' ');
 
-	if (f > 9223372036854775808) {}	
-		//count += put_long_float_value(f, flags); 
-	else {
-		count += put_number_ll(int_part, 10, 0);
-	
-		if (precision != 0 || (precision == 0 && flags.pound)) {
-    			write(1, ".", 1);
-			count += 1;
-		}
-    		fraction = f - (double)int_part;
-		while (precision--) {
-        		fraction *= 10;
-        		digit = (int)fraction;
-        		c = digit + '0';
-        		count += ft_putchar(c);
-       			fraction -= digit;
-    		}
-	}
-	if (!flags.dot) {
-	if (flags.left && flags.padding != 0) {
-		while (i < flags.padding - num_len) {
-			count += ft_putchar(' ');
-			i++;
-		}
-	}
-	}
-	return (count);
-}
-
-int put_float_L(long double f, t_flags flags) {
-	int precision;
-	int count;
-	long int_part;
-	long double fraction;
-	int digit;
-	char c;
-	int num_len;
-	num_len = 0;
-	count = 0;
-
-	int_part = (long)f;
-
-	if (flags.dot) {
-		precision = flags.padding;
+	if (f > 9223372036854775808) {
+		//count += put_long_float_value(f, flags);
+		count += put_number_ll(int_part, 10, 0); 
 	} else {
-		precision = 6;
-	}
-
-	num_len = ft_numlen(int_part) + precision + 1;
-	int i = 0;
-
-	if (!flags.dot) {
-	if (!flags.left && flags.padding != 0) {
-		if (flags.zero) {
-			if (flags.plus) {
-				if (int_part >= 0) {
-					count += ft_putchar('+');
-					num_len++;
-				}
-			}
-			if (int_part < 0 ) {
-				count += ft_putchar('-');
-			}
-			while (i < flags.padding - num_len) {
-				count += ft_putchar('0');
-				i++;
-			}
-						
-		} else {
-			if (flags.plus) {
-				if (int_part >= 0) {
-					num_len++;
-				}
-			}
-			while (i < flags.padding - num_len) {
-				count += ft_putchar(' ');
-				i++;
-			}
-			if (flags.plus) {
-				if (int_part >= 0)
-					count += ft_putchar('+');
-			}
-			if (int_part < 0)
-				count += ft_putchar('-');
-		}
-	}
-	
-	if (flags.left && flags.padding != 0) {
-		if (flags.plus) {
-			if (int_part >= 0) {
-				count += ft_putchar('+');
-				num_len++;
-			}
-		}
-	}
-	}
-	if (f < 0) {
-		if (flags.left || flags.padding == 0 || flags.dot)
-			count += ft_putchar('-');
-		f = -f;
-		int_part = -int_part;
-	}
-
-	if (f > 9223372036854775808) {}
-	 	//count += put_long_float_value(f, flags);
-	else {
-    		count += put_number_ll(int_part, 10, 0);
-		if (precision != 0 || (precision == 0 && flags.pound)) {
-    			write(1, ".", 1);
-			count += 1;
-		}
-    		fraction = f - (long double)int_part;
-		while (precision--) {
-        		fraction *= 10;
-        		digit = (int)fraction;
-        		c = digit + '0';
-        		count += ft_putchar(c);
-       			fraction -= digit;
-    		}
+		count += put_number_ll(int_part, 10, 0);
+		count += print_decimal(int_part, precision, f, flags);
 	}
 	if (!flags.dot) {
 	if (flags.left && flags.padding != 0) {
@@ -1384,7 +1289,7 @@ int	print_data_type(char *str, int i, va_list list, t_flags flags) {
 	else if (str[i] == 'l') 
 		count += put_64bit_data_l(str, i, list, flags);
 	else if (str[i] == 'L' && str[i + 1] == 'f') 
-		count += put_float_L(va_arg(list, long double), flags);
+		count += put_float(va_arg(list, long double), flags);
 	return (count);
 }
 
