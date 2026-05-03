@@ -1036,7 +1036,7 @@ int	put_16bit(unsigned int num, int is_signed, t_flags flags) {
 	return (count);	
 }
 
-int	print_decimal(long int_part, int precision, long double f, t_flags flags) {
+int	print_float_decimal(long int_part, int precision, long double f, t_flags flags) {
 	int count;
 	long double fraction;
 	int digit;
@@ -1098,29 +1098,25 @@ int	put_padding_right_float(long int_part, int num_len, t_flags flags) {
 	return (count);
 }
 
-int put_float(long double f, t_flags flags) {
-	int precision;
+int	put_padding_left_float(int num_len, t_flags flags) {
 	int count;
-	long int_part;
-	int num_len;
 	int i;
 
 	i = 0;
-	num_len = 0;
 	count = 0;
-	int_part =  (long long)f;
-	if (flags.dot) {
-		precision = flags.padding;
-	} else {
-		precision = 6;
+	if (flags.left && flags.padding != 0 && !flags.dot) {
+		while (i < flags.padding - num_len) {
+			count += ft_putchar(' ');
+			i++;
+		}
 	}
-	num_len = ft_numlen(int_part) + precision + 1;
-	count += put_padding_right_float(int_part, num_len, flags);
-	if (flags.left && flags.padding != 0 && flags.plus && int_part >= 0 && !flags.dot) {
-		count += ft_putchar('+');
-		num_len++;
-	}
-	
+	return (count);
+}
+
+int put_float_value(long double f, long int_part, int precision, t_flags flags) {
+	int count;
+
+	count = 0;
 	if (f < 0) {
 		if (flags.left || flags.padding == 0 || flags.dot)
 			count += ft_putchar('-');
@@ -1133,20 +1129,37 @@ int put_float(long double f, t_flags flags) {
 		count += ft_putchar(' ');
 
 	if (f > 9223372036854775808) {
-		//count += put_long_float_value(f, flags);
 		count += put_number_ll(int_part, 10, 0); 
 	} else {
 		count += put_number_ll(int_part, 10, 0);
-		count += print_decimal(int_part, precision, f, flags);
+		count += print_float_decimal(int_part, precision, f, flags);
 	}
-	if (!flags.dot) {
-		if (flags.left && flags.padding != 0) {
-			while (i < flags.padding - num_len) {
-				count += ft_putchar(' ');
-				i++;
-			}
-		}
-	}
+	return (count);
+}
+
+int put_float(long double f, t_flags flags) {
+	int precision;
+	int count;
+	long int_part;
+	int num_len;
+	int i;
+
+	i = 0;
+	num_len = 0;
+	count = 0;
+	int_part =  (long long)f;
+	if (flags.dot) 
+		precision = flags.padding;
+	else 
+		precision = 6;
+	num_len = ft_numlen(int_part) + precision + 1;
+	count += put_padding_right_float(int_part, num_len, flags);
+	if (flags.left && flags.padding != 0 && flags.plus && int_part >= 0 && !flags.dot) {
+		count += ft_putchar('+');
+		num_len++;
+	}	
+	count += put_float_value(f, int_part, precision, flags);
+	count += put_padding_left_float(num_len, flags);
 	return (count);
 }
 
