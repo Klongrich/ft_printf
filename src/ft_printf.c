@@ -972,12 +972,37 @@ int	convert_binary_base10(unsigned int num, int is_signed, int top_value, int *b
 	return (value);
 }
 
+int	put_padding_left_value_base10(int value, int is_signed, t_flags flags) {
+	int num_len;
+	int count;
+	int i;
+	
+	i = 0;
+	count = 0;
+	num_len = ft_numlen(value);
+	if (flags.left && flags.padding != 0 && is_signed) {
+		if (value < 0) 
+			count += ft_putchar('-');
+		if (value >= 0 && flags.plus) {
+			count += ft_putchar('+');
+			num_len++;
+		}
+	}
+	if (is_signed && !flags.padding && !flags.plus && flags.space && value >= 0) 
+		count += ft_putchar(' ');
+	count += ft_putnbr_f(value);
+	if (flags.padding != 0 && flags.left) {
+		while (i++ < flags.padding - num_len) 
+			count += ft_putchar(' ');
+	}
+	return (count);
+}
+
 int	put_8bit(unsigned int num, int is_signed, t_flags flags) {
 	int bits[8];
 	int j;
 	int i;
 	int value;
-	int num_len;
 	int count;
 
 	count = 0;
@@ -987,29 +1012,8 @@ int	put_8bit(unsigned int num, int is_signed, t_flags flags) {
 	while (i > -1) 
 		bits[j++] = (num >> i--) & 1;
 	value = convert_binary_base10(num, is_signed, 7, bits);
-	num_len = ft_numlen(value) + 1;
 	count += put_formatting_from_flags(value, 10, flags, is_signed);
-	if (flags.left && flags.padding != 0 && is_signed) {
-		if (value < 0) {
-			count += ft_putchar('-');
-		}
-		if (value >= 0 && flags.plus) {
-			count += ft_putchar('+');
-			num_len++;
-		}
-	}
-	if (is_signed && !flags.padding && !flags.plus && flags.space) {
-		if (value >= 0) {
-			count += ft_putchar(' ');
-		}
-	}	
-	count += ft_putnbr_f(value);
-	if (flags.padding != 0 && flags.left) {
-		while (i < flags.padding - num_len) {
-			count += ft_putchar(' ');
-			i++;
-		}	
-	}
+	count += put_padding_left_value_base10(value, is_signed, flags);
 	return (count);
 }
 
@@ -1018,7 +1022,6 @@ int	put_16bit(unsigned int num, int is_signed, t_flags flags) {
 	int j;
 	int i;
 	int value;
-	int num_len;
 	int count;
 
 	i = 15;
@@ -1028,31 +1031,8 @@ int	put_16bit(unsigned int num, int is_signed, t_flags flags) {
 	while (i > -1)
 		bits[j++] = (num >> i--) & 1;
 	value = convert_binary_base10(num, is_signed, 15, bits);
-	num_len = ft_numlen(value);
-	count += put_formatting_from_flags(value, 10, flags, is_signed);	
-	if (flags.left && flags.padding != 0 && is_signed) {
-		if (value < 0) {
-			count += ft_putchar('-');
-		}
-		if (value >= 0 && flags.plus) {
-			count += ft_putchar('+');
-			num_len++;
-		}
-	}      
-	if (is_signed && !flags.padding && !flags.plus && flags.space) {
-		if (value >= 0) {
-			count += ft_putchar(' ');
-		}
-	}
-	count += ft_putnbr_f(value);
-	if (value < 0)
-		num_len++;
-	if (flags.padding != 0 && flags.left) {
-		while (i < flags.padding - num_len - 1) {
-			count += ft_putchar(' ');
-			i++;
-		}	
-	}
+	count += put_formatting_from_flags(value, 10, flags, is_signed);
+	count += put_padding_left_value_base10(value, is_signed, flags);
 	return (count);	
 }
 
