@@ -1,6 +1,6 @@
 #include "../libft/libft.h"
 #include <stdio.h>
-
+#include <float.h>
 
 static int g_passed = 0;
 static int g_failed = 0;
