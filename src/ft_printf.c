@@ -1219,7 +1219,7 @@ int put_float(double f, t_flags flags) {
 	if (flags.space && !flags.padding && !flags.plus && int_part >= 0) 
 		count += ft_putchar(' ');
 
-	if (f > 9223372036854775808)   	
+	if (f > 9223372036854775808) {}	
 		//count += put_long_float_value(f, flags); 
 	else {
 		count += put_number_ll(int_part, 10, 0);
@@ -1322,7 +1322,7 @@ int put_float_L(long double f, t_flags flags) {
 		int_part = -int_part;
 	}
 
-	if (f > 9223372036854775808)
+	if (f > 9223372036854775808) {}
 	 	//count += put_long_float_value(f, flags);
 	else {
     		count += put_number_ll(int_part, 10, 0);
