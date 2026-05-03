@@ -1351,7 +1351,11 @@ int	ft_printf(char *str, ...) {
 			count += ft_putchar(str[i++]);
 		if (!str[i])
 			break ;
-		i += parse_flag_parameters(str, i + 1, &flags) + 1;
+		if (str[i + 1] == '%') {
+			count += ft_putchar('%');
+			i++;	
+		} else 
+			i += parse_flag_parameters(str, i + 1, &flags) + 1;
 		if (str[i] == 'c')
 			 count +=  put_character_args(va_arg(list, int), flags);
 		count += print_data_type(str, i, list, flags);
