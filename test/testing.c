@@ -95,7 +95,8 @@ double	get_mantissa_bit_value(int i) {
 	double res;
 
 	value = 1.0;
-	while (i > 0) {
+
+	while (i >= 0) {
 		value *= 2.0;
 		i--;	
 	}
@@ -110,14 +111,14 @@ double	get_mantissa_value(int top_value, unsigned int *bits) {
 	double value;
 
 	value = 0.0;
-	i = top_value;
+	i = 0;
 	j = 0;
-	while (i > -1) {		
+	while (i < top_value) {		
 		if (bits[j] == 1) {
 			printf("i: %d ", i);
 			value += get_mantissa_bit_value(i);
 		}
-		i--;
+		i++;
 		j++;
 	}
 	return (value);
@@ -170,12 +171,22 @@ void	print_64bit_binary(void *ptr, size_t size) {
 
 	int exp_value;
 	double mantissa_value;
+	int decimal_value_of_exp;
 
 	exp_value = get_exp_value(10, exp, 1023);
 	printf("\n");
 	mantissa_value = get_mantissa_value(51, mantissa);
 	printf("exp_value: %d\n", exp_value);
-	printf("mantissa_value: %f\n", mantissa_value); 
+	printf("mantissa_value: %.15f\n", mantissa_value);
+
+	decimal_value_of_exp =  get_decimal_value(exp_value);
+
+	printf("decimal_value_of_exp: %d\n", decimal_value_of_exp); 
+
+	double final_val;
+	
+	final_val = (1 + mantissa_value) * (double)decimal_value_of_exp;
+	printf("\nIEEE 755: -> %f\n", final_val);
 }
 
 int	main() {
@@ -207,6 +218,8 @@ int	main() {
 
 	//print_binary(&f_value, sizeof(f_value));
 	printf("value: %f\n", value);
+
+	//IEEE 754
 	print_64bit_binary(&value, sizeof(value));
 	printf("\n");
 	double fract;
