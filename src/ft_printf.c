@@ -873,12 +873,28 @@ int	put_16bit_hex(unsigned int num, int uppercase, t_flags flags) {
 	return (count);
 }
 
+int	put_padding_left_octal(int value, t_flags flags) {
+	int count;
+	int num_len;
+	int i;
+
+	i = 0;
+	count = 0;
+	num_len = ft_numlen(value);
+	if (flags.padding != 0 && flags.left) {
+		while (i < flags.padding - num_len) {
+			count += ft_putchar(' ');
+			i++;
+		}	
+	}
+	return (count);
+}
+
 int	put_8bit_octal(unsigned int num, t_flags flags) {
 	int bits[8];
 	int j;
 	int i;
 	int value;
-	int num_len;
 	int count;
 
 	i = 7;
@@ -890,15 +906,9 @@ int	put_8bit_octal(unsigned int num, t_flags flags) {
 	value += convert_octal_bits(0, bits[0], bits[1]) * 100;
 	value += convert_octal_bits(bits[2], bits[3], bits[4]) * 10;
 	value += convert_octal_bits(bits[5], bits[6], bits[7]);
-	num_len = ft_numlen(value);
-	count += put_formatting_from_flags(value, 8, flags, 1);	
+	count += put_formatting_from_flags(value, 8, flags, 1);
 	count += ft_putnbr_f(value);
-	if (flags.padding != 0 && flags.left) {
-		while (i < flags.padding - num_len - 1) {
-			count += ft_putchar(' ');
-			i++;
-		}	
-	}
+	count += put_padding_left_octal(value, flags);
 	return (count);
 }
 
@@ -915,26 +925,17 @@ int	put_16bit_octal(unsigned int num, t_flags flags) {
 	i = 15;
 	j = 0;
 	value = 0;
-	while (i > -1) {
-		bits[j] = (num >> i) & 1;
-		i--;
-		j++;
-	}
+	while (i > -1) 
+		bits[j++] = (num >> i--) & 1;
 	value += convert_octal_bits(0, 0, bits[0]) * 100000;
 	value += convert_octal_bits(bits[1], bits[2], bits[3]) * 10000;
 	value += convert_octal_bits(bits[4], bits[5], bits[6]) * 1000;
 	value += convert_octal_bits(bits[7], bits[8], bits[9]) * 100;
 	value += convert_octal_bits(bits[10], bits[11], bits[12]) * 10;
 	value += convert_octal_bits(bits[13], bits[14], bits[15]);
-	num_len = ft_numlen(value);
 	count += put_formatting_from_flags(value, 8, flags, 1);	
 	count += ft_putnbr_f(value);
-	if (flags.padding != 0 && flags.left) {
-		while (i < flags.padding - num_len - 1) {
-			count += ft_putchar(' ');
-			i++;
-		}	
-	}
+	count += put_padding_left_octal(value, flags);
 	return (count);
 }
 
@@ -1181,46 +1182,30 @@ int put_float(double f, t_flags flags) {
 	if (!flags.dot) {
 	if (!flags.left && flags.padding != 0) {
 		if (flags.zero) {
-			if (flags.plus) {
-				if (int_part >= 0) {
-					count += ft_putchar('+');
-					num_len++;
-				}
+			if (flags.plus && int_part >= 0) {
+				count += ft_putchar('+');
+				num_len++;
 			}
-			if (int_part < 0 ) {
+			if (int_part < 0 ) 
 				count += ft_putchar('-');
-			}
-			while (i < flags.padding - num_len) {
+			while (i++ < flags.padding - num_len)
 				count += ft_putchar('0');
-				i++;
-			}
 						
 		} else {
-			if (flags.plus) {
-				if (int_part >= 0) {
-					num_len++;
-				}
-			}
-			while (i < flags.padding - num_len) {
+			if (flags.plus && int_part >= 0) 
+				num_len++;
+			while (i++ < flags.padding - num_len)
 				count += ft_putchar(' ');
-				i++;
-			}
-			if (flags.plus) {
-				if (int_part >= 0)
-					count += ft_putchar('+');
-			}
+			if (flags.plus && int_part >= 0) 
+				count += ft_putchar('+');
 			if (int_part < 0)
 				count += ft_putchar('-');
 		}
 	}
-	
-	if (flags.left && flags.padding != 0) {
-		if (flags.plus) {
-			if (int_part >= 0) {
-				count += ft_putchar('+');
-				num_len++;
-			}
-		}
+
+	if (flags.left && flags.padding != 0 && flags.plus && int_part >= 0) {
+		count += ft_putchar('+');
+		num_len++;
 	}
 	}
 	if (f < 0) {
@@ -1229,30 +1214,29 @@ int put_float(double f, t_flags flags) {
 		f = -f;
 		int_part = -int_part;
 	}
-	if (!flags.padding && flags.plus) {
-		if (int_part >= 0) {
-			count += ft_putchar('+');
-		}
-	}
-	if (flags.space && !flags.padding && !flags.plus) {
-		if (int_part >= 0) {
-			count += ft_putchar(' ');
-		}
-	}
-    	count += put_number_ll(int_part, 10, 0);
-	if (precision != 0 || (precision == 0 && flags.pound)) {
-    		write(1, ".", 1);
-		count += 1;
-	}
-    	fraction = f - (double)int_part;
-	while (precision--) {
-        	fraction *= 10;
-        	digit = (int)fraction;
-        	c = digit + '0';
-        	count += ft_putchar(c);
-       		fraction -= digit;
-    	}
+	if (!flags.padding && flags.plus && int_part >= 0)
+		count += ft_putchar('+');
+	if (flags.space && !flags.padding && !flags.plus && int_part >= 0) 
+		count += ft_putchar(' ');
 
+	if (f > 9223372036854775808)   	
+		//count += put_long_float_value(f, flags); 
+	else {
+		count += put_number_ll(int_part, 10, 0);
+	
+		if (precision != 0 || (precision == 0 && flags.pound)) {
+    			write(1, ".", 1);
+			count += 1;
+		}
+    		fraction = f - (double)int_part;
+		while (precision--) {
+        		fraction *= 10;
+        		digit = (int)fraction;
+        		c = digit + '0';
+        		count += ft_putchar(c);
+       			fraction -= digit;
+    		}
+	}
 	if (!flags.dot) {
 	if (flags.left && flags.padding != 0) {
 		while (i < flags.padding - num_len) {
@@ -1337,20 +1321,24 @@ int put_float_L(long double f, t_flags flags) {
 		f = -f;
 		int_part = -int_part;
 	}
-    	count += put_number_ll(int_part, 10, 0);
-	if (precision != 0 || (precision == 0 && flags.pound)) {
-    		write(1, ".", 1);
-		count += 1;
-	}
-    	fraction = f - (long double)int_part;
-	while (precision--) {
-        	fraction *= 10;
-        	digit = (int)fraction;
-        	c = digit + '0';
-        	count += ft_putchar(c);
-       		fraction -= digit;
-    	}
 
+	if (f > 9223372036854775808)
+	 	//count += put_long_float_value(f, flags);
+	else {
+    		count += put_number_ll(int_part, 10, 0);
+		if (precision != 0 || (precision == 0 && flags.pound)) {
+    			write(1, ".", 1);
+			count += 1;
+		}
+    		fraction = f - (long double)int_part;
+		while (precision--) {
+        		fraction *= 10;
+        		digit = (int)fraction;
+        		c = digit + '0';
+        		count += ft_putchar(c);
+       			fraction -= digit;
+    		}
+	}
 	if (!flags.dot) {
 	if (flags.left && flags.padding != 0) {
 		while (i < flags.padding - num_len) {
