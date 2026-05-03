@@ -963,7 +963,7 @@ int	convert_binary_base10(unsigned int num, int is_signed, int top_value, int *b
 	value = 0;
 	i = top_value;
 	j = 0;
-	while (i > 0) {		
+	while (i > -1) {		
 		if (bits[j] == 1)
 			value += get_decimal_value(i, is_signed, top_value);
 		i--;
