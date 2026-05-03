@@ -1058,36 +1058,32 @@ int	print_decimal(long int_part, int precision, long double f, t_flags flags) {
 	return (count);
 }
 
-int put_float(long double f, t_flags flags) {
-	int precision;
+int	put_padding_zero_float(long int_part, int num_len, t_flags flags) {
 	int count;
-	long int_part;
-	int num_len;
-	num_len = 0;
+	int i;
+	
+	i = 0;
 	count = 0;
-
-	int_part =  (long long)f;
-
-	if (flags.dot) {
-		precision = flags.padding;
-	} else {
-		precision = 6;
+	if (flags.plus && int_part >= 0) {
+		count += ft_putchar('+');
+		num_len++;
 	}
-	num_len = ft_numlen(int_part) + precision + 1;
-	int i = 0;
+	if (int_part < 0 )
+		count += ft_putchar('-');
+	while (i++ < flags.padding - num_len)
+		count += ft_putchar('0');
+	return(count);
+}
 
-	if (!flags.dot) {
-	if (!flags.left && flags.padding != 0) {
+int	put_padding_right_float(long int_part, int num_len, t_flags flags) {
+	int count;
+	int i;
+
+	i = 0;
+	count = 0;
+	if (!flags.left && flags.padding != 0 && !flags.dot) {
 		if (flags.zero) {
-			if (flags.plus && int_part >= 0) {
-				count += ft_putchar('+');
-				num_len++;
-			}
-			if (int_part < 0 ) 
-				count += ft_putchar('-');
-			while (i++ < flags.padding - num_len)
-				count += ft_putchar('0');
-						
+			count += put_padding_zero_float(int_part, num_len, flags);
 		} else {
 			if (flags.plus && int_part >= 0) 
 				num_len++;
@@ -1099,12 +1095,32 @@ int put_float(long double f, t_flags flags) {
 				count += ft_putchar('-');
 		}
 	}
+	return (count);
+}
 
-	if (flags.left && flags.padding != 0 && flags.plus && int_part >= 0) {
+int put_float(long double f, t_flags flags) {
+	int precision;
+	int count;
+	long int_part;
+	int num_len;
+	int i;
+
+	i = 0;
+	num_len = 0;
+	count = 0;
+	int_part =  (long long)f;
+	if (flags.dot) {
+		precision = flags.padding;
+	} else {
+		precision = 6;
+	}
+	num_len = ft_numlen(int_part) + precision + 1;
+	count += put_padding_right_float(int_part, num_len, flags);
+	if (flags.left && flags.padding != 0 && flags.plus && int_part >= 0 && !flags.dot) {
 		count += ft_putchar('+');
 		num_len++;
 	}
-	}
+	
 	if (f < 0) {
 		if (flags.left || flags.padding == 0 || flags.dot)
 			count += ft_putchar('-');
@@ -1124,12 +1140,12 @@ int put_float(long double f, t_flags flags) {
 		count += print_decimal(int_part, precision, f, flags);
 	}
 	if (!flags.dot) {
-	if (flags.left && flags.padding != 0) {
-		while (i < flags.padding - num_len) {
-			count += ft_putchar(' ');
-			i++;
+		if (flags.left && flags.padding != 0) {
+			while (i < flags.padding - num_len) {
+				count += ft_putchar(' ');
+				i++;
+			}
 		}
-	}
 	}
 	return (count);
 }
