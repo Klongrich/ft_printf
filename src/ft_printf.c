@@ -939,7 +939,40 @@ int	put_16bit_octal(unsigned int num, t_flags flags) {
 	return (count);
 }
 
-int	put_8bit(unsigned int num, int s, t_flags flags) {
+
+int	get_decimal_value(int i, int is_signed, int top_value) {
+	int value;
+	int sign;
+
+	value = 1;
+	sign = 1;
+	if (i == top_value && is_signed)
+		sign = -1;
+	while (i > 0) {
+		value *= 2;
+		i--;	
+	}
+	return (value * sign);
+}
+
+int	convert_binary_base10(unsigned int num, int is_signed, int top_value, int *bits) {
+	int j;
+	int i;
+	int value;
+
+	value = 0;
+	i = top_value;
+	j = 0;
+	while (i > 0) {		
+		if (bits[j] == 1)
+			value += get_decimal_value(i, is_signed, top_value);
+		i--;
+		j++;
+	}
+	return (value);
+}
+
+int	put_8bit(unsigned int num, int is_signed, t_flags flags) {
 	int bits[8];
 	int j;
 	int i;
@@ -951,63 +984,12 @@ int	put_8bit(unsigned int num, int s, t_flags flags) {
 	i = 7;
 	j = 0;
 	value = 0;
-	while (i > -1) {
-		bits[j] = (num >> i) & 1;
-		i--;
-		j++;	
-	}
-	i = 7;
-	j = 0;
-	while (i > -1) {
-		switch(i) {
-			case 7:
-				if (bits[j] == 1) {
-					if (s)
-						value -= 128;
-					else
-						value += 128;
-				}
-				break;
-			case 6:
-				if (bits[j] == 1)
-					value += 64;
-				break;
-			case 5:
-				if(bits[j] == 1)
-					value += 32;
-				break;
-			case 4:
-				if(bits[j] == 1)
-					value += 16;
-				break;
-			case 3:
-				if(bits[j] == 1)
-					value += 8;
-				break;
-			case 2:
-				if(bits[j] == 1)
-					value += 4;
-				break;
-			case 1:
-				if(bits[j] == 1)
-					value += 2;
-				break;
-			case 0:
-				if (bits[j] == 1)
-					value += 1;
-				break;
-
-		}
-		i--;
-		j++;
-	}
-
+	while (i > -1) 
+		bits[j++] = (num >> i--) & 1;
+	value = convert_binary_base10(num, is_signed, 7, bits);
 	num_len = ft_numlen(value) + 1;
-	if (s)
-		count += put_formatting_from_flags(value, 10, flags, 1);
-	else
-		count += put_formatting_from_flags(value, 10, flags, 0);
-	if (flags.left && flags.padding != 0 && s) {
+	count += put_formatting_from_flags(value, 10, flags, is_signed);
+	if (flags.left && flags.padding != 0 && is_signed) {
 		if (value < 0) {
 			count += ft_putchar('-');
 		}
@@ -1016,7 +998,7 @@ int	put_8bit(unsigned int num, int s, t_flags flags) {
 			num_len++;
 		}
 	}
-	if (s && !flags.padding && !flags.plus && flags.space) {
+	if (is_signed && !flags.padding && !flags.plus && flags.space) {
 		if (value >= 0) {
 			count += ft_putchar(' ');
 		}
@@ -1031,7 +1013,7 @@ int	put_8bit(unsigned int num, int s, t_flags flags) {
 	return (count);
 }
 
-int	put_16bit(unsigned int num, int s, t_flags flags) {
+int	put_16bit(unsigned int num, int is_signed, t_flags flags) {
 	int bits[16];
 	int j;
 	int i;
@@ -1043,95 +1025,12 @@ int	put_16bit(unsigned int num, int s, t_flags flags) {
 	j = 0;
 	count = 0;
 	value = 0;
-	while (i > -1) {
-		bits[j] = (num >> i) & 1;
-		i--;
-		j++;	
-	}
-	i = 15;
-	j = 0;
-	while (i > -1) {
-		switch(i) {
-			case 15:
-				if (bits[j] == 1) {
-					if (s) {
-						value -= 32768;
-					} else {
-						value += 32768;
-					}
-				}
-				break;
-			case 14:
-				if (bits[j] == 1)
-					value +=  16384;
-				break;
-			case 13:
-				if (bits[j] == 1)
-					value += 8192;
-				break;
-			case 12:
-				if (bits[j] == 1)
-					value += 4096;
-				break;
-			case 11:
-				if (bits[j] == 1)
-					value += 2048;
-				break;
-			case 10:
-				if(bits[j] == 1)
-					value += 1024;
-				break;
-			case 9:
-				if(bits[j] == 1)
-					value += 512;
-				break;
-			case 8:
-				if (bits[j] == 1)
-					value += 256;
-				break;
-			case 7:
-				if (bits[j] == 1) 
-					value += 128;
-				break;
-			case 6:
-				if (bits[j] == 1)
-					value += 64;
-				break;
-			case 5:
-				if(bits[j] == 1)
-					value += 32;
-				break;
-			case 4:
-				if(bits[j] == 1)
-					value += 16;
-				break;
-			case 3:
-				if(bits[j] == 1)
-					value += 8;
-				break;
-			case 2:
-				if(bits[j] == 1)
-					value += 4;
-				break;
-			case 1:
-				if(bits[j] == 1)
-					value += 2;
-				break;
-			case 0:
-				if (bits[j] == 1)
-					value += 1;
-				break;
-
-		}
-		i--;
-		j++;
-	}
+	while (i > -1)
+		bits[j++] = (num >> i--) & 1;
+	value = convert_binary_base10(num, is_signed, 15, bits);
 	num_len = ft_numlen(value);
-	if (s)
-		count += put_formatting_from_flags(value, 10, flags, 1);
-	else
-		count += put_formatting_from_flags(value, 10, flags, 0);	
-	if (flags.left && flags.padding != 0 && s) {
+	count += put_formatting_from_flags(value, 10, flags, is_signed);	
+	if (flags.left && flags.padding != 0 && is_signed) {
 		if (value < 0) {
 			count += ft_putchar('-');
 		}
@@ -1140,7 +1039,7 @@ int	put_16bit(unsigned int num, int s, t_flags flags) {
 			num_len++;
 		}
 	}      
-	if (s && !flags.padding && !flags.plus && flags.space) {
+	if (is_signed && !flags.padding && !flags.plus && flags.space) {
 		if (value >= 0) {
 			count += ft_putchar(' ');
 		}
