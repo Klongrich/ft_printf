@@ -67,7 +67,6 @@ int	get_decimal_value(int i) {
 		value *= 2;
 		i--;	
 	}
-	printf("i: %d value %d\n", i, value);
 	return (value);
 }
 
@@ -81,7 +80,6 @@ int	get_exp_value(int top_value, unsigned int *bits, int bias) {
 	j = 0;
 	while (i > -1) {		
 		if (bits[j] == 1) {
-			printf("i: %d ", i);
 			value += get_decimal_value(i);
 		}
 		i--;
@@ -92,16 +90,12 @@ int	get_exp_value(int top_value, unsigned int *bits, int bias) {
 
 double	get_mantissa_bit_value(int i) {
 	double value;
-	double res;
 
 	value = 1.0;
-
 	while (i >= 0) {
 		value *= 2.0;
 		i--;	
 	}
-	res = 1.0 / value;
-	printf("i: %d res: %f\n", i,  res);
 	return (1.0 / value);
 }
 
@@ -114,10 +108,8 @@ double	get_mantissa_value(int top_value, unsigned int *bits) {
 	i = 0;
 	j = 0;
 	while (i < top_value) {		
-		if (bits[j] == 1) {
-			printf("i: %d ", i);
+		if (bits[j] == 1) 
 			value += get_mantissa_bit_value(i);
-		}
 		i++;
 		j++;
 	}
@@ -161,32 +153,18 @@ void	print_64bit_binary(void *ptr, size_t size) {
 		i--;
 	}
 
-	printf("\n\nSign: \n");
-	printf("%d\n", sign);
-	printf("Exp: \n");
-	print_arry(exp, 11);
-	printf("Manstissa \n");
-	print_arry(mantissa, 52);
-	printf("\n");
-
 	int exp_value;
 	double mantissa_value;
 	int decimal_value_of_exp;
 
 	exp_value = get_exp_value(10, exp, 1023);
-	printf("\n");
 	mantissa_value = get_mantissa_value(51, mantissa);
-	printf("exp_value: %d\n", exp_value);
-	printf("mantissa_value: %.15f\n", mantissa_value);
-
 	decimal_value_of_exp =  get_decimal_value(exp_value);
-
-	printf("decimal_value_of_exp: %d\n", decimal_value_of_exp); 
 
 	double final_val;
 	
 	final_val = (1 + mantissa_value) * (double)decimal_value_of_exp;
-	printf("\nIEEE 755: -> %f\n", final_val);
+	printf(" -> IEEE 755: -> %f\n", final_val);
 }
 
 int	main() {
@@ -213,19 +191,16 @@ int	main() {
 	//Manstiaa is not all zeros -> NaN (Not a Number)
 
 	f_value = 489.049;
-	value = 99490.94948;
+	value = 123.956948;
 	long_value = 9485.9585;
 
 	//print_binary(&f_value, sizeof(f_value));
-	printf("value: %f\n", value);
+	//printf("value: %f\n", value);
 
 	//IEEE 754
 	print_64bit_binary(&value, sizeof(value));
-	printf("\n");
-	double fract;
 
-	fract = 1.0 / 4.0;
-	printf("%f\n", fract);
+
 	/*
 	print_binary(&long_value, sizeof(long_value));
 	printf("\n");
