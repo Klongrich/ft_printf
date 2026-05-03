@@ -1343,14 +1343,12 @@ int	ft_printf(char *str, ...) {
 
 	i = 0;
 	count = 0;
-	flags = init();
 	va_start(list, str);
 	while (str[i]) {
 		flags = init();
 		while (str[i] != '%' && str[i]) 
 			count += ft_putchar(str[i++]);
-		if (!str[i])
-			break ;
+		if (!str[i]) break ;
 		if (str[i + 1] == '%') {
 			count += ft_putchar('%');
 			i++;	
