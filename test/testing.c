@@ -164,7 +164,7 @@ void	print_64bit_binary(void *ptr, size_t size) {
 	double final_val;
 	
 	final_val = (1 + mantissa_value) * (double)decimal_value_of_exp;
-	printf(" -> IEEE 755: -> %f\n", final_val);
+	printf(" -> IEEE 754: -> %f\n", final_val);
 }
 
 int	main() {
