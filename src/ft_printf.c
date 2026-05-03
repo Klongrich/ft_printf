@@ -1230,31 +1230,11 @@ int put_float_L(long double f, t_flags flags) {
 }
 
 int	check_c(char c) {
-	if (c == 'c')
+	if (c == 'c' || c == 'd' || c == 'i' || c == 's' || c == 'p')
 		return (1);
-	if (c == 'd')
+	if (c == 'u' || c == 'x' || c == 'X' || c == 'o' || c == 'f')
 		return (1);
-	if (c == 'i')
-		return (1);
-	if (c == 's')
-		return (1);
-	if (c == 'p')
-		return (1);
-	if (c == 'u')
-		return (1);
-	if (c == 'x')
-		return (1);
-	if (c == 'X')
-		return (1);
-	if (c == 'o')
-		return (1);
-	if (c == 'f')
-		return (1);
-	if (c == 'h')
-		return (1);
-	if (c == 'l')
-		return (1);
-	if (c == 'L')
+	if (c == 'h' || c == 'l' || c =='L')
 		return (1);
 	return (0);
 }
