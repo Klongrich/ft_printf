@@ -202,6 +202,8 @@ int	put_no_padding(long n, int base, int is_signed, t_flags flags) {
 	if (n < 0 && !flags.zero && !flags.padding) {
 		count += ft_putchar('-');
 	}
+	if (n != 0 && base == 8 && flags.pound)
+		count += ft_putchar('0');
 	return (count);
 }
 
