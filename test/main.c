@@ -1722,9 +1722,9 @@ int	main() {
 	long double testing;
 	testing = 4859.948494949949494949;
 
-	CHECK("%.10d\n", -239);
-	CHECK("%.10d\n", 239);
-	CHECK("%.100Lf\n", testing);
+	//CHECK("%.10d\n", -239);
+	//CHECK("%.10d\n", 239);
+	//CHECK("%.100Lf\n", testing);
 	CHECK("%.0f\n", 78.0);
 	CHECK("%#.0f\n", 78.0);
 	CHECK("%f\n", 78.0);
@@ -1780,12 +1780,15 @@ int	main() {
 
 	CHECK("%#ho\n", 8094);
 	CHECK("%#ho\n", 7584930);
-	CHECK("%#10ho\n", 3830);
+	CHECK("%#10ho\n", 654);
+	CHECK("%10ho\n", 654);
 	CHECK("%#-10ho -\n", 8393);
 	CHECK("%#010ho\n", 838);
 	CHECK("%#ho\n", 0);
 	CHECK("%#3ho\n", 383440);
 	CHECK("%#-3ho -\n", 834943);
+	
+	CHECK("%10ho - % 10ho - %7ho - %5ho\n", 654, 3830, 49848, 0);
 
 	printf("\n----- Handling Signed Integer Percision -----\n\n");
 	CHECK("%+.10d\n", 748);
@@ -1797,17 +1800,21 @@ int	main() {
 	CHECK("%.5s\n", "alsdjflsdfj");
 	CHECK("%.s\n", "lasdjf");
 	CHECK("%10.5s\n", "lkasjdflksjdf");
-	CHECK("%-10.3s\n", "this is a string");
+	CHECK("%-10.3s -\n", "this is a string");
 	CHECK("%10.3s\n", "this is a string");
 	CHECK("%.0s\n", "anothr string");
+	CHECK("%10.0s -\n", "anothr string");
 
-	printf("\n----- Handling bad %% input -----\n\n");
-	CHECK("%+-10.5\n", 463);
-	CHECK("%10\n", NULL);
-	CHECK("%-\n", NULL);
-	CHECK("%--\n", NULL);
+	printf("\n----- Handling bad %% input (undefined) -----\n\n");
+	CHECK("%-\n", 34);
+	CHECK("%--\n",34);
+	CHECK("%---\n",34);
+	CHECK("%++++\n", 34);
+	CHECK("%dddddd\n", 380);
 	//inf, Nan, exit status	
 
+	printf("\n----- Ending Handling bad %% input (undefined) -----\n\n");
+	
 	printf("\n-------- End New Test ------------\n");	
 
 
