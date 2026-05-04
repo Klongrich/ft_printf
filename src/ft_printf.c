@@ -268,18 +268,25 @@ int put_padding_right(long n, int base, int num_len, t_flags flags) {
 	return (count);
 }
 
+int	update_base(int base) {
+	if (base == 17)
+		return (16);
+	if (base == 12)
+		return (8);
+	return (base);
+}
+
 int	put_formatting_from_flags(long n, int base, t_flags flags, int is_signed) {
 	int num_len;
 	int count;
 	
 	count = 0;
-	if (!is_signed || base == 8) {
+	if (!is_signed || base == 8 || base == 12) {
 		flags.plus = 0;
 		flags.space = 0;
 	}
 	num_len = get_numlen(n, base);
-	if (base == 17)
-		base = 16;
+	base = update_base(base);
 	if (flags.dot) 
 		return (put_dot(n, num_len, count, flags.padding));
 	if (flags.zero && !flags.left) 
@@ -594,7 +601,6 @@ int	put_pointer(void *pointer, t_flags flags) {
 	return(count);
 }
 
-
 int	convert_octal_bits(int bit1, int bit2, int bit3) {
 	if (bit1 == 0 && bit2 == 0 && bit3 == 0)
 		return(0);
@@ -614,7 +620,6 @@ int	convert_octal_bits(int bit1, int bit2, int bit3) {
 		return(7);
 	return (0);
 }
-
 
 int	convert_hex_bits(int bit1, int bit2, int bit3, int bit4) {
 	return (bit1 == 0 && bit2 == 0 && bit3 == 0 && bit4 == 0) ? 0 :
@@ -910,7 +915,7 @@ int	put_8bit_octal(unsigned int num, t_flags flags) {
 	value += convert_octal_bits(0, bits[0], bits[1]) * 100;
 	value += convert_octal_bits(bits[2], bits[3], bits[4]) * 10;
 	value += convert_octal_bits(bits[5], bits[6], bits[7]);
-	count += put_formatting_from_flags(value, 8, flags, 1);
+	count += put_formatting_from_flags(value, 12, flags, 1);
 	if (flags.left && flags.pound)
 		count += ft_putchar('0');
 	count += ft_putnbr_f(value);
@@ -938,7 +943,7 @@ int	put_16bit_octal(unsigned int num, t_flags flags) {
 	value += convert_octal_bits(bits[7], bits[8], bits[9]) * 100;
 	value += convert_octal_bits(bits[10], bits[11], bits[12]) * 10;
 	value += convert_octal_bits(bits[13], bits[14], bits[15]);
-	count += put_formatting_from_flags(value, 8, flags, 1);
+	count += put_formatting_from_flags(value, 12, flags, 1);
 	if (flags.left && flags.pound)
 		count += ft_putchar('0');	
 	count += ft_putnbr_f(value);
