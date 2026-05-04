@@ -1778,6 +1778,15 @@ int	main() {
 	CHECK("%#3o\n", 383440);
 	CHECK("%#-3o -\n", 834943);
 
+	CHECK("%#ho\n", 8094);
+	CHECK("%#ho\n", 7584930);
+	CHECK("%#10ho\n", 3830);
+	CHECK("%#-10ho -\n", 8393);
+	CHECK("%#010ho\n", 838);
+	CHECK("%#ho\n", 0);
+	CHECK("%#3ho\n", 383440);
+	CHECK("%#-3ho -\n", 834943);
+
 	printf("\n----- Handling Signed Integer Percision -----\n\n");
 	CHECK("%+.10d\n", 748);
 	CHECK("%+10.10d\n", -89);
