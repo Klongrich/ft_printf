@@ -239,8 +239,12 @@ int put_padding_right_decimal_octal(long n, int base, int num_len, t_flags flags
 			num_len++;
 		}
 	}
+	if (flags.pound && base == 8)
+		num_len++;
 	while (i++ < flags.padding - num_len)
 		count += ft_putchar(' ');
+	if (flags.pound && base == 8)
+		count += ft_putchar('0');
 	if (n < 0 && !flags.plus)
 		count += ft_putchar('-');
 	if (flags.plus) {
