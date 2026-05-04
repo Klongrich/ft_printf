@@ -48,19 +48,18 @@ void	set_flags(char c, t_flags *flags) {
 		flags->plus = 1;
 	else if (c == ' ')
 		flags->space = 1;
-	else if (c == '.')
-		flags->dot = 1;
 }
 
 void	parse_flags(char *buffer, t_flags *flags) {
 	int i;
 	int j;
 	char buff[4095];
+	char *dot;
 	
 	i = 0;
 	j = 0;
 	buff[0] = '\0';
-	while (buffer[i] == '#' || buffer[i] == '0' || buffer[i] == '-' || buffer[i] == '+' || buffer[i] == ' ' || buffer[i] == '.') {
+	while (buffer[i] == '#' || buffer[i] == '0' || buffer[i] == '-' || buffer[i] == '+' || buffer[i] == ' ') {
 		set_flags(buffer[i], flags);
 		i++;
 	}
@@ -71,6 +70,13 @@ void	parse_flags(char *buffer, t_flags *flags) {
 	}
 	buff[j] = '\0';
 	if (j > 0) {
+		dot = ft_strchr(buffer, '.');
+		if (dot != NULL) {
+			dot++;
+			flags->dot = ft_atoi(dot);
+			if (flags->dot == 0)
+				flags->dot = -1;	
+		}
 		if (buff[j - 1]) {
 			flags->padding = ft_atoi(buff);
 		}
@@ -449,6 +455,37 @@ int     put_character_args(char c, t_flags flags) {
 	return (count);
 }
 
+int	ft_count_putstr_n(char *str, int n) {
+	int count;
+	int i;
+
+	i = 0;
+	count = 0;
+	while (i < n && str[i]) {
+		count += ft_putchar(str[i]);
+		i++;
+	}
+	return (count);
+}
+
+
+int get_strlen(char *str, t_flags flags) {
+	int str_len;
+
+	str_len = 0;
+	if (str == NULL)
+		str_len = 6;
+	else if (flags.dot) {
+		if (flags.dot == -1)
+			str_len = 0;
+		else
+			str_len = flags.dot;
+	}
+ 	else
+		str_len = ft_strlen(str);
+	return (str_len);
+}
+
 int     put_string_args(char *str, t_flags flags) { 
 	int i;
 	int count;
@@ -456,10 +493,7 @@ int     put_string_args(char *str, t_flags flags) {
 
 	i = 0;
 	count = 0;
-	if (str == NULL)
-		str_len = 6;
- 	else
-		str_len = ft_strlen(str);
+	str_len = get_strlen(str, flags);
 	if (flags.padding != 0 && !flags.left) {
 		while (i++ < flags.padding - str_len)
 			count += ft_putchar(' ');
@@ -467,7 +501,7 @@ int     put_string_args(char *str, t_flags flags) {
 	if (str == NULL)
 		count += ft_count_putstr("(null)");
 	else
-		count += ft_count_putstr(str);
+		count += ft_count_putstr_n(str, str_len);
 	if (flags.padding != 0 && flags.left) {
 		while (i++ < flags.padding - str_len)
 			count += ft_putchar(' ');
