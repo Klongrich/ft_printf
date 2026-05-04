@@ -252,9 +252,7 @@ int put_padding_right_decimal_octal(long n, int base, int num_len, t_flags flags
 
 int put_padding_right(long n, int base, int num_len, t_flags flags) {
 	int count;
-	int i;	
 
-	i = 0;
 	count = 0;
 	if (base == 16) {
 		return (put_padding_right_hex(n, num_len, flags));
@@ -265,12 +263,10 @@ int put_padding_right(long n, int base, int num_len, t_flags flags) {
 }
 
 int	put_formatting_from_flags(long n, int base, t_flags flags, int is_signed) {
-	int i;
 	int num_len;
 	int count;
 	
 	count = 0;
-	i = 0;
 	if (!is_signed || base == 8) {
 		flags.plus = 0;
 		flags.space = 0;
@@ -374,13 +370,9 @@ int	put_padding_left(long n, int base, int is_uppercase, t_flags flags) {
 }
 
 int     put_numbers_args(long n, int base, int is_uppercase, t_flags flags) { 
-	int i;
-	int num_len;
 	int count;
 
 	count = 0;
-	i = 0;
-	num_len = get_numlen_args(n, base);
 	if (base == 8 || base == 16 || base == 17)
 		count += put_formatting_from_flags(n, base, flags, 0);
 	else
@@ -399,7 +391,7 @@ int     put_numbers_args(long n, int base, int is_uppercase, t_flags flags) {
 	}
 }
 
-int     put_numbers_args_u(long n, int base, int is_uppercase, t_flags flags) { 
+int     put_numbers_args_u(long n, int base, t_flags flags) { 
 	int i;
 	int num_len;
 	int count;
@@ -421,9 +413,9 @@ int     put_numbers_args_u(long n, int base, int is_uppercase, t_flags flags) {
 int     put_character_args(char c, t_flags flags) { 
 	int i;
 	int count;
-	int str_len;
 
 	i = 0;
+	count = 0;
 	if (flags.padding != 0 && !flags.left) {
 		while (i < flags.padding - 1) {
 			count += ft_putchar(' ');
@@ -483,7 +475,7 @@ int	put_number_ll(signed long long n, int base, int is_uppercase) {
 	} else {
 		nb = (unsigned long long)n;
     	}
-	if (nb >= base)
+	if (nb >= (unsigned long long)base)
 		count += put_number_ll(nb / base, base, is_uppercase);
 	count += ft_putchar(symbols[nb % base]);
 	return (count);
@@ -504,7 +496,7 @@ int	put_number_ull(unsigned long long n, int base, int is_uppercase) {
 		n = -n;
 		count++;
 	}
-	if (n >= base)
+	if (n >= (unsigned long long)base)
 		count += put_number_ll(n / base, base, is_uppercase);
 	count += ft_putchar(symbols[n % base]);
 	return (count);
@@ -918,7 +910,6 @@ int	put_16bit_octal(unsigned int num, t_flags flags) {
 	int j;
 	int i;
 	int value;
-	int num_len;
 	int count;
 	
 	count = 0;
@@ -955,7 +946,7 @@ int	get_decimal_value(int i, int is_signed, int top_value) {
 	return (value * sign);
 }
 
-int	convert_binary_base10(unsigned int num, int is_signed, int top_value, int *bits) {
+int	convert_binary_base10(int is_signed, int top_value, int *bits) {
 	int j;
 	int i;
 	int value;
@@ -1011,7 +1002,7 @@ int	put_8bit(unsigned int num, int is_signed, t_flags flags) {
 	value = 0;
 	while (i > -1) 
 		bits[j++] = (num >> i--) & 1;
-	value = convert_binary_base10(num, is_signed, 7, bits);
+	value = convert_binary_base10(is_signed, 7, bits);
 	count += put_formatting_from_flags(value, 10, flags, is_signed);
 	count += put_padding_left_value_base10(value, is_signed, flags);
 	return (count);
@@ -1030,7 +1021,7 @@ int	put_16bit(unsigned int num, int is_signed, t_flags flags) {
 	value = 0;
 	while (i > -1)
 		bits[j++] = (num >> i--) & 1;
-	value = convert_binary_base10(num, is_signed, 15, bits);
+	value = convert_binary_base10(is_signed, 15, bits);
 	count += put_formatting_from_flags(value, 10, flags, is_signed);
 	count += put_padding_left_value_base10(value, is_signed, flags);
 	return (count);	
@@ -1128,7 +1119,7 @@ int put_float_value(long double f, long int_part, int precision, t_flags flags) 
 	if (flags.space && !flags.padding && !flags.plus && int_part >= 0) 
 		count += ft_putchar(' ');
 
-	if (f > 9223372036854775808) {
+	if (f > 9223372036854775807) {
 		count += put_number_ll(int_part, 10, 0); 
 	} else {
 		count += put_number_ll(int_part, 10, 0);
@@ -1142,9 +1133,7 @@ int put_float(long double f, t_flags flags) {
 	int count;
 	long int_part;
 	int num_len;
-	int i;
 
-	i = 0;
 	num_len = 0;
 	count = 0;
 	int_part =  (long long)f;
@@ -1196,7 +1185,7 @@ int	put_32bit_data(char *str, int i, va_list list, t_flags flags) {
 	if (str[i] == 'd' || str[i] == 'i')
 		count += put_numbers_args(va_arg(list, int), 10, 0, flags);
 	else if (str[i] == 'u')
-		count += put_numbers_args_u(va_arg(list, unsigned int), 10, 0, flags);
+		count += put_numbers_args_u(va_arg(list, unsigned int), 10, flags);
 	else if (str[i] == 'x')
 		count += put_numbers_args(va_arg(list, unsigned int), 17, 0, flags);
 	else if (str[i] == 'X')
@@ -1348,7 +1337,7 @@ int	ft_printf(char *str, ...) {
 		flags = init();
 		while (str[i] != '%' && str[i]) 
 			count += ft_putchar(str[i++]);
-		if (!str[i]) break ;
+		if (!str[i]) break;
 		if (str[i + 1] == '%') {
 			count += ft_putchar('%');
 			i++;	
