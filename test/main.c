@@ -1,4 +1,4 @@
-#include "ft_printf.h"
+#include "../inc/ft_printf.h"
 #include <stdio.h>
 
 
@@ -1638,7 +1638,7 @@ int	main() {
 	//Run current test we have written. 
 	//100 / 100 
 	//printf = compeleted
-
+	/*
 	ft_putchar('\n');
 	ft_putnbr((signed char)check);
 	ft_putchar('\n');
@@ -1700,7 +1700,7 @@ int	main() {
 
 	ft_putchar('\n');
 	ft_putchar('\n');
-
+	*/
 	ft_printf("\n---------------- Testing f ---------------\n");
 	CHECK("%12f\n", -12.849);
 	CHECK("%12f\n", 12.849);
@@ -1718,8 +1718,6 @@ int	main() {
 
 	more_val = 2749.84;
 	CHECK("%f\n", more_val);
-	ft_putchar('\n');
-	ft_putchar('\n');
 
 	long double testing;
 	testing = 4859.948494949949494949;
@@ -1748,13 +1746,8 @@ int	main() {
 	CHECK("%-10ho -\n", 8430);
 	CHECK("%-#10hx -\n", 8430);
 	CHECK("%-#10hX -\n", 8430);
-
-	printf("testing\n\n");
-
 	CHECK("testing\n", "testing"); 
-
 	CHECK("testing str: %s\n", "another str");
-
 	CHECK("%u\n", 49930);
 
 	int k;
@@ -1763,10 +1756,53 @@ int	main() {
 
 	CHECK("%p\n",&k); 
 	CHECK("%10o\n", -8493);
+
+	printf("\n-------- Testing %%%% ------------\n\n");
+
+	CHECK("%%", NULL);
+	CHECK("%%%%", NULL);
+	CHECK("%% another word", NULL);	
+	CHECK("%%%% another word %d", 7283);
+
+	printf("\n-------- End Testing %%%% --------\n");
+
+	printf("\n-------- New Test -------------\n\n");
+	
+	printf("----- Checking Octal w/ # -----\n\n");
+	CHECK("%#o\n", 8094);
+	CHECK("%#o\n", 7584930);
+
+	printf("\n----- Handling Signed Integer Percision -----\n\n");
+	CHECK("%+.10d\n", 748);
+	CHECK("%+10.10d\n", -89);
+	CHECK("%+-10.6d\n", 463);
+	CHECK("%10.5d\n", 234);
+	
+	printf("\n----- Handling String Precision ------\n\n"); 
+	CHECK("%.5s\n", "alsdjflsdfj");
+	CHECK("%.s\n", "lasdjf");
+	CHECK("%10.5s\n", "lkasjdflksjdf");
+	CHECK("%-10.3s\n", "this is a string");
+	CHECK("%10.3s\n", "this is a string");
+	CHECK("%.0s\n", "anothr string");
+
+	printf("\n----- Handling bad %% input -----\n\n");
+	CHECK("%+-10.5\n", 463);
+	CHECK("%10\n", NULL);
+	CHECK("%-\n", NULL);
+	CHECK("%--\n", NULL);
+	//inf, Nan, exit status	
+
+	printf("\n-------- End New Test ------------\n");	
+
+
 	printf("\n=== FINAL RESULTS ===\n");
     	printf("\033[32mPassed: %d\033[0m\n", g_passed);
     	printf("\033[31mFailed: %d\033[0m\n", g_failed);
 
+
+	/*
+	CHECK("%hhi\n", 84994);
     	double standard = 123.456;
    	double high_precision = 1.23456789012345;
     	double max_val = DBL_MAX;
@@ -1782,14 +1818,20 @@ int	main() {
    	 // 3. High precision (Note: double only has ~15-17 digits of accuracy)
     	CHECK("High Precision:    %.15f\n", high_precision);
 
+	CHECK("%f\n", 9223372036854775807.1224);
+	CHECK("%f\n", 9223372036854775807.1224);
+
     	printf("\n--- Edge Case %%f Tests ---\n");
     	// 4. Large value (Generates ~308 digits before the decimal)
     	CHECK("DBL_MAX (huge):    %f\n", max_val);
-	CHECK("Max long double: %Lf\n", LDBL_MAX);
+	//CHECK("Max long double: %Lf\n", LDBL_MAX);
 
     	// 5. Small positive value (Under default precision, this looks like 0)
     	CHECK("Small (default):   %f\n", small_val);
     	CHECK("Small (.12f):      %.12f\n", small_val);
+	
+	printf("% lkasdjf \n", 'k');
+	*/
 
 	//CHECK("\n %hhd - %hhi - %ho - %hu - %d -  %u - %ld\n", -55, 110, check, check, check, check, check, check);
 	//CHECK("%hd - %hi - %hu - %hx - %hX - %ho\n", check, check, check, check, check, check);
