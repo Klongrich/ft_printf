@@ -1338,8 +1338,11 @@ int	parse_flag_parameters(char *str, int i, t_flags *flags) {
 
 	j = 0;
 	buffer[0] = '\0';
-	while(!check_c(str[i]))
+	while(!check_c(str[i])) {
+		if (!str[i])
+			return (-1);
 		buffer[j++] = str[i++];
+	}
 	buffer[j] = '\0';
 	parse_flags(buffer, flags);
 	return (j);
@@ -1348,22 +1351,31 @@ int	parse_flag_parameters(char *str, int i, t_flags *flags) {
 int	ft_printf(char *str, ...) {
 	va_list list;
 	int	i;
+	int	res;
 	int 	count;
 	t_flags flags;
 
 	i = 0;
+	res = 0;
 	count = 0;
 	va_start(list, str);
 	while (str[i]) {
 		flags = init();
 		while (str[i] != '%' && str[i]) 
 			count += ft_putchar(str[i++]);
-		if (!str[i]) break;
+		if (!str[i]) 
+			break;
 		if (str[i + 1] == '%') {
 			count += ft_putchar('%');
 			i++;	
-		} else 
-			i += parse_flag_parameters(str, i + 1, &flags) + 1;
+		} else  {
+			res = parse_flag_parameters(str, i + 1, &flags);
+			if (res == -1) {
+				count += 1;
+				break;
+			} else
+				i += res + 1;
+		}
 		if (str[i] == 'c')
 			 count +=  put_character_args(va_arg(list, int), flags);
 		count += print_data_type(str, i, list, flags);
