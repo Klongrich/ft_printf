@@ -1771,6 +1771,12 @@ int	main() {
 	printf("----- Checking Octal w/ # -----\n\n");
 	CHECK("%#o\n", 8094);
 	CHECK("%#o\n", 7584930);
+	CHECK("%#10o\n", 3830);
+	CHECK("%#-10o -\n", 8393);
+	CHECK("%#010o\n", 838);
+	CHECK("%#o\n", 0);
+	CHECK("%#3o\n", 383440);
+	CHECK("%#-3o -\n", 834943);
 
 	printf("\n----- Handling Signed Integer Percision -----\n\n");
 	CHECK("%+.10d\n", 748);
