@@ -365,6 +365,10 @@ int	put_padding_left(long n, int base, int is_uppercase, t_flags flags) {
 		count += ft_count_putstr("0x");
 		num_len++;
 	}
+	if (flags.pound && base == 8) {
+		count += ft_putchar('0');
+		num_len++;
+	}
 	count += put_number(n, base, is_uppercase, "holder");
 	if (flags.pound && base == 16 && n != 0) 
 		num_len += 1;
