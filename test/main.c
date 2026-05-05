@@ -1803,16 +1803,19 @@ int	main() {
 	CHECK("%+.3d\n", -748);
 	CHECK("%.3d\n", 748);	
 	CHECK("%.3d\n", -748);
+
+	CHECK("% 10.0d\n", 5749);
 	
 	CHECK("%+10.5d\n", -89);
-	CHECK("%+010.5d\n", -89);
-	CHECK("%+010.0d\n", -89);
-	CHECK("%+-10.6d -\n", 463);
+	CHECK("%+010.5d\n", 89);
 	CHECK("%10.5d\n", 234);
 	CHECK("%0.0d\n", 1374);
 	CHECK("%7.2d\n", 4839);
-	CHECK("%-7.2d -\n", 7584);
 	CHECK("%7.12d\n", 7584);
+	CHECK("%+7.12d\n", 7584);
+
+	CHECK("%-7.2d -\n", 7584);
+	CHECK("%+-10.6d -\n", 463);
 	CHECK("%-7.12d -\n", 7584);
 	
 	printf("\n----- Handling String Precision ------\n\n"); 
@@ -1832,8 +1835,7 @@ int	main() {
 	CHECK("%dddddd\n", 380);
 	//inf, Nan, exit status	
 
-	printf("\n----- Ending Handling bad %% input (undefined) -----\n\n");
-	
+	printf("\n----- Ending Handling bad %% input (undefined) -----\n\n");	
 	printf("\n-------- End New Test ------------\n");	
 
 
