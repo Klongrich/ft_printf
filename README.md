@@ -3,14 +3,14 @@
 This project is a full custom re‑implementation of the standard C `printf` function.  
 It supports **flags**, **width**, **precision**, **length modifiers**, and a wide range of **format specifiers**, including integers, hex, octal, pointers, floats, and even custom 8‑bit/16‑bit conversions.
 
-Your implementation manually handles formatting logic, number conversion, padding, and printing — without relying on the standard library’s formatting functions.
+This implementation manually handles formatting logic, number conversion, padding, and printing — without relying on the standard library’s formatting functions.
 
 ---
 
 ## ✨ Features
 
 ### Supported Conversions
-Your implementation supports:
+This implementation supports:
 
 - **Characters**: `%c`
 - **Strings**: `%s`
@@ -34,7 +34,7 @@ Your implementation supports:
 
 ## 🧩 Flag Support
 
-Your implementation handles all major printf flags:
+This implementation handles all major printf flags:
 
 | Flag | Meaning |
 |------|---------|
@@ -54,7 +54,7 @@ Flags are parsed in `parse_flags()` and stored in a `t_flags` struct initialized
 
 ## 🔢 Number Conversion System
 
-Your implementation includes a full suite of custom number‑printing functions:
+This implementation includes a full suite of custom number‑printing functions:
 
 ### Decimal / Hex / Octal
 - `put_number()`
@@ -95,7 +95,7 @@ Precision defaults to **6**, unless overridden by a precision flag.
 
 ## 📦 Padding & Alignment Engine
 
-Your implementation includes a robust padding system:
+This implementation includes a robust padding system:
 
 - `put_padding_zero()`
 - `put_padding_right()`
