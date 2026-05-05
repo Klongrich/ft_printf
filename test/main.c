@@ -1859,6 +1859,23 @@ int	main() {
 
 	CHECK("%-7.2u -\n", 7584);
 	CHECK("%-10.6u -\n", 463);
+
+	printf("\n----- Handling Signed Integer Percision o -----\n\n");
+	
+	CHECK("%.10o\n", 748);
+	CHECK("%.3o\n", 748);	
+
+	CHECK("%10.5o\n", 234);
+	CHECK("%0.0o\n", 1374);
+	CHECK("%7.2o\n", 4839);
+	CHECK("%7.12o\n", 7584);
+
+	CHECK("%-7.2o -\n", 7584);
+	CHECK("%-10.6o -\n", 463);
+
+	CHECK("%#0.0o\n", 930);
+	CHECK("%#12.10o\n",7494);
+	CHECK("%#8.3o\n",74944);
 	
 	printf("\n----- Handling String Precision ------\n\n"); 
 	
