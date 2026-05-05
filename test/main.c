@@ -1792,7 +1792,21 @@ int	main() {
 
 	printf("\n----- Handling Signed Integer Percision -----\n\n");
 	CHECK("%+.10d\n", 748);
+	CHECK("%+.10d\n", -748);
+	CHECK("%.10d\n", 748);
+	CHECK("%.10d\n", -748);
+
+	CHECK("% .5d\n", 433);
+	CHECK("% .2d\n", 433);	
+
+	CHECK("%+.3d\n", 748);
+	CHECK("%+.3d\n", -748);
+	CHECK("%.3d\n", 748);	
+	CHECK("%.3d\n", -748);
+	
 	CHECK("%+10.5d\n", -89);
+	CHECK("%+010.5d\n", -89);
+	CHECK("%+010.0d\n", -89);
 	CHECK("%+-10.6d -\n", 463);
 	CHECK("%10.5d\n", 234);
 	CHECK("%0.0d\n", 1374);
