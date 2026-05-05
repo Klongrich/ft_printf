@@ -198,16 +198,14 @@ int	put_no_padding(long n, int base, int is_signed, int num_len, t_flags flags) 
 
 	i = 0;
 	count = 0;
-	if (flags.padding == 0 && base != 16) {
+	if (base != 16) {
 		if (flags.plus && n >= 0) {
 			count += ft_putchar('+');
 		}
 	}
-	if (flags.padding == 0 && flags.space) {
-		if (n >= 0 && !flags.plus && !is_signed)
-			count += ft_putchar(' ');
-	}
-	if (n < 0 && !flags.zero && !flags.padding) {
+	if (flags.space && !flags.padding && !flags.plus && base == 10 && n >= 0 && flags.dot)
+		count += ft_putchar(' ');
+	if (n < 0 && !flags.zero) {
 		count += ft_putchar('-');
 		num_len--;
 	}
@@ -416,7 +414,7 @@ int     put_numbers_args(long n, int base, int is_uppercase, t_flags flags) {
 	else {
 		if (!flags.left && !flags.padding && flags.pound && base == 16 && n != 0)
 			count += ft_count_putstr("0x");	
-		if (flags.space && !flags.padding && !flags.plus && base == 10 && n >= 0) 
+		if (flags.space && !flags.padding && !flags.plus && base == 10 && n >= 0 && !flags.dot) 
 			count += ft_putchar(' ');
 		count += put_number(n, base, is_uppercase, "holder");
 		return (count);
