@@ -1790,7 +1790,8 @@ int	main() {
 	
 	CHECK("%10ho - % 10ho - %7ho - %5ho\n", 654, 3830, 49848, 0);
 
-	printf("\n----- Handling Signed Integer Percision -----\n\n");
+	printf("\n----- Handling Signed Integer Percision d -----\n\n");
+	
 	CHECK("%+.10d\n", 748);
 	CHECK("%+.10d\n", -748);
 	CHECK("%.10d\n", 748);
@@ -1817,8 +1818,50 @@ int	main() {
 	CHECK("%-7.2d -\n", 7584);
 	CHECK("%+-10.6d -\n", 463);
 	CHECK("%-7.12d -\n", 7584);
+
+	printf("\n----- Handling Signed Integer Percision i -----\n\n");
+	
+	CHECK("%+.10i\n", 748);
+	CHECK("%+.10i\n", -748);
+	CHECK("%.10i\n", 748);
+	CHECK("%.10i\n", -748);
+
+	CHECK("% .5i\n", 433);
+	CHECK("% .2i\n", 433);	
+
+	CHECK("%+.3i\n", 748);
+	CHECK("%+.3i\n", -748);
+	CHECK("%.3i\n", 748);	
+	CHECK("%.3i\n", -748);
+
+	CHECK("% 10.0i\n", 5749);
+	
+	CHECK("%+10.5i\n", -89);
+	CHECK("%+010.5i\n", 89);
+	CHECK("%10.5i\n", 234);
+	CHECK("%0.0i\n", 1374);
+	CHECK("%7.2i\n", 4839);
+	CHECK("%7.12i\n", 7584);
+	CHECK("%+7.12i\n", 7584);
+
+	CHECK("%-7.2i -\n", 7584);
+	CHECK("%+-10.6i -\n", 463);
+
+	printf("\n----- Handling Signed Integer Percision u -----\n\n");
+	
+	CHECK("%.10u\n", 748);
+	CHECK("%.3u\n", 748);	
+
+	CHECK("%10.5u\n", 234);
+	CHECK("%0.0u\n", 1374);
+	CHECK("%7.2u\n", 4839);
+	CHECK("%7.12u\n", 7584);
+
+	CHECK("%-7.2u -\n", 7584);
+	CHECK("%-10.6u -\n", 463);
 	
 	printf("\n----- Handling String Precision ------\n\n"); 
+	
 	CHECK("%.5s\n", "alsdjflsdfj");
 	CHECK("%.s\n", "lasdjf");
 	CHECK("%10.5s\n", "lkasjdflksjdf");
