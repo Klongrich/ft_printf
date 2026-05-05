@@ -192,13 +192,15 @@ int	put_padding_zero(long n, int base, int num_len, t_flags flags) {
 	return (count);
 }
 
-int	put_no_padding(long n, int base, int is_signed, t_flags flags) {
+int	put_no_padding(long n, int base, int is_signed, int num_len, t_flags flags) {
 	int count;
+	int i;
 
+	i = 0;
 	count = 0;
 	if (flags.padding == 0 && base != 16) {
 		if (flags.plus && n >= 0) {
-			count  += ft_putchar('+');
+			count += ft_putchar('+');
 		}
 	}
 	if (flags.padding == 0 && flags.space) {
@@ -207,9 +209,18 @@ int	put_no_padding(long n, int base, int is_signed, t_flags flags) {
 	}
 	if (n < 0 && !flags.zero && !flags.padding) {
 		count += ft_putchar('-');
+		num_len--;
 	}
-	if (n != 0 && base == 8 && flags.pound)
+	if (n != 0 && base == 8 && flags.pound) {
 		count += ft_putchar('0');
+		num_len++;
+	}
+	if (flags.dot) {
+		while (i < flags.dot - num_len) {
+			count += ft_putchar('0');
+			i++;
+		}
+	}
 	return (count);
 }
 
@@ -293,12 +304,10 @@ int	put_formatting_from_flags(long n, int base, t_flags flags, int is_signed) {
 	}
 	num_len = get_numlen(n, base);
 	base = update_base(base);
-	if (flags.dot) 
-		return (put_dot(n, num_len, count, flags.padding));
-	if (flags.zero && !flags.left) 
+	if (flags.zero && !flags.left && !flags.dot && flags.dot != -1) 
 		return(put_padding_zero(n, base, num_len, flags));	
 	if (!flags.padding)
-		return (put_no_padding(n, base, is_signed, flags));
+		return (put_no_padding(n, base, is_signed, num_len, flags));
 	if (flags.padding != 0 && !flags.left)
 		return (put_padding_right(n, base, num_len, flags));
 	return (count);
