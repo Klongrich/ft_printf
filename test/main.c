@@ -1847,7 +1847,7 @@ int	main() {
 	CHECK("%-7.2i -\n", 7584);
 	CHECK("%+-10.6i -\n", 463);
 
-	printf("\n----- Handling Signed Integer Percision u -----\n\n");
+	printf("\n----- Handling Usigned Integer Percision -----\n\n");
 	
 	CHECK("%.10u\n", 748);
 	CHECK("%.3u\n", 748);	
@@ -1860,7 +1860,7 @@ int	main() {
 	CHECK("%-7.2u -\n", 7584);
 	CHECK("%-10.6u -\n", 463);
 
-	printf("\n----- Handling Signed Integer Percision o -----\n\n");
+	printf("\n----- Handling Octal Percision -----\n\n");
 	
 	CHECK("%.10o\n", 748);
 	CHECK("%.3o\n", 748);	
