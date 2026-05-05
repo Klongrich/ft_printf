@@ -244,9 +244,15 @@ int put_padding_right_hex(long n, int num_len, t_flags flags) {
 int put_padding_right_decimal_octal(long n, int base, int num_len, t_flags flags) {
 	int count;
 	int i;
+	int j;
 
 	i = 0;
-	count = 0;
+	j = 0;
+	count = 0;	
+	if (flags.dot && flags.dot != -1) {
+		if (flags.dot < num_len)
+			flags.dot = 0;
+	}
 	if (flags.plus) {
 		if (n >= 0 && base != 8) {
 			if (!flags.padding)
@@ -256,13 +262,40 @@ int put_padding_right_decimal_octal(long n, int base, int num_len, t_flags flags
 	}
 	if (flags.pound && base == 8)
 		num_len++;
+	if (flags.dot && flags.dot != -1) {
+		flags.dot -= num_len;
+		flags.padding -= flags.dot;
+	}
+
+	if (flags.dot && flags.dot != -1 && base == 10) {
+			if (n < 0)
+				flags.padding--;
+			if (n >= 0 && flags.plus)
+				flags.padding--;
+	}
 	while (i++ < flags.padding - num_len)
 		count += ft_putchar(' ');
+	if (flags.dot && flags.dot != 1) {
+		if (base == 10) {
+			if (n < 0) {
+				count += ft_putchar('-');
+				flags.dot++;
+			}
+			if (n >= 0 && flags.plus) {
+				count += ft_putchar('+');
+				flags.dot++;
+			}
+		}
+		while (j < flags.dot) {
+			count += ft_putchar('0');
+			j++;
+		}
+	}
 	if (flags.pound && base == 8)
 		count += ft_putchar('0');
 	if (n < 0 && !flags.plus)
 		count += ft_putchar('-');
-	if (flags.plus) {
+	if (flags.plus && !flags.dot && flags.dot != -1) {
 		if (n >= 0 && base != 8) {
 			count += ft_putchar('+');
 		} else if (n < 0)
