@@ -405,11 +405,19 @@ int	get_numlen_args(long n, int base) {
 int	put_padding_left(long n, int base, int is_uppercase, t_flags flags) {
 	int count;	
 	int i;
+	int j;
 	int num_len;
+	int temp;
 
 	i = 0;
+	j = 0;
 	count = 0;
 	num_len = get_numlen_args(n, base);
+	temp = num_len;
+	if (flags.dot && flags.dot != -1) {
+		if (flags.dot < num_len)
+			flags.dot = 0;
+	}
 	if (flags.left && flags.plus && base != 8  && base != 16) {
 		count += ft_putchar('+');
 		num_len++;
@@ -421,6 +429,13 @@ int	put_padding_left(long n, int base, int is_uppercase, t_flags flags) {
 	if (flags.pound && base == 8) {
 		count += ft_putchar('0');
 		num_len++;
+	}
+	if (flags.dot && flags.dot != -1) {
+		while (j < flags.dot - temp) {
+			count += ft_putchar('0');
+			num_len++;
+			j++;
+		}
 	}
 	count += put_number(n, base, is_uppercase, "holder");
 	if (flags.pound && base == 16 && n != 0) 
