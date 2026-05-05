@@ -1792,9 +1792,14 @@ int	main() {
 
 	printf("\n----- Handling Signed Integer Percision -----\n\n");
 	CHECK("%+.10d\n", 748);
-	CHECK("%+10.10d\n", -89);
-	CHECK("%+-10.6d\n", 463);
+	CHECK("%+10.5d\n", -89);
+	CHECK("%+-10.6d -\n", 463);
 	CHECK("%10.5d\n", 234);
+	CHECK("%0.0d\n", 1374);
+	CHECK("%7.2d\n", 4839);
+	CHECK("%-7.2d -\n", 7584);
+	CHECK("%7.12d\n", 7584);
+	CHECK("%-7.12d -\n", 7584);
 	
 	printf("\n----- Handling String Precision ------\n\n"); 
 	CHECK("%.5s\n", "alsdjflsdfj");
