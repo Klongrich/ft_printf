@@ -1899,15 +1899,13 @@ int	main() {
 	CHECK("%#15.10x\n",7494);
 	CHECK("%#8.3x\n",74944);
 
+	CHECK("%.0x\n", 0);
+	CHECK("%#.0X\n", 0);
 	CHECK("%#0.0x\n", 0);
 	CHECK("%#12.10x\n", 0);
 	CHECK("%#15.10x\n", 0);
 	CHECK("%#8.3x\n", 0);
 
-	CHECK("%0.0x\n", 0);
-	CHECK("%12.10x\n",0);
-	CHECK("%15.10x\n",0);
-	CHECK("%8.3x\n", 0);
 
 	CHECK("%.10X\n", 748);
 	CHECK("%.3X\n", 748);	
@@ -1934,6 +1932,35 @@ int	main() {
 	CHECK("%10.3s\n", "this is a string");
 	CHECK("%.0s\n", "anothr string");
 	CHECK("%10.0s -\n", "anothr string");
+
+	printf("\n----- Handling 8-bit Signed Integer Percision hhd -----\n\n");
+	
+	CHECK("%+.10hhd\n", 748);
+	CHECK("%+.10hhd\n", -748);
+	CHECK("%.10hhd\n", 748);
+	CHECK("%.10hhd\n", -748);
+
+	CHECK("% .5hhd\n", 433);
+	CHECK("% .2hhd\n", 433);	
+
+	CHECK("%+.3hhd\n", 748);
+	CHECK("%+.3hhd\n", -748);
+	CHECK("%.3hhd\n", 748);	
+	CHECK("%.3hhd\n", -748);
+
+	CHECK("% 10.0hhd\n", 5749);
+	
+	CHECK("%+10.5hhd\n", -89);
+	CHECK("%+010.5hhd\n", 89);
+	CHECK("%10.5hhd\n", 234);
+	CHECK("%0.0hhd\n", 1374);
+	CHECK("%7.2hhd\n", 4839);
+	CHECK("%7.12hhd\n", 7584);
+	CHECK("%+7.12hhd\n", 7584);
+
+	CHECK("%-7.2hhd -\n", 7584);
+	CHECK("%+-10.6hhd -\n", 463);
+	CHECK("%-7.12hhd -\n", 7584);
 
 	printf("\n----- Handling bad %% input (undefined) -----\n\n");
 	CHECK("%-\n", 34);
