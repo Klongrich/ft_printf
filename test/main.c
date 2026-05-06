@@ -1875,7 +1875,55 @@ int	main() {
 
 	CHECK("%#0.0o\n", 930);
 	CHECK("%#12.10o\n",7494);
+	CHECK("%#15.10o\n",7494);
 	CHECK("%#8.3o\n",74944);
+
+	CHECK("%#0.0o\n", 0);
+	CHECK("%0.0o\n", 0);
+
+	printf("\n----- Handling Hex Percision -----\n\n");
+	
+	CHECK("%.10x\n", 748);
+	CHECK("%.3x\n", 748);	
+
+	CHECK("%10.5x\n", 234);
+	CHECK("%0.0x\n", 1374);
+	CHECK("%7.2x\n", 4839);
+	CHECK("%7.12x\n", 7584);
+
+	CHECK("%-7.2x -\n", 7584);
+	CHECK("%-10.6x -\n", 463);
+
+	CHECK("%#0.0x\n", 930);
+	CHECK("%#12.10x\n",7494);
+	CHECK("%#15.10x\n",7494);
+	CHECK("%#8.3x\n",74944);
+
+	CHECK("%#0.0x\n", 0);
+	CHECK("%#12.10x\n", 0);
+	CHECK("%#15.10x\n", 0);
+	CHECK("%#8.3x\n", 0);
+
+	CHECK("%0.0x\n", 0);
+	CHECK("%12.10x\n",0);
+	CHECK("%15.10x\n",0);
+	CHECK("%8.3x\n", 0);
+
+	CHECK("%.10X\n", 748);
+	CHECK("%.3X\n", 748);	
+
+	CHECK("%10.5X\n", 234);
+	CHECK("%0.0X\n", 1374);
+	CHECK("%7.2X\n", 4839);
+	CHECK("%7.12X\n", 7584);
+
+	CHECK("%-7.2X -\n", 7584);
+	CHECK("%-10.6X -\n", 463);
+
+	CHECK("%#0.0X\n", 930);
+	CHECK("%#12.10X\n",7494);
+	CHECK("%#15.10X\n",7494);
+	CHECK("%#8.3X\n",74944);
 	
 	printf("\n----- Handling String Precision ------\n\n"); 
 	
