@@ -1960,7 +1960,9 @@ int	main() {
 
 	CHECK("%-7.2hhd -\n", 7584);
 	CHECK("%+-10.6hhd -\n", 463);
+	CHECK("%+-10.6hhd -\n", 13);
 	CHECK("%-7.12hhd -\n", 7584);
+	CHECK("%+-7.12hhd -\n", 28);
 
 	printf("\n----- Handling bad %% input (undefined) -----\n\n");
 	CHECK("%-\n", 34);
