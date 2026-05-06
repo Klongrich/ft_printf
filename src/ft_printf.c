@@ -225,10 +225,18 @@ int	put_no_padding(long n, int base, int is_signed, int num_len, t_flags flags) 
 int put_padding_right_hex(long n, int num_len, t_flags flags) {
 	int count;
 	int i;
+	int j;
 
 	count = 0;
 	i = 0;
-	if (flags.pound && n != 0) 
+	j = 0;
+	if (flags.dot && flags.dot != -1 && flags.dot < num_len) 
+		flags.dot = 0; 
+	if (flags.dot && flags.dot != -1) {
+		flags.dot -= num_len;
+		flags.padding -= flags.dot;
+	}
+	if (flags.pound && n != 0)
 		num_len += 2;
 	while (i < flags.padding - num_len) {
 		count += ft_putchar(' ');
@@ -237,6 +245,12 @@ int put_padding_right_hex(long n, int num_len, t_flags flags) {
 	if (flags.pound && n != 0)  {
 		count += ft_putchar('0');
 		count += ft_putchar('x');
+	}
+	if (flags.dot && flags.dot != 1) {
+		while(j < flags.dot) {
+			count += ft_putchar('0');
+			j++;
+		}
 	}
 	return (count);
 }
