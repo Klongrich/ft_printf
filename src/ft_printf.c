@@ -478,7 +478,11 @@ int     put_numbers_args(long n, int base, int is_uppercase, t_flags flags) {
 			count += ft_count_putstr("0x");	
 		if (flags.space && !flags.padding && !flags.plus && base == 10 && n >= 0 && !flags.dot) 
 			count += ft_putchar(' ');
-		count += put_number(n, base, is_uppercase, "holder");
+		if (!flags.padding && flags.dot == -1 && n == 0) {
+			if (base == 8 && flags.pound)
+				count += ft_putchar('0');	
+		} else  
+			count += put_number(n, base, is_uppercase, "holder");
 		return (count);
 	}
 }
