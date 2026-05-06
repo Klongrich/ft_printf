@@ -307,7 +307,7 @@ int put_padding_right_decimal_octal(long n, int base, int num_len, t_flags flags
 	}
 	if (flags.pound && base == 8)
 		count += ft_putchar('0');
-	if (n < 0 && !flags.plus)
+	if (n < 0 && !flags.plus && (!flags.dot || flags.dot == -1))
 		count += ft_putchar('-');
 	if (flags.plus && !flags.dot && flags.dot != -1) {
 		if (n >= 0 && base != 8) {
@@ -1095,16 +1095,34 @@ int	put_padding_left_value_base10(int value, int is_signed, t_flags flags) {
 	int num_len;
 	int count;
 	int i;
-	
+	int j;
+	int temp;
+
 	i = 0;
+	j = 0;
 	count = 0;
 	num_len = ft_numlen(value);
+	temp = num_len;
+	if (flags.dot && flags.dot != -1) {
+		if (value < 0)
+			flags.dot += 1;
+		flags.dot -= num_len;
+		flags.padding -= flags.dot;
+		if (flags.dot < num_len)
+			flags.dot = 0;
+	}
 	if (flags.left && flags.padding != 0 && is_signed) {
 		if (value < 0) 
 			count += ft_putchar('-');
 		if (value >= 0 && flags.plus) {
 			count += ft_putchar('+');
 			num_len++;
+		}
+	}
+	if (flags.dot && flags.dot != 1 && flags.padding != 0 && flags.left) {
+		while (j < flags.dot) {
+			count += ft_putchar('0');
+			j++;
 		}
 	}
 	if (is_signed && !flags.padding && !flags.plus && flags.space && value >= 0) 
