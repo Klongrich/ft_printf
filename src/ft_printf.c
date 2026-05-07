@@ -808,10 +808,21 @@ int	put_8bit_hex_value_padding_left(char *value, unsigned int num, t_flags flags
 	int count;
 	int num_len;
 	int i;
+	int j;
 
+	j = 0;
 	i = 0;
 	count = 0;
-	num_len = 2;
+	if (value[0] == '0' && value[1] != '0') {
+		if (flags.dot && flags.dot != -1)
+			flags.dot += 1;
+		num_len = 1;
+	} else
+		num_len = 2;
+	if (flags.dot && flags.dot != -1) {
+		if (flags.dot < num_len)
+			flags.dot = 0;
+	}
 	if (flags.pound && flags.left && !flags.zero && num != 0) {
 		count += ft_count_putstr("0x");
 		num_len += 2;
@@ -822,6 +833,13 @@ int	put_8bit_hex_value_padding_left(char *value, unsigned int num, t_flags flags
 		count += ft_count_putstr("0x");
 	if (value[0] == '0' && num == 0)
 		num_len--;
+	if (flags.dot && flags.dot != -1 && flags.left) {
+		while (j < flags.dot - 2) {
+			count += ft_putchar('0');
+			num_len++;
+			j++;
+		}
+	}
 	count += put_8bit_hex_value(num, value);
 	if (flags.padding != 0 && flags.left) {
 		while (i++ < flags.padding - num_len) 
