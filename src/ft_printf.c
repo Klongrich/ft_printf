@@ -262,9 +262,9 @@ int put_padding_right_decimal_octal(long n, int base, int num_len, t_flags flags
 
 	i = 0;
 	j = 0;
-	count = 0;	
+	count = 0;
 	if (flags.dot && flags.dot != -1) {
-		if (flags.dot < num_len)
+		if (flags.dot <= num_len)
 			flags.dot = 0;
 	}
 	if (flags.plus) {
@@ -280,12 +280,11 @@ int put_padding_right_decimal_octal(long n, int base, int num_len, t_flags flags
 		flags.dot -= num_len;
 		flags.padding -= flags.dot;
 	}
-
 	if (flags.dot && flags.dot != -1 && base == 10) {
-			if (n < 0)
-				flags.padding--;
-			if (n >= 0 && flags.plus)
-				flags.padding--;
+		if (n < 0)
+			flags.padding--;
+		if (n >= 0 && flags.plus)
+			flags.padding--;
 	}
 	while (i++ < flags.padding - num_len)
 		count += ft_putchar(' ');
@@ -1045,7 +1044,11 @@ int	put_8bit_octal(unsigned int num, t_flags flags) {
 	count += put_formatting_from_flags(value, 12, flags, 1);
 	if (flags.left && flags.pound)
 		count += ft_putchar('0');
-	count += ft_putnbr_f(value);
+	if (flags.dot == -1 && num == 0) {
+		if (!flags.left && flags.pound)
+			count += ft_putchar('0');
+	} else
+		count += ft_putnbr_f(value);
 	count += put_padding_left_octal(value, flags);
 	return (count);
 }
