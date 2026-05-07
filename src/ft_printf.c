@@ -1127,6 +1127,10 @@ int	put_padding_left_value_base10(int value, int is_signed, t_flags flags) {
 	num_len = ft_numlen(value);
 	temp = num_len;
 	if (flags.dot && flags.dot != -1) {
+		if (flags.dot <= num_len)
+			flags.dot = 0; 
+	}
+	if (flags.dot && flags.dot != -1) {
 		if (value < 0)
 			flags.dot += 1;
 		flags.dot -= num_len;
