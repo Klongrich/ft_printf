@@ -816,6 +816,8 @@ int	put_8bit_hex_value_padding_left(char *value, unsigned int num, t_flags flags
 		count += ft_count_putstr("0x");
 		num_len += 2;
 	}
+	if (flags.dot == -1 && flags.pound && num != 0)
+		count += ft_count_putstr("0x");
 	if (!flags.left && !flags.padding && !flags.zero && flags.pound && num != 0)
 		count += ft_count_putstr("0x");
 	if (value[0] == '0' && num == 0)
