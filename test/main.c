@@ -1880,6 +1880,9 @@ int	main() {
 
 	CHECK("%#0.0o\n", 0);
 	CHECK("%0.0o\n", 0);
+	CHECK("%o\n", 0);
+	CHECK("%.0o\n", 0);
+	CHECK("%#o\n", 0);
 
 	printf("\n----- Handling Hex Percision -----\n\n");
 	
@@ -1966,6 +1969,19 @@ int	main() {
 	CHECK("%-7.12hhd -\n", 7584);
 	CHECK("%+-7.12hhd -\n", 28);
 
+	printf("\n----- Handling 8-bit Usigned Integer Percision hhu -----\n\n");
+	
+	CHECK("%.10hhu\n", 748);
+	CHECK("%.3hhu\n", 748);	
+
+	CHECK("%10.5hhu\n", 234);
+	CHECK("%0.0hhu\n", 1374);
+	CHECK("%7.2hhu\n", 4839);
+	CHECK("%7.12hhu\n", 7584);
+
+	CHECK("%-7.2hhu -\n", 7584);
+	CHECK("%-10.6hhu -\n", 463);
+
 	printf("\n----- Handling 8-bit Hex Percision hhx -----\n\n");
 	
 	CHECK("%.10hhx\n", 748);
@@ -1991,6 +2007,31 @@ int	main() {
 	CHECK("%#0hhx\n", 748);
 	CHECK("%-7hhx -\n", 0x00);
 	
+	printf("\n----- Handling 8-bit Octal Percision hho -----\n\n");
+	//precisoin == num_len;
+	
+	CHECK("%.10hho\n", 748);
+	CHECK("%.3hho\n", 748);	
+
+	CHECK("%10.5hho\n", 234);
+	CHECK("%0.0hho\n", 1374);
+	CHECK("%7.2hho\n", 4839);
+	CHECK("%7.12hho\n", 7584);
+
+	CHECK("%-7.2hho -\n", 7584);
+	CHECK("%-10.6hho -\n", 463);
+
+	CHECK("%#0.0hho\n", 930);
+	CHECK("%#12.10hho\n",7494);
+	CHECK("%#15.10hho\n",7494);
+	CHECK("%#8.3hho\n",74944);
+
+	CHECK("%#0.0hho\n", 0);
+	CHECK("%0.0hho\n", 0);
+	CHECK("%hho\n", 0);
+	CHECK("%.0hho\n", 0);
+	CHECK("%.0hho\n", 830);
+ 	
 	printf("\n----- Handling bad %% input (undefined) -----\n\n");
 	CHECK("%-\n", 34);
 	CHECK("%--\n",34);
