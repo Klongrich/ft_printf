@@ -203,8 +203,8 @@ int	put_no_padding(long n, int base, int is_signed, int num_len, t_flags flags) 
 			count += ft_putchar('+');
 		}
 	}
-	if (flags.space && !flags.padding && !flags.plus && base == 10 && n >= 0 && flags.dot)
-		count += ft_putchar(' ');
+	if (flags.space && !flags.padding && !flags.plus && base == 10 && n >= 0)
+			count += ft_putchar(' ');
 	if (n < 0 && !flags.zero) {
 		count += ft_putchar('-');
 		num_len--;
@@ -475,8 +475,6 @@ int     put_numbers_args(long n, int base, int is_uppercase, t_flags flags) {
 	else {
 		if (!flags.left && !flags.padding && flags.pound && base == 16 && n != 0)
 			count += ft_count_putstr("0x");	
-		if (flags.space && !flags.padding && !flags.plus && base == 10 && n >= 0 && !flags.dot) 
-			count += ft_putchar(' ');
 		if (!flags.padding && flags.dot == -1 && n == 0) {
 			if (base == 8 && flags.pound)
 				count += ft_putchar('0');	
@@ -638,11 +636,6 @@ int     put_numbers_args_ll(signed long long n, int base, int is_uppercase, t_fl
 		if( n >= 0)
 			count += ft_putchar('+');
 		num_len++;
-	}
-	if (flags.space && !flags.padding && !flags.plus) {
-		if (n >= 0) {
-			count += ft_putchar(' ');
-		}
 	}	
 	count += put_number_ll(n, base, is_uppercase);
 	if (flags.padding != 0 && flags.left) {
@@ -964,17 +957,29 @@ int     put_16bit_hex_value_padding_left(char *value, unsigned int num, t_flags 
 	int count;
 	int num_len;
 	int i;
+	int j;
 
 	i = 0;
 	count = 0;
-	num_len = 4;
+	j = 0;	
+	num_len = 4 + get_padding_left_for_numlen(value, num);
+	if (flags.dot && flags.dot != -1) {
+		if (flags.dot <= num_len)
+			flags.dot = 0;
+	}
 	if (flags.pound && flags.left && !flags.zero && num != 0) {
 		count += ft_count_putstr("0x");
 		num_len += 2;
 	}
 	if (!flags.left && !flags.padding && !flags.zero && flags.pound && num != 0) 
 		count += ft_count_putstr("0x");
-	num_len += get_padding_left_for_numlen(value, num);
+	if (flags.dot && flags.dot != -1 && flags.left) {
+		while (j < flags.dot - num_len) {
+			count += ft_putchar('0');
+			num_len++;
+			j++;
+		}
+	}
 	count += put_16bit_hex_value(value, num);
 	if (flags.padding != 0 && flags.left) {
 		while (i < flags.padding - num_len) {
@@ -1076,7 +1081,11 @@ int	put_16bit_octal(unsigned int num, t_flags flags) {
 	count += put_formatting_from_flags(value, 12, flags, 1);
 	if (flags.left && flags.pound)
 		count += ft_putchar('0');	
-	count += ft_putnbr_f(value);
+	if (flags.dot == -1 && num == 0) {
+		if (!flags.left && flags.pound)
+			count += ft_putchar('0');
+	} else
+		count += ft_putnbr_f(value);
 	count += put_padding_left_octal(value, flags);
 	return (count);
 }
@@ -1152,8 +1161,8 @@ int	put_padding_left_value_base10(int value, int is_signed, t_flags flags) {
 			j++;
 		}
 	}
-	if (is_signed && !flags.padding && !flags.plus && flags.space && value >= 0) 
-		count += ft_putchar(' ');
+//	if (is_signed && !flags.padding && !flags.plus && flags.space && value >= 0 && flags.dot) 
+//		count += ft_putchar(' ');
 	count += ft_putnbr_f(value);
 	if (flags.padding != 0 && flags.left) {
 		while (i++ < flags.padding - num_len) 
