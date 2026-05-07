@@ -973,6 +973,8 @@ int     put_16bit_hex_value_padding_left(char *value, unsigned int num, t_flags 
 	}
 	if (!flags.left && !flags.padding && !flags.zero && flags.pound && num != 0) 
 		count += ft_count_putstr("0x");
+	if (!flags.padding && flags.dot && flags.pound && num != 0)
+		count += ft_count_putstr("0x");
 	if (flags.dot && flags.dot != -1 && flags.left) {
 		while (j < flags.dot - num_len) {
 			count += ft_putchar('0');
