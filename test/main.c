@@ -1964,6 +1964,26 @@ int	main() {
 	CHECK("%-7.12hhd -\n", 7584);
 	CHECK("%+-7.12hhd -\n", 28);
 
+	printf("\n----- Handling 8-bit Hex Percision hhx -----\n\n");
+	
+	CHECK("%.10hhx\n", 748);
+	CHECK("%.3hhx\n", 748);	
+
+	CHECK("%10.5hhx\n", 234);
+	CHECK("%0.0hhx\n", 1374);
+	CHECK("%7.2hhx\n", 4839);
+	CHECK("%7.12hhx\n", 7584);
+
+	CHECK("%-7.2hhx -\n", 7584);
+	CHECK("%-10.6hhx -\n", 463);
+
+	CHECK("%#0.0hhx\n", 930);
+	CHECK("%#12.10hhx\n",7494);
+	CHECK("%#15.10hhx\n",7494);
+	CHECK("%#8.3hhx\n",74944);
+	CHECK("%#0hhx\n", 748);
+	
+
 	printf("\n----- Handling bad %% input (undefined) -----\n\n");
 	CHECK("%-\n", 34);
 	CHECK("%--\n",34);
