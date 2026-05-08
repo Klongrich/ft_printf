@@ -1224,7 +1224,7 @@ int	put_padding_left_value_base10(int value, int is_signed, t_flags flags) {
 			count += ft_putchar('0');
 			j++;
 		}
-	}
+	};
 	count += ft_putnbr_f(value);
 	if (flags.padding != 0 && flags.left) {
 		while (i++ < flags.padding - num_len) 
