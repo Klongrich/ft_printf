@@ -174,8 +174,10 @@ int	put_padding_zero(long n, int base, int num_len, t_flags flags) {
 	count = 0;
 	if (base == 16 && flags.pound) {
 		if(n != 0) {
-			count += ft_putchar('0');
-			count += ft_putchar('x');
+			if (flags.is_uppercase)
+				count += ft_count_putstr("0X");
+			else
+				count += ft_count_putstr("0x");
 			num_len += 2;
 		}
 	} else {
