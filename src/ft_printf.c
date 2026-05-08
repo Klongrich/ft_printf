@@ -244,8 +244,7 @@ int put_padding_right_hex(long n, int num_len, t_flags flags) {
 		i++;
 	}
 	if (flags.pound && n != 0)  {
-		count += ft_putchar('0');
-		count += ft_putchar('x');
+		count += ft_count_putstr("0x");
 	}
 	if (flags.dot && flags.dot != -1) {
 		while(j < flags.dot) {
