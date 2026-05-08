@@ -873,6 +873,14 @@ int	put_8bit_hex_value(unsigned int num, char *value) {
 	return (count);
 }
 
+int	ft_put_hexpound(int is_uppercase) {
+	if (is_uppercase)
+		return (ft_count_putstr("0X"));
+	else
+		return (ft_count_putstr("0x"));
+}
+
+
 int	put_8bit_hex_value_padding_left(char *value, unsigned int num, t_flags flags) {
 	int count;
 	int num_len;
@@ -893,13 +901,13 @@ int	put_8bit_hex_value_padding_left(char *value, unsigned int num, t_flags flags
 			flags.dot = 0;
 	}
 	if (flags.pound && flags.left && !flags.zero && num != 0) {
-		count += ft_count_putstr("0x");
+		count += ft_put_hexpound(flags.is_uppercase);
 		num_len += 2;
 	}
 	if (flags.dot == -1 && flags.pound && num != 0)
-		count += ft_count_putstr("0x");
+		count += ft_put_hexpound(flags.is_uppercase);
 	if (!flags.left && !flags.padding && !flags.zero && flags.pound && num != 0)
-		count += ft_count_putstr("0x");
+		count += ft_put_hexpound(flags.is_uppercase);
 	if (value[0] == '0' && num == 0)
 		num_len--;
 	if (flags.dot && flags.dot != -1 && flags.left) {
@@ -938,6 +946,8 @@ int 	put_8bit_hex(unsigned int num, int uppercase, t_flags flags) {
 	count = 0;
 	i = 7;
 	j = 0;
+	if (uppercase)
+		flags.is_uppercase = 1;
 	while (i > -1) 
 		bits[j++] = (num >> i--) & 1;
 	get_8bit_hex_values(uppercase, bits, value);
