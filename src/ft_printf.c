@@ -460,8 +460,12 @@ int     put_numbers_args(long n, int base, int is_uppercase, t_flags flags) {
 	if (flags.left) 
 		return (put_padding_left(n, base, is_uppercase, flags));
 	else {
-		if (!flags.left && !flags.padding && flags.pound && base == 16 && n != 0)
-			count += ft_count_putstr("0x");	
+		if (!flags.left && !flags.padding && flags.pound && base == 16 && n != 0) {
+			if (is_uppercase)
+				count += ft_count_putstr("0X");	
+			else
+				count += ft_count_putstr("0x");
+		}
 		if (!flags.padding && flags.dot == -1 && n == 0) {
 			if (base == 8 && flags.pound)
 				count += ft_putchar('0');	
