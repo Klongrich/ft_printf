@@ -34,6 +34,7 @@ t_flags init() {
 	flags.space = 0;
 	flags.plus = 0;
 	flags.dot = 0;
+	flags.is_uppercase = 0;
 	return (flags);
 }
 
