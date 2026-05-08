@@ -384,49 +384,6 @@ int	put_padding_zero_ull(unsigned long long n, int base, int num_len, t_flags fl
 	return (count);
 }
 
-/*
-int	put_formatting_from_flags_ull(unsigned long long n, int base, t_flags flags) {
-	int i;
-	int j;
-	int num_len;
-	int count;
-
-	count = 0;
-	i = 0;
-	j = 0;
-	num_len = get_numlen_ull(n, base);
-	if (flags.dot && flags.dot != 0) {
-		if (flags.dot <= num_len)
-			flags.dot = 0;
-  		else {
-			flags.dot -= num_len;
-			flags.padding -= flags.dot;
-		}
-	}
-	if (flags.zero && !flags.left)
-		return (put_padding_zero_ull(n, base, num_len, flags));
-	if (flags.padding != 0 && !flags.left) {
-		if (base == 16 && flags.pound && n != 0) 
-			num_len += 2;
-		while (i++ < flags.padding - num_len) 
-			count += ft_putchar(' ');
-		if (base == 16 && flags.pound && n != 0) 
-			count += ft_count_putstr("0x");
-	}
-	if (base == 8 && flags.pound && flags.dot) {
-		count += ft_putchar('0');
-		flags.dot--;
-	}
-	if (flags.dot && flags.dot != -1) {
-		while (j < flags.dot) {
-			count += ft_putchar('0');
-			j++;
-		}
-	}
-	return (count);
-}
-*/
-
 int	get_numlen_args(long n, int base) {
 	if (base == 17 || base == 16)
 		return (ft_numlen_hex(n));
