@@ -444,6 +444,8 @@ int     put_numbers_args(long n, int base, int is_uppercase, t_flags flags) {
 	int count;
 
 	count = 0;
+	if (is_uppercase) 
+		flags.is_uppercase = 1;
 	if (base == 8 || base == 16 || base == 17)
 		count += put_formatting_from_flags(n, base, flags, 0);
 	else
