@@ -92,5 +92,6 @@ typedef struct args {
 	int	space;
 	int 	plus;
 	int	dot;
+	int	is_uppercase;
 
 }		t_flags;
