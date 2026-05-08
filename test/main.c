@@ -2041,7 +2041,11 @@ int	main() {
 	CHECK("%.10hd\n", -748);
 
 	CHECK("% .5hd\n", 433);
-	CHECK("% .2hd\n", 433);	
+	CHECK("% .2hd\n", 433);
+	CHECK("% .5hd\n", -433);
+	CHECK("% .2hd\n", -433);
+	CHECK("%+ .3hd\n", 748);
+	CHECK("%+ .3hd\n", -748);
 
 	CHECK("%+.3hd\n", 748);
 	CHECK("%+.3hd\n", -748);
@@ -2127,6 +2131,110 @@ int	main() {
 	CHECK("%.0ho\n", 0);
 	CHECK("%.0ho\n", 830); 	
 
+
+	printf("\n----- Handling 64-bit Signed Integer Percision ld -----\n\n");
+	
+	CHECK("%+.10ld\n", 748);
+	CHECK("%+.10ld\n", -748);
+	CHECK("%.10ld\n", 748);
+	CHECK("%.10ld\n", -748);
+
+	CHECK("% .5ld\n", 433);
+	CHECK("% .2ld\n", 433);	
+	CHECK("% .5ld\n", -433);
+	CHECK("% .2ld\n", -433);
+	CHECK("%+ .3ld\n", 748);	
+	CHECK("%+ .3ld\n", -748);
+
+	CHECK("%+.3ld\n", 748);
+	CHECK("%+.3ld\n", -748);
+
+	CHECK("%.3ld\n", 748);	
+	CHECK("%.3ld\n", -748);
+
+	CHECK("% 10.0ld\n", 5749);
+	
+	CHECK("%+10.5ld\n", -89);
+	CHECK("%+010.5ld\n", 89);
+	CHECK("%10.5ld\n", 234);
+	CHECK("%0.0ld\n", 1374);
+	CHECK("%7.2ld\n", 4839);
+	CHECK("%7.12ld\n", 7584);
+	CHECK("%+7.12ld\n", 7584);
+
+	CHECK("%-7.2ld -\n", 7584);
+	CHECK("%+-10.6ld -\n", 463);
+	CHECK("%+-10.6ld -\n", 13);
+	CHECK("%-7.12ld -\n", 7584);
+	CHECK("%+-7.12ld -\n", 28);
+
+	printf("\n----- Handling 64-bit Usigned Integer Percision lu -----\n\n");
+	
+	CHECK("%.10lu\n", 748);
+	CHECK("%.3lu\n", 748);	
+
+	CHECK("%10.5lu\n", 234);
+	CHECK("%0.0lu\n", 1374);
+	CHECK("%7.2lu\n", 4839);
+	CHECK("%7.12lu\n", 7584);
+
+	CHECK("%-7.2lu -\n", 7584);
+	CHECK("%-10.6lu -\n", 463);
+
+	printf("\n----- Handling 64-bit Hex Percision lx -----\n\n");
+	
+	CHECK("%.10lx\n", 748);
+	CHECK("%.3lx\n", 748);	
+
+	CHECK("%10.5lx\n", 234);
+	CHECK("%0.0lx\n", 1374);
+	CHECK("%7.2lx\n", 4839);
+	CHECK("%7.12lx\n", 7584);
+	CHECK("%#7.12lx\n", 7584);
+	CHECK("%#7.2lx\n", 7584);
+
+	CHECK("%-7.2lx -\n", 7584);
+	CHECK("%-10.6lx -\n", 463);	
+	CHECK ("%-#10.6lx -\n", 794);
+	CHECK("%-#7.2lx -\n", 740);
+	CHECK("%-8.3lx -\n", 0x08);
+	CHECK("%-#8.3lx -\n", 0x08);
+	CHECK("%-5lx -\n", 0x08);
+
+	CHECK("%#0.0lx\n", 930);
+	CHECK("%#12.10lx\n",7494);
+	CHECK("%#15.10lx\n",7494);
+	CHECK("%#8.3lx\n",74944);
+	CHECK("%#0lx\n", 748);
+	CHECK("%-7lx -\n", 0x00);
+	
+	printf("\n----- Handling 64-bit Octal Percision lo -----\n\n");
+	//precisoin == num_len;
+	
+	CHECK("%.10lo\n", 748);
+	CHECK("%.3lo\n", 748);	
+
+	CHECK("%10.5lo\n", 234);
+	CHECK("%0.0lo\n", 1374);
+	CHECK("%7.2lo\n", 4839);
+	CHECK("%7.12lo\n", 7584);
+
+	CHECK("%-7.2lo -\n", 7584);
+	CHECK("%-10.6lo -\n", 463);
+	CHECK("%-#10.6lo -\n", 380);
+	CHECK("%-#7.2lo -\n", 7594);
+
+	CHECK("%#0.0lo\n", 930);
+	CHECK("%#12.10lo\n",7494);
+	CHECK("%#15.10lo\n",7494);
+	CHECK("%#8.3lo\n",74944);
+
+	CHECK("%#0.0lo\n", 0);
+	CHECK("%0.0lo\n", 0);
+	CHECK("%lo\n", 0);
+	CHECK("%.0lo\n", 0);
+	CHECK("%.0lo\n", 830); 
+
 	printf("\n----- Handling bad %% input (undefined) -----\n\n");
 	CHECK("%-\n", 34);
 	CHECK("%--\n",34);
@@ -2138,15 +2246,6 @@ int	main() {
 	printf("\n----- Ending Handling bad %% input (undefined) -----\n\n");	
 	printf("\n-------- End New Test ------------\n");	
 
-	CHECK("% .4hhd", 12);
-	CHECK("% .0hhd", 12);
-	CHECK("% .3hhd", 12);
-	CHECK("% .2hd", 433);
-	CHECK("% .2hhd", 12);
-	CHECK("% .2hhd", 55);
-	CHECK("% .2i", 433);
-	CHECK("%.3hhd", -30);
-	CHECK("%#0.0hx", 0x32a);
 	printf("\n=== FINAL RESULTS ===\n");
     	printf("\033[32mPassed: %d\033[0m\n", g_passed);
     	printf("\033[31mFailed: %d\033[0m\n", g_failed);
