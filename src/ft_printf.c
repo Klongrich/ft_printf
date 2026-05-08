@@ -647,18 +647,33 @@ int	put_number_ull(unsigned long long n, int base, int is_uppercase) {
 
 int     put_numbers_args_ll(signed long long n, int base, int is_uppercase, t_flags flags) { 
 	int i;
+	int j;
 	int num_len;
 	int count;
+	int temp;
 
 	count = 0;
 	i = 0;
+	j = 0;
 	num_len = ft_numlen_ll(n);
+	temp = num_len;
+	if (flags.dot && flags.dot != -1) {
+		if (flags.dot <= num_len)
+			flags.dot = 0;
+	}
 	count += put_formatting_from_flags(n, base, flags, 1);
 	if (flags.left && flags.plus) {
 		if( n >= 0)
 			count += ft_putchar('+');
 		num_len++;
 	}	
+	if (flags.dot && flags.dot != -1 && flags.left) {
+		while (j < flags.dot - temp) {
+			count += ft_putchar('0');
+			num_len++;
+			j++;
+		}
+	}
 	count += put_number_ll(n, base, is_uppercase);
 	if (flags.padding != 0 && flags.left) {
 		while (i < flags.padding - num_len) {
