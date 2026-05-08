@@ -407,7 +407,7 @@ int	put_padding_left(long n, int base, int is_uppercase, t_flags flags) {
 	num_len = get_numlen_args(n, base);
 	temp = num_len;
 	if (flags.dot && flags.dot != -1) {
-		if (flags.dot < num_len)
+		if (flags.dot <= num_len)
 			flags.dot = 0;
 	}
 	if (flags.left && flags.plus && base != 8  && base != 16) {
@@ -1225,8 +1225,6 @@ int	put_padding_left_value_base10(int value, int is_signed, t_flags flags) {
 			j++;
 		}
 	}
-//	if (is_signed && !flags.padding && !flags.plus && flags.space && value >= 0 && flags.dot) 
-//		count += ft_putchar(' ');
 	count += ft_putnbr_f(value);
 	if (flags.padding != 0 && flags.left) {
 		while (i++ < flags.padding - num_len) 
