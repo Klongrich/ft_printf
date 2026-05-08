@@ -243,8 +243,12 @@ int put_padding_right_hex(long n, int num_len, t_flags flags) {
 		count += ft_putchar(' ');
 		i++;
 	}
-	if (flags.pound && n != 0)  {
-		count += ft_count_putstr("0x");
+	if (flags.pound && n != 0)  {	
+		if (flags.is_uppercase)
+			count += ft_count_putstr("0X");
+		else
+			count += ft_count_putstr("0x");
+		
 	}
 	if (flags.dot && flags.dot != -1) {
 		while(j < flags.dot) {
