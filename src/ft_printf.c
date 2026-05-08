@@ -421,7 +421,10 @@ int	put_padding_left(long n, int base, int is_uppercase, t_flags flags) {
 		num_len++;
 	}
 	if (flags.left && flags.pound && base == 16 && n != 0) {
-		count += ft_count_putstr("0x");
+		if (flags.is_uppercase)
+			count += ft_count_putstr("0X");
+		else
+			count += ft_count_putstr("0x");
 		num_len++;
 	}
 	if (flags.pound && base == 8) {
