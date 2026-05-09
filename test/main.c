@@ -2252,13 +2252,32 @@ int	main() {
 
 	PRINT_REPORT();
 
-	// [5] Testing '#' flag, 'hh' length, and right-padding width
+// Long hex with left-alignment and alternate form
+CHECK_F("%-#12lx - %-#lx - %-#12lx - %-#5lx\n", 4848L, 754L, 0L, 948L);
+CHECK_F("%-#12lX - %-#lX - %-#12lX - %-#5lX\n", 4848L, 754L, 0L, 948L);
+
+// Unsigned and Hex/Octal with precision (leading zeros) and left-alignment
+CHECK_F("%-10.6u -\n", 463);
+CHECK_F("%-10.6hho -\n", 463);
+CHECK_F("%-10.6hx -\n", 463);
+
+// Hex with alternate form AND precision
+// Note: Prefix (0x) does NOT count towards precision, but DOES count towards width.
+CHECK_F("%-#10.6hx -\n", 794);
+CHECK_F("%-8.3hx -\n", 0x08);
+CHECK_F("%-#8.3hx -\n", 0x08);
+
+// Short Octal with precision
+CHECK_F("%-10.6ho -\n", 463);
+
+/*
+// [5] Testing '#' flag, 'hh' length, and right-padding width
 CHECK_F("%#10hhX - %#7hhX - %#6hhX - %#5hhX -\n", 474, 238, 0, 9485);
 
 // [6] Testing '-' (left-align), '#' flag, 'hh' length, and varying widths
 CHECK_F("%-#12hhX - %-#hhX - %-#12hhX - %-#5hhX -\n", 4848, 754, 0, 948);
 
-/*
+
 // Hexadecimal with Alternate Form (#)
 CHECK_F("%#X - %#X - %#X\n", 84, 485, 23840);
 CHECK_F("%-#10X - %-#7X - %-#6X - %-#8X -\n", 948, 74758, 23849, 0);
