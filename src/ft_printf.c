@@ -1057,11 +1057,13 @@ int     put_16bit_hex_value_padding_left(char *value, unsigned int num, t_flags 
 	int num_len;
 	int i;
 	int j;
+	int temp;
 
 	i = 0;
 	count = 0;
 	j = 0;	
 	num_len = 4 + get_padding_left_for_numlen(value, num);
+	temp = num_len;
 	if (flags.dot && flags.dot != -1) {
 		if (flags.dot <= num_len)
 			flags.dot = 0;
@@ -1075,11 +1077,11 @@ int     put_16bit_hex_value_padding_left(char *value, unsigned int num, t_flags 
 	if (!flags.padding && flags.dot && flags.pound && num != 0)
 		count += ft_put_hexpound(flags.is_uppercase);
 	if (flags.dot && flags.dot != -1 && flags.left) {
-		while (j <= flags.dot - num_len ) {
+		while (j < flags.dot - temp) {
 			count += ft_putchar('0');
-			num_len++;
 			j++;
 		}
+		num_len += flags.dot - temp;
 	}
 	count += put_16bit_hex_value(value, num);
 	if (flags.padding != 0 && flags.left) {
