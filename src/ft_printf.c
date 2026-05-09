@@ -1110,16 +1110,12 @@ int	put_16bit_hex(unsigned int num, int uppercase, t_flags flags) {
 	return (count);
 }
 
-int	put_padding_left_octal(int value, t_flags flags) {
+int	put_padding_left_octal(int value, t_flags flags, int num_len) {
 	int count;
-	int num_len;
 	int i;
 
 	i = 0;
 	count = 0;
-	num_len = ft_numlen(value);
-	if (flags.pound)
-		num_len++;
 	if (flags.padding != 0 && flags.left) {
 		while (i < flags.padding - num_len) {
 			count += ft_putchar(' ');
@@ -1133,11 +1129,14 @@ int	put_8bit_octal(unsigned int num, t_flags flags) {
 	int bits[8];
 	int j;
 	int i;
+	int k;
 	int value;
 	int count;
+	int num_len;
 
 	i = 7;
 	j = 0;
+	k = 0;
 	count = 0;
 	value = 0;
 	while (i > -1) 
@@ -1146,14 +1145,28 @@ int	put_8bit_octal(unsigned int num, t_flags flags) {
 	value += convert_octal_bits(bits[2], bits[3], bits[4]) * 10;
 	value += convert_octal_bits(bits[5], bits[6], bits[7]);
 	count += put_formatting_from_flags(value, 12, flags, 1);
-	if (flags.left && flags.pound)
+	num_len = ft_numlen(value);
+	if (flags.left && flags.pound && flags.padding != 0) {
 		count += ft_putchar('0');
+		num_len++;
+	}
+	if (flags.dot && flags.dot != -1 && flags.left) {
+		if (flags.dot <= num_len)
+			flags.dot = 0;
+		else {
+			while (k < flags.dot - num_len) {
+				count += ft_putchar('0');
+				k++;
+			}
+			num_len += flags.dot - num_len;
+		}
+	}
 	if (flags.dot == -1 && num == 0) {
 		if (!flags.left && flags.pound)
 			count += ft_putchar('0');
 	} else
 		count += ft_putnbr_f(value);
-	count += put_padding_left_octal(value, flags);
+	count += put_padding_left_octal(value, flags, num_len);
 	return (count);
 }
 
@@ -1162,12 +1175,15 @@ int	put_16bit_octal(unsigned int num, t_flags flags) {
 	int bits[16];
 	int j;
 	int i;
+	int k;
 	int value;
 	int count;
+	int num_len;
 	
 	count = 0;
 	i = 15;
 	j = 0;
+	k = 0;
 	value = 0;
 	while (i > -1) 
 		bits[j++] = (num >> i--) & 1;
@@ -1178,14 +1194,28 @@ int	put_16bit_octal(unsigned int num, t_flags flags) {
 	value += convert_octal_bits(bits[10], bits[11], bits[12]) * 10;
 	value += convert_octal_bits(bits[13], bits[14], bits[15]);
 	count += put_formatting_from_flags(value, 12, flags, 1);
-	if (flags.left && flags.pound)
-		count += ft_putchar('0');	
+	num_len = ft_numlen(value);
+	if (flags.left && flags.pound && flags.padding != 0) {
+		count += ft_putchar('0');
+		num_len++;
+	}
+	if (flags.dot && flags.dot != -1 && flags.left) {
+		if (flags.dot <= num_len)
+			flags.dot = 0;
+		else {
+			while (k < flags.dot - num_len) {
+				count += ft_putchar('0');
+				k++;
+			}
+			num_len += flags.dot - num_len;
+		}
+	}	
 	if (flags.dot == -1 && num == 0) {
 		if (!flags.left && flags.pound)
 			count += ft_putchar('0');
 	} else
 		count += ft_putnbr_f(value);
-	count += put_padding_left_octal(value, flags);
+	count += put_padding_left_octal(value, flags, num_len);
 	return (count);
 }
 
