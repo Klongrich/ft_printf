@@ -550,15 +550,15 @@ int get_strlen(char *str, t_flags flags) {
 	int str_len;
 
 	str_len = 0;
-	if (str == NULL)
-		str_len = 6;
-	else if (flags.dot) {
+	if (flags.dot) {
 		if (flags.dot == -1)
 			str_len = 0;
 		else
 			str_len = flags.dot;
 	}
- 	else
+ 	else if (str == NULL) {
+		str_len = 6;
+	} else
 		str_len = ft_strlen(str);
 	return (str_len);
 }
@@ -576,7 +576,7 @@ int     put_string_args(char *str, t_flags flags) {
 			count += ft_putchar(' ');
 	}
 	if (str == NULL)
-		count += ft_count_putstr("(null)");
+		count += ft_count_putstr_n("(null)", str_len);
 	else
 		count += ft_count_putstr_n(str, str_len);
 	if (flags.padding != 0 && flags.left) {
