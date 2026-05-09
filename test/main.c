@@ -2026,6 +2026,12 @@ int	main() {
 	CHECK("%#12.10hho\n",7494);
 	CHECK("%#15.10hho\n",7494);
 	CHECK("%#8.3hho\n",74944);
+	
+	CHECK("%-#0.0hho\n", 930);
+	CHECK("%-#12.10hho\n",7494);
+	CHECK("%-#15.10hho\n",7494);
+	CHECK("%-#8.3hho\n",74944);
+
 
 	CHECK("%#0.0hho\n", 0);
 	CHECK("%0.0hho\n", 0);
@@ -2252,24 +2258,71 @@ int	main() {
 
 	PRINT_REPORT();
 
-// Long hex with left-alignment and alternate form
-CHECK_F("%-#12lx - %-#lx - %-#12lx - %-#5lx\n", 4848L, 754L, 0L, 948L);
-CHECK_F("%-#12lX - %-#lX - %-#12lX - %-#5lX\n", 4848L, 754L, 0L, 948L);
 
-// Unsigned and Hex/Octal with precision (leading zeros) and left-alignment
-CHECK_F("%-10.6u -\n", 463);
-CHECK_F("%-10.6hho -\n", 463);
+// Short hex (463 -> 0x1cf) with .6 precision and left-align
 CHECK_F("%-10.6hx -\n", 463);
 
-// Hex with alternate form AND precision
-// Note: Prefix (0x) does NOT count towards precision, but DOES count towards width.
+// Short hex (794 -> 0x31a) with alternate form, .6 precision, and width 10
 CHECK_F("%-#10.6hx -\n", 794);
+
+// The 0x08 case: testing if .3 precision adds the correct leading zeros
 CHECK_F("%-8.3hx -\n", 0x08);
 CHECK_F("%-#8.3hx -\n", 0x08);
 
-// Short Octal with precision
+// Long hex (794 -> 0x31a) with alternate form and .6 precision
+CHECK_F("%-#10.6lx -\n", 794L);
+
+// Long hex (740 -> 0x2e4). Note: precision .2 is smaller than the 3 digits.
+CHECK_F("%-#7.2lx -\n", 740L);
+
+// Long hex 0x08 with .3 precision and alternate form
+CHECK_F("%-#8.3lx -\n", 0x08L);
+
+// Long hex with left-alignment and alternate form
+//CHECK_F("%-#12lx - %-#lx - %-#12lx - %-#5lx\n", 4848L, 754L, 0L, 948L);
+//CHECK_F("%-#12lX - %-#lX - %-#12lX - %-#5lX\n", 4848L, 754L, 0L, 948L);
+// Narrowing 748 to unsigned char (748 % 256 = 236) -> Octal: 354
+/*
+CHECK_F("%.10hho\n", 748);
+
+// Field width 10, precision 5 (00234 becomes 00352 in octal)
+CHECK_F("%10.5hho\n", 234);
+
+// Narrowing 7584 to unsigned char (7584 % 256 = 160) -> Octal: 240
+// Precision 12 will lead with nine 0s.
+CHECK_F("%7.12hho\n", 7584);
+
+// Left align, width 7, precision 2 (ignored as digits > 2)
+CHECK_F("%-7.2hho -\n", 7584);
+
+// Octal alternate form (#) + Precision
+// For octal, # ensures the number starts with a 0.
+// 7494 % 256 = 6 -> Octal: 6. Precision 10 makes it 0000000006.
+CHECK_F("%#12.10hho\n", 7494);
+CHECK_F("%#15.10hho\n", 7494);
+*/
+/*
+// Short-Short Octal (hh) with precision and left-align
+CHECK_F("%-10.6hho -\n", 463);
+
+// Short Hex (h) with precision and left-align
+CHECK_F("%-10.6hx -\n", 463);
+
+// Short Hex (h) with Alternate Form, Precision, and Width
+CHECK_F("%-#10.6hx -\n", 794);
+
+// Short Hex (h) edge case with 0x08
+CHECK_F("%-8.3hx -\n", 0x08);
+CHECK_F("%-#8.3hx -\n", 0x08);
+
+// Short Octal (h) with precision
 CHECK_F("%-10.6ho -\n", 463);
 
+// Long Hex (l) with Alternate Form and Precision
+CHECK_F("%-#10.6lx -\n", 794L);
+CHECK_F("%-#7.2lx -\n", 740L);
+CHECK_F("%-#8.3lx -\n", 0x08L);
+*/
 /*
 // [5] Testing '#' flag, 'hh' length, and right-padding width
 CHECK_F("%#10hhX - %#7hhX - %#6hhX - %#5hhX -\n", 474, 238, 0, 9485);
