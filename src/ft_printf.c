@@ -786,8 +786,6 @@ int	put_pointer(void *pointer, t_flags flags) {
 		while (i++ < flags.padding - num_len)
 			count += ft_putchar(' ');
 	}
-	if (pointer == NULL)
-		count += ft_count_putstr("(nil)");
 	count += ft_count_putstr("0x");
 	count += putunit_max(address, 16);
 	if (flags.padding != 0 && flags.left) {
