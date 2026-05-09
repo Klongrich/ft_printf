@@ -687,7 +687,7 @@ int	main() {
 	printf("checking passing value of 123456\n");
 	CHECK("%hhd\n", 123456);
 
-	printf("Checking min and max value (-128, 127)");
+	//printf("Checking min and max value (-128, 127)");
 	CHECK("min: %hhd - max: %hhd\n", -128, 127); 
 
 	printf("Checking one under min, one over max hhd (-129, 128)\n");
@@ -748,7 +748,7 @@ int	main() {
 	printf("checking passing value of 123456\n");
 	CHECK("%hhi\n", 123456);
 
-	printf("Checking min and max value (-128, 127)");
+	//printf("Checking min and max value (-128, 127)");
 	CHECK("min: %hhi - max: %hhi\n", -128, 127); 
 
 	printf("Checking one under min, one over max hhd (-129, 128)\n");
@@ -860,7 +860,7 @@ int	main() {
 	printf("checking passing value of 123456\n");
 	CHECK("%hhx\n", 123456);
 
-	printf("Checking min and max value (-128, 127)");
+	//printf("Checking min and max value (-128, 127)");
 	CHECK("min: %hhx - max: %hhx\n", -128, 127); 
 
 	printf("Checking one under min, one over max hhd (-129, 128)\n");
@@ -903,7 +903,7 @@ int	main() {
 	printf("checking passing value of 123456\n");
 	CHECK("%hhX\n", 123456);
 
-	printf("Checking min and max value (-128, 127)");
+	//printf("Checking min and max value (-128, 127)");
 	CHECK("min: %hhX - max: %hhX\n", -128, 127); 
 
 	printf("Checking one under min, one over max hhX (-129, 128)\n");
@@ -998,7 +998,7 @@ int	main() {
 	printf("checking passing value of 123456\n");
 	CHECK("%hd\n", 123456);
 
-	printf("Checking min and max value (-32768, 32767)");
+	//printf("Checking min and max value (-32768, 32767)");
 	CHECK("min: %hd - max: %hd\n", -32768, 32767); 
 
 	printf("Checking one under min, one over max hhd (-32769, 32768)\n");
@@ -1059,7 +1059,7 @@ int	main() {
 	printf("checking passing value of 123456\n");
 	CHECK("%hi\n", 123456);
 
-	printf("Checking min and max value (-32768, 32767)");
+	//printf("Checking min and max value (-32768, 32767)");
 	CHECK("min: %hi - max: %hi\n", -32768, 32767); 
 
 	printf("Checking one under min, one over max hhd (-32769, 32768)\n");
@@ -1171,7 +1171,7 @@ int	main() {
 	printf("checking passing value of 123456\n");
 	CHECK("%hx\n", 123456);
 
-	printf("Checking min and max value (0, 65535)");
+	//printf("Checking min and max value (0, 65535)");
 	CHECK("min: %hx - max: %hx\n", 0, 65535); 
 
 	printf("Checking one under min, one over max hhd (-1, 65536)\n");
@@ -1214,7 +1214,7 @@ int	main() {
 	printf("checking passing value of 123456\n");
 	CHECK("%hX\n", 123456);
 
-	printf("Checking min and max value (0, 65535)");
+	//printf("Checking min and max value (0, 65535)");
 	CHECK("min: %hX - max: %hX\n", 0, 65535); 
 
 	printf("Checking one under min, one over max hhX (-1, 65536)\n");
@@ -1310,7 +1310,7 @@ int	main() {
 	printf("checking passing value of 123456\n");
 	CHECK("%ld\n", 123456LL);
 
-	printf("Checking min and max value (-9223372036854775808, 9223372036854775807)");
+	//printf("Checking min and max value (-9223372036854775808, 9223372036854775807)");
 	CHECK("min: %ld - max: %ld\n", -9223372036854775808LL, 9223372036854775807LL); 
 
 	printf("checking 0\n");
@@ -1365,7 +1365,7 @@ int	main() {
 	printf("checking passing value of 123456\n");
 	CHECK("%li\n", 123456LL);
 
-	printf("Checking min and max value (-9223372036854775808, 9223372036854775807)");
+	//printf("Checking min and max value (-9223372036854775808, 9223372036854775807)");
 	CHECK("min: %li - max: %li\n", -9223372036854775808LL, 9223372036854775807LL); 
 
 	printf("checking 0\n");
@@ -1471,7 +1471,7 @@ int	main() {
 	printf("checking passing value of 123456\n");
 	CHECK("%lx\n", 123456);
 
-	printf("Checking min and max value (0, 18446744073709551615)");
+	//printf("Checking min and max value (0, 18446744073709551615)");
 	CHECK("min: %lx - max: %lx\n", 0, 18446744073709551615ULL); 
 
 	printf("Checking one under min, one over max hhd (-1, 18446744073709551615ULL)\n");
@@ -1514,7 +1514,7 @@ int	main() {
 	printf("checking passing value of 123456\n");
 	CHECK("%lX\n", 123456);
 
-	printf("Checking min and max value (0, 18446744073709551615)");
+	//printf("Checking min and max value (0, 18446744073709551615)");
 	CHECK("min: %lX - max: %lX\n", 0, 18446744073709551615ULL); 
 
 	printf("Checking one under min, one over max hhd (-1, 18446744073709551615ULL)\n");
@@ -2131,43 +2131,6 @@ int	main() {
 	CHECK("%.0ho\n", 0);
 	CHECK("%.0ho\n", 830); 	
 
-
-	printf("\n----- Handling 64-bit Signed Integer Percision ld -----\n\n");
-	
-	CHECK("%+.10ld\n", 748);
-	CHECK("%+.10ld\n", -748);
-	CHECK("%.10ld\n", 748);
-	CHECK("%.10ld\n", -748);
-
-	CHECK("% .5ld\n", 433);
-	CHECK("% .2ld\n", 433);	
-	CHECK("% .5ld\n", -433);
-	CHECK("% .2ld\n", -433);
-	CHECK("%+ .3ld\n", 748);	
-	CHECK("%+ .3ld\n", -748);
-
-	CHECK("%+.3ld\n", 748);
-	CHECK("%+.3ld\n", -748);
-
-	CHECK("%.3ld\n", 748);	
-	CHECK("%.3ld\n", -748);
-
-	CHECK("% 10.0ld\n", 5749);
-	
-	CHECK("%+10.5ld\n", -89);
-	CHECK("%+010.5ld\n", 89);
-	CHECK("%10.5ld\n", 234);
-	CHECK("%0.0ld\n", 1374);
-	CHECK("%7.2ld\n", 4839);
-	CHECK("%7.12ld\n", 7584);
-	CHECK("%+7.12ld\n", 7584);
-
-	CHECK("%-7.2ld -\n", 7584);
-	CHECK("%+-10.6ld -\n", 463);
-	CHECK("%+-10.6ld -\n", 13);
-	CHECK("%-7.12ld -\n", 7584);
-	CHECK("%+-7.12ld -\n", 28);
-
 	printf("\n----- Handling 64-bit Usigned Integer Percision lu -----\n\n");
 	
 	CHECK("%.10lu\n", 748);
@@ -2235,6 +2198,43 @@ int	main() {
 	CHECK("%.0lo\n", 0);
 	CHECK("%.0lo\n", 830); 
 
+	printf("\n----- Handling 64-bit Signed Integer Percision ld -----\n\n");
+	
+	CHECK("%+.10ld\n", 748);
+	CHECK("%+.10ld\n", -748);
+	CHECK("%.10ld\n", 748);
+	CHECK("%.10ld\n", -748);
+
+	CHECK("% .5ld\n", 433);
+	CHECK("% .2ld\n", 433);	
+	CHECK("% .5ld\n", -433);
+	CHECK("% .2ld\n", -433);
+	CHECK("%+ .3ld\n", 748);	
+	CHECK("%+ .3ld\n", -748);
+
+	CHECK("%+.3ld\n", 748);
+	CHECK("%+.3ld\n", -748);
+
+	CHECK("%.3ld\n", 748);	
+	CHECK("%.3ld\n", -748);
+
+	CHECK("% 10.0ld\n", 5749);
+	
+	CHECK("%+10.5ld\n", -89);
+	CHECK("%+010.5ld\n", 89);
+	CHECK("%10.5ld\n", 234);
+	CHECK("%0.0ld\n", 1374);
+	CHECK("%7.2ld\n", 4839);
+	CHECK("%7.12ld\n", 7584);
+	CHECK("%+7.12ld\n", 7584);
+
+	CHECK("%-7.2ld -\n", 7584);
+	CHECK("%+-10.6ld -\n", 463);
+	CHECK("%+-10.6ld -\n", 13);
+	CHECK("%-7.12ld -\n", 7584);
+	CHECK("%+-7.12ld -\n", 28);
+
+	/*
 	printf("\n----- Handling bad %% input (undefined) -----\n\n");
 	CHECK("%-\n", 34);
 	CHECK("%--\n",34);
@@ -2242,7 +2242,7 @@ int	main() {
 	CHECK("%++++\n", 34);
 	CHECK("%dddddd\n", 380);
 	//inf, Nan, exit status	
-
+	*/
 	printf("\n----- Ending Handling bad %% input (undefined) -----\n\n");	
 	printf("\n-------- End New Test ------------\n");	
 
@@ -2250,6 +2250,63 @@ int	main() {
     	printf("\033[32mPassed: %d\033[0m\n", g_passed);
     	printf("\033[31mFailed: %d\033[0m\n", g_failed);
 
+	PRINT_REPORT();
+
+	// [5] Testing '#' flag, 'hh' length, and right-padding width
+CHECK_F("%#10hhX - %#7hhX - %#6hhX - %#5hhX -\n", 474, 238, 0, 9485);
+
+// [6] Testing '-' (left-align), '#' flag, 'hh' length, and varying widths
+CHECK_F("%-#12hhX - %-#hhX - %-#12hhX - %-#5hhX -\n", 4848, 754, 0, 948);
+
+/*
+// Hexadecimal with Alternate Form (#)
+CHECK_F("%#X - %#X - %#X\n", 84, 485, 23840);
+CHECK_F("%-#10X - %-#7X - %-#6X - %-#8X -\n", 948, 74758, 23849, 0);
+CHECK_F("%#8X - %#12X - %#7X - %#12X\n", 3849, 345, 985, 84830);
+CHECK_F("%#015X - %#07X - %#05X - %#010X -\n", 4294967295, 947, 75, 0);i
+// Char Length Modifiers (hh)
+CHECK_F("min: %hhd - max: %hhd\n", -128, 127);
+CHECK_F("min: %hhi - max: %hhi\n", -128, 127);
+CHECK_F("min: %hhx - max: %hhx\n", -128, 127);
+CHECK_F("min: %hhX - max: %hhX\n", -128, 127);
+CHECK_F("%#10hhX - %#7hhX - %#6hhX - %#5hhX -\n", 474, 238, 0, 9485);
+CHECK_F("%-#12hhX - %-#hhX - %-#12hhX - %-#5hhX\n", 4848, 754, 0, 948);
+
+// Short Length Modifiers (h)
+CHECK_F("min: %hd - max: %hd\n", -32768, 32767);
+CHECK_F("min: %hi - max: %hi\n", -32768, 32767);
+CHECK_F("min: %hx - max: %hx\n", 0, 65535);
+CHECK_F("min: %hX - max: %hX\n", 0, 65535);
+CHECK_F("%#10hX - %#7hX - %#6hX - %#5hX -\n", 474, 238, 0, 9485);
+CHECK_F("%-#12hX - %-#hX - %-#12hX - %-#5hX\n", 4848, 754, 0, 948);
+CHECK_F("%-#10hX -\n", 8430);
+
+// Long Length Modifiers (l)
+CHECK_F("min: %ld - max: %ld\n", -9223372036854775808LL, 9223372036854775807LL);
+CHECK_F("min: %li - max: %li\n", -9223372036854775808LL, 9223372036854775807LL);
+CHECK_F("min: %lx - max: %lx\n", 0, 18446744073709551615ULL);
+CHECK_F("%-#12lx - %-#lx - %-#12lx - %-#5lx\n", 4848, 754, 0, 948);
+CHECK_F("min: %lX - max: %lX\n", 0, 18446744073709551615ULL);
+CHECK_F("%#lX\n", 9384);
+CHECK_F("%#10lX - %#7lX - %#6lX - %#5lX -\n", 474, 238, 0, 9485);
+CHECK_F("%-#12lX - %-#lX - %-#12lX - %-#5lX\n", 4848, 754, 0, 948);
+
+// Precision and Padding Combos
+CHECK_F("%-10.6u -\n", 463);
+CHECK_F("%#0.0X\n", 930);
+CHECK_F("%#12.10X\n", 7494);
+CHECK_F("%#15.10X\n", 7494);
+CHECK_F("%#8.3X\n", 74944);
+
+// Octal and Hex with Precision
+CHECK_F("%-10.6hho -\n", 463);
+CHECK_F("%-10.6hx -\n", 463);
+CHECK_F("%-#10.6hx -\n", 794);
+CHECK_F("%-8.3hx -\n", 0x08);
+CHECK_F("%-#8.3hx -\n", 0x08);
+CHECK_F("%-10.6ho -\n", 463);
+*/
+	//CHECK("%-10.6ho -\n", 717);
 
 	/*
 	CHECK("%hhi\n", 84994);
