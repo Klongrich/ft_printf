@@ -472,6 +472,8 @@ int     put_numbers_args(long n, int base, int is_uppercase, t_flags flags) {
 		if (!flags.padding && flags.dot == -1 && n == 0) {
 			if (base == 8 && flags.pound)
 				count += ft_putchar('0');	
+		} else if (flags.dot == -1 && n == 0) { 
+			count += ft_putchar(' ');	
 		} else  
 			count += put_number(n, base, is_uppercase, "holder");
 		return (count);
