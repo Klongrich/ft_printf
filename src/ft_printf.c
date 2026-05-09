@@ -617,6 +617,13 @@ int	put_number_ull(unsigned long long n, int base, int is_uppercase) {
 	return (count);
 }
 
+int     ft_put_hexpound(int is_uppercase) {
+	if (is_uppercase)
+		return (ft_count_putstr("0X"));
+	else
+		return (ft_count_putstr("0x"));
+}
+
 int     put_numbers_args_ll(signed long long n, int base, int is_uppercase, t_flags flags) { 
 	int i;
 	int j;
@@ -715,6 +722,8 @@ int     put_numbers_args_ull(unsigned long long n, int base, int is_uppercase, t
 
 	count = 0;
 	i = 0;
+	if (is_uppercase)
+		flags.is_uppercase = 1;
 	if (base == 16)
 		num_len = ft_numlen_hex(n);
 	else if (base == 8) {
@@ -872,14 +881,6 @@ int	put_8bit_hex_value(unsigned int num, char *value) {
 	}
 	return (count);
 }
-
-int	ft_put_hexpound(int is_uppercase) {
-	if (is_uppercase)
-		return (ft_count_putstr("0X"));
-	else
-		return (ft_count_putstr("0x"));
-}
-
 
 int	put_8bit_hex_value_padding_left(char *value, unsigned int num, t_flags flags) {
 	int count;
