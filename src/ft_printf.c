@@ -693,11 +693,11 @@ int	put_formatting_from_flags_ull(unsigned long long n, int base, t_flags flags)
 		while (i++ < flags.padding - num_len) 
 			count += ft_putchar(' ');
 		if (base == 16 && flags.pound && n != 0) 
-			count += ft_count_putstr("0x");
+			count += ft_put_hexpound(flags.is_uppercase);
 	}
 	if (flags.padding != 0 && flags.left) {
 		if (base == 16 & flags.pound && n != 0)
-			count += ft_count_putstr("0x");
+			count += ft_put_hexpound(flags.is_uppercase);
 	}
 	if (base == 8 && flags.pound && flags.dot) {
 		count += ft_putchar('0');
@@ -732,7 +732,7 @@ int     put_numbers_args_ull(unsigned long long n, int base, int is_uppercase, t
 		num_len = ft_numlen_ull(n);
 	count += put_formatting_from_flags_ull(n, base, flags);	
 	if (base == 16 && flags.pound && n != 0 && (!flags.padding || flags.left) && !flags.zero && (!flags.dot || flags.dot == -1)) {
-		count += ft_count_putstr("0x");
+		count += ft_put_hexpound(flags.is_uppercase);
 		num_len += 2;
 	}
 	if (base == 8 && flags.padding == 0 && flags.pound) {
