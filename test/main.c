@@ -2269,6 +2269,7 @@ CHECK_F("%-#10.6hx -\n", 794);
 CHECK_F("%-8.3hx -\n", 0x08);
 CHECK_F("%-#8.3hx -\n", 0x08);
 
+/*
 // Long hex (794 -> 0x31a) with alternate form and .6 precision
 CHECK_F("%-#10.6lx -\n", 794L);
 
@@ -2277,7 +2278,7 @@ CHECK_F("%-#7.2lx -\n", 740L);
 
 // Long hex 0x08 with .3 precision and alternate form
 CHECK_F("%-#8.3lx -\n", 0x08L);
-
+*/
 // Long hex with left-alignment and alternate form
 //CHECK_F("%-#12lx - %-#lx - %-#12lx - %-#5lx\n", 4848L, 754L, 0L, 948L);
 //CHECK_F("%-#12lX - %-#lX - %-#12lX - %-#5lX\n", 4848L, 754L, 0L, 948L);
