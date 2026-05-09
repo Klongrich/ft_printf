@@ -728,6 +728,7 @@ int     put_numbers_args_ull(unsigned long long n, int base, int is_uppercase, t
 	int i;
 	int num_len;
 	int count;
+	int temp;
 
 	count = 0;
 	i = 0;
@@ -739,11 +740,12 @@ int     put_numbers_args_ull(unsigned long long n, int base, int is_uppercase, t
 		num_len = ft_numlen_oct(n);
 	} else
 		num_len = ft_numlen_ull(n);
-	count += put_formatting_from_flags_ull(n, base, flags);	
-	if (base == 16 && flags.pound && n != 0 && (!flags.padding || flags.left) && !flags.zero && (!flags.dot || flags.dot == -1)) {
+	temp = num_len;
+	if (base == 16 && flags.pound && n != 0 && (!flags.padding || flags.left) && !flags.zero) {
 		count += ft_put_hexpound(flags.is_uppercase);
 		num_len += 2;
 	}
+	count += put_formatting_from_flags_ull(n, base, flags);
 	if (base == 8 && flags.padding == 0 && flags.pound) {
 		count += ft_putchar('0');
 	}
@@ -755,10 +757,12 @@ int     put_numbers_args_ull(unsigned long long n, int base, int is_uppercase, t
 		if (base == 8 && flags.pound)
 			num_len++;
 		if (flags.dot && flags.dot != 1) {
-			if (flags.dot <= num_len)
+			if (flags.dot <= temp)
 				flags.dot = 0;
-			else
+			else 
 				num_len += flags.dot - num_len;
+			if (base == 16 && flags.pound && flags.dot)
+				num_len += 2;
 		}
 		while (i++ < flags.padding - num_len) 
 			count += ft_putchar(' ');
@@ -1071,7 +1075,7 @@ int     put_16bit_hex_value_padding_left(char *value, unsigned int num, t_flags 
 	if (!flags.padding && flags.dot && flags.pound && num != 0)
 		count += ft_put_hexpound(flags.is_uppercase);
 	if (flags.dot && flags.dot != -1 && flags.left) {
-		while (j < flags.dot - num_len) {
+		while (j <= flags.dot - num_len ) {
 			count += ft_putchar('0');
 			num_len++;
 			j++;
