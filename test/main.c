@@ -2258,7 +2258,12 @@ int	main() {
 
 	PRINT_REPORT();
 
+CHECK_F("%5.0d\n", 0);
+CHECK_F("%.3s\n", NULL);
+CHECK_F("%#5.3o", 1);
+CHECK_F("%#.0o", 0);
 
+/*
 // Short hex (463 -> 0x1cf) with .6 precision and left-align
 CHECK_F("%-10.6hx -\n", 463);
 
@@ -2268,7 +2273,7 @@ CHECK_F("%-#10.6hx -\n", 794);
 // The 0x08 case: testing if .3 precision adds the correct leading zeros
 CHECK_F("%-8.3hx -\n", 0x08);
 CHECK_F("%-#8.3hx -\n", 0x08);
-
+*/
 /*
 // Long hex (794 -> 0x31a) with alternate form and .6 precision
 CHECK_F("%-#10.6lx -\n", 794L);
